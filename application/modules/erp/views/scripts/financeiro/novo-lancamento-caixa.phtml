@@ -1,4 +1,4 @@
-<?php if($this->tipo = 'New'){ 
+<?php if($this->tipo == 'New'){ 
 	echo "<input type=\"hidden\" name=\"operacao\" value=\"new\">";
 }else{
 	echo "<input type=\"hidden\" name=\"operacao\" value=\"update\">";
@@ -31,6 +31,7 @@
 </div>
 
 <div class="span6">
+<?php echo $this->form->id_pessoa ?>
 <?php echo $this->form->nomelancamento ?>
 </div>
 

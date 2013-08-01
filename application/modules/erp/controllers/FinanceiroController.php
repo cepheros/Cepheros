@@ -1010,23 +1010,80 @@ class Erp_FinanceiroController extends Zend_Controller_Action{
 		if ($this->_request->isPost()) {
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
-			print_r($_POST);
+
 			if($_POST['id_registro'] <> '' ||$_POST['id_registro'] <> '' ){
-				$dados = array('id_conta'=>$_POST['id_conta'],
-						'datalancameto'=> Functions_Datas::inverteData($_POST['datalancamento']),
+				$dadosupd = array('id_conta'=>$_POST['id_conta'],
+						'datalancamento'=> Functions_Datas::inverteData($_POST['datalancamento']),
 						'valorregistro'=> str_replace(',','.',$_POST['valorregistro']),
 						'categoria'=>$_POST['categoria'],
 						'tipolancamento'=>$_POST['tipolancamento'],
 						'observacoes'=>$_POST['observacoes'],
 						'nomelancamento'=>$_POST['nomelancamento'],
 						'dataregistro'=> date('Y-m-d H:i:s') ,
-						'id_user'=>$ $this->userInfo->id_registro	
+						'id_user'=>$this->userInfo->id_registro,
+						'id_pessoa'=>$_POST['id_pessoa']
 						
 				);
 				
-				$db->update("","id_registro = '{$_POST['id_registro']}'");
+				$db->update($dadosupd,"id_registro = '{$_POST['id_registro']}'");
+				echo "Lançamento Attualizado com sucesso!";
 			}else{
-				$db->insert("data");
+				if($_POST['tipolancamento'] <> '3'){
+					$valor = $_POST['valorregistro'];
+					if($_POST['tipolancamento'] == 1){
+						$valor = str_replace(',','.',$valor);
+					}else{
+						$valor = '-'.str_replace(',','.',$valor);
+					}
+					
+					
+					$dados = array('id_conta'=>$_POST['id_conta'],
+							'datalancamento'=> Functions_Datas::inverteData($_POST['datalancamento']),
+							'valorregistro'=>$valor,
+							'categoria'=>$_POST['categoria'],
+							'tipolancamento'=>$_POST['tipolancamento'],
+							'observacoes'=>$_POST['observacoes'],
+							'nomelancamento'=>$_POST['nomelancamento'],
+							'dataregistro'=> date('Y-m-d H:i:s') ,
+							'id_user'=>$this->userInfo->id_registro,
+							'id_pessoa'=>$_POST['id_pessoa']
+				
+					);
+				$db->insert($dados);
+				echo "Lançamento Inserido com sucesso !";
+				}else{
+					
+					$dados = array('id_conta'=>$_POST['id_conta'],
+							'datalancamento'=> Functions_Datas::inverteData($_POST['datalancamento']),
+							'valorregistro'=>'-'.str_replace(',','.',$_POST['valorregistro']),
+							'categoria'=>$_POST['categoria'],
+							'tipolancamento'=>$_POST['tipolancamento'],
+							'observacoes'=>$_POST['observacoes'],
+							'nomelancamento'=>$_POST['nomelancamento'],
+							'dataregistro'=> date('Y-m-d H:i:s') ,
+							'id_user'=>$this->userInfo->id_registro,
+							'id_pessoa'=>$_POST['id_pessoa']
+					
+					);
+					$db->insert($dados);
+					
+					$dados = array('id_conta'=>$_POST['contatransferencia'],
+							'datalancamento'=> Functions_Datas::inverteData($_POST['datalancamento']),
+							'valorregistro'=> str_replace(',','.',$_POST['valorregistro']),
+							'categoria'=>$_POST['categoria'],
+							'tipolancamento'=>$_POST['tipolancamento'],
+							'observacoes'=>$_POST['observacoes'],
+							'nomelancamento'=>$_POST['nomelancamento'],
+							'dataregistro'=> date('Y-m-d H:i:s') ,
+							'id_user'=>$this->userInfo->id_registro,
+							'id_pessoa'=>$_POST['id_pessoa']
+								
+					);
+					$db->insert($dados);
+					
+					echo "Transferência realizada com sucesso!";
+					
+				}
 			}
 			
 			
