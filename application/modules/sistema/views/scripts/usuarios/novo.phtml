@@ -1,0 +1,43 @@
+<?php
+echo $this->form ?>
+
+<script>
+$().ready(function(){
+
+	$("#novousuario").validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		 rules: {
+			    password: {
+			      required: true,
+			      minlength: 6
+			    },
+			    password2: {
+				    required: true,
+				    minlength: 6,
+				    equalTo: "#password"
+
+			    },
+			    email: {
+				    required: true,
+				    email: true
+			    }
+		 },
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+});
+
+</script>

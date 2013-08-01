@@ -1,0 +1,82 @@
+ <div class="row-fluid">
+                                <div class="span12">
+									<form class="form-horizontal well" method="post">
+										<fieldset>
+											<p class="f_legend">Configurações de Ordem de Serviços</p>
+											<div class="control-group">
+												<label class="control-label">Nome para Email:</label>
+												<div class="controls">
+													<input type="text" name="SysOSDefaultMailUserName" value="<?php echo System_Model_SysConfigs::getConfig("SysOSDefaultMailUserName") ?>" class="span10" />
+													<span class="help-block">Qual nome deve aparecer por padrão nos emails enviados com ordens de serviços?</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">Email Padrão:</label>
+												<div class="controls">
+													<input type="text" name="SysOSDefaultMailUser" value="<?php echo System_Model_SysConfigs::getConfig("SysOSDefaultMailUser") ?>" class="span10" />
+													<span class="help-block">Por qual email o sistema deve enviar as ordens de serviço?</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">Senha do Email:</label>
+												<div class="controls">
+													<input type="text" name="SysOSDefaultMailPassword" value="<?php echo System_Model_SysConfigs::getConfig("SysOSDefaultMailPassword") ?>" class="span3" />
+													<span class="help-block">Informe a Senha do Email</span>
+												</div>
+											</div>
+											
+												<div class="control-group">
+												<label class="control-label">Servidor:</label>
+												<div class="controls">
+													<input type="text" name="SysOSDefaultMailServer" value="<?php echo System_Model_SysConfigs::getConfig("SysOSDefaultMailServer") ?>" class="span3" />
+													<span class="help-block">Qual o endereço do servidor?</span>
+												</div>
+											</div>
+											
+												<div class="control-group">
+												<label class="control-label">Porta para Envio:</label>
+												<div class="controls">
+													<input type="text" name="SysOSDefaultMailServerSendPort" value="<?php echo System_Model_SysConfigs::getConfig("SysOSDefaultMailServerSendPort") ?>" class="span3" />
+													<span class="help-block">Qual a porta do servidor? (587/25)</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label">SSL?</label>
+												<div class="controls">
+													<select name="SysOSDefaultMailServerSSL" id="SysOSDefaultMailServerSSL">
+													<option value='0'  <?php if(System_Model_SysConfigs::getConfig("SysOSDefaultMailServerSSL") == 0){ echo "selected=\"selected\""; };?>>Não</option>
+													<option value='1'  <?php if(System_Model_SysConfigs::getConfig("SysOSDefaultMailServerSSL") == 1){ echo "selected=\"selected\""; };?>>Sim</option>
+													</select>
+													<span class="help-block">O servidor utiliza SSL (Conexão Segura) para o envio?</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">Servidor de Recebimento</label>
+												<div class="controls">
+													<select name="SysOSDefaultMailServerType" id="SysOSDefaultMailServerType">
+													<option value='POP' <?php if(System_Model_SysConfigs::getConfig("SysOSDefaultMailServerType") == 'POP'){ echo "selected=\"selected\""; };?>>POP3</option>
+													<option value='IMAP' <?php if(System_Model_SysConfigs::getConfig("SysOSDefaultMailServerType") == "IMAP"){ echo "selected=\"selected\""; };?>>IMAP</option>
+													</select>
+													<span class="help-block">Qual o tipo de servidor para receber as mensagens dos clientes?</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">Porta para Recebimento:</label>
+												<div class="controls">
+													<input type="text" name="SysOSDefaultMailServerReceivePort" value="<?php echo System_Model_SysConfigs::getConfig("SysOSDefaultMailServerReceivePort") ?>" class="span3" />
+													<span class="help-block">Qual a porta do servidor para receber emails? (110/193)</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<div class="controls">
+													<button class="btn" type="submit">Salvar</button>
+												</div>
+											</div>
+										</fieldset>
+									</form>
+                                </div>

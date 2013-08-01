@@ -1,0 +1,65 @@
+ <div class="row-fluid">
+                                <div class="span12">
+									<form class="form-horizontal well" method="post">
+										<fieldset>
+											<p class="f_legend">Configurações de Produtos</p>
+											<div class="control-group">
+												<label class="control-label">Alertar Estoque:</label>
+												<div class="controls">
+													<input type="text" name="EstoqueAlertPercent" value="<?php echo number_format(System_Model_SysConfigs::getConfig("EstoqueAlertPercent"),2,",","") ?>" class="span10" />
+													<span class="help-block">Qual a Porcentagem de margem para o alerta de estoque</span>
+												</div>
+											</div>
+											
+											
+											<div class="control-group">
+												<label class="control-label">Adicionar Composto ao Composto</label>
+												<div class="controls">
+													<select name="ProdutosNotCompostosADD" id="ProdutosNotCompostosADD">
+													<option value='0'>Sim</option>
+													<option value='1'>Não</option>
+													</select>
+													<span class="help-block">O Sistema Pode permitir que produtos já compostos sejam adicionados a um novo composto</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">Adicionar Proprio produto ao composto</label>
+												<div class="controls">
+													<select name="CanotADDSameProduct" id="CanotADDSameProduct">
+													<option value='0' <?php if(System_Model_SysConfigs::getConfig("CanotADDSameProduct") == 0){ echo "selected=\"selected\""; };?>>Sim</option>
+													<option value='1' <?php if(System_Model_SysConfigs::getConfig("CanotADDSameProduct") == 1){ echo "selected=\"selected\""; };?>>Não</option>
+													</select>
+													<span class="help-block">O Sistema Pode permitir que o proprio produto seja adicionado ao composto</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">Travar Preços no orçamento</label>
+												<div class="controls">
+													<select name="TravaPrecoOrcProduto" id="TravaPrecoOrcProduto">
+													<option value='0' <?php if(System_Model_SysConfigs::getConfig("TravaPrecoOrcProduto") == 0){ echo "selected=\"selected\""; };?>>Sim</option>
+													<option value='1' <?php if(System_Model_SysConfigs::getConfig("TravaPrecoOrcProduto") == 1){ echo "selected=\"selected\""; };?>>Não</option>
+													</select>
+													<span class="help-block">O usuário pode alterar o preço de um produto no orçamento</span>
+												</div>
+											</div>
+											
+												<div class="control-group">
+												<label class="control-label">Travar Preços no pedido</label>
+												<div class="controls">
+													<select name="TravaPrecoVendaProduto" id="TravaPrecoVendaProduto">
+													<option value='0' <?php if(System_Model_SysConfigs::getConfig("TravaPrecoVendaProduto") == 0){ echo "selected=\"selected\""; };?>>Sim</option>
+													<option value='1' <?php if(System_Model_SysConfigs::getConfig("TravaPrecoVendaProduto") == 1){ echo "selected=\"selected\""; };?>>Não</option>
+													</select>
+													<span class="help-block">O usuário pode alterar o preço de um produto no pedido</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<div class="controls">
+													<button class="btn" type="submit">Salvar</button>
+												</div>
+											</div>
+										</fieldset>
+									</form>
+                                </div>

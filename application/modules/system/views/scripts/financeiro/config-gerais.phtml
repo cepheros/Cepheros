@@ -1,0 +1,187 @@
+ <form class="form-horizontal well" method="post">
+ <div class="row-fluid formSep">
+ <div class="span6">
+ <p class="f_legend">Configurações Financeiro</p>
+ 	
+ 	<div class="control-group">
+	<label class="control-label">Valor Máximo de Pagamento:</label>
+	<div class="controls">
+	<input type="text" name="FinanValorMaxSemLib" value="<?php echo number_format(System_Model_SysConfigs::getConfig("FinanValorMaxSemLib"),2,",","") ?>" class="span10" />
+	<span class="help-block">Qual o valor máximo que um lançamento pode ser baixado sem prévia autorização?</span>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Liberação de Lançamento Obrigatória?</label>
+	<div class="controls">
+	<div id="toggle-obrigalib" class="toggletbns">
+    <input type="checkbox" name="FinanMustValidade" value="1" <?php if(System_Model_SysConfigs::getConfig("FinanMustValidade") == 1){ echo "checked=\"checked\""; }; ?> >
+    </div>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Tipo Usuário que pode efetuar a liberação:</label>
+	<div class="controls">
+	<select name="FinanTypeUserCanLib[]" id="FinanTypeUserCanLib" multiple>
+	<?php
+	$empresas = System_Model_Login_Roles::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("FinanTypeUserCanLib"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+							
+	<div class="control-group">
+	<label class="control-label">Status Lançamentos Encerrados</label>
+	<div class="controls">
+	<select name="StatusLancamentoEncerrado[]" id="StatusLancamentoEncerrado" multiple>
+	<?php
+	$empresas = Erp_Model_Financeiro_StatusLancamentos::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("StatusLancamentoEncerrado"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Status Lançamentos Em Aberto</label>
+	<div class="controls">
+	<select name="StatusLancamentoAberto[]" id="StatusLancamentoAberto" multiple>
+	<?php
+	$empresas = Erp_Model_Financeiro_StatusLancamentos::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("StatusLancamentoAberto"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Status Lançamentos Liberado</label>
+	<div class="controls">
+	<select name="StatusLancamentoLiberado[]" id="StatusLancamentoLiberado" multiple>
+	<?php
+	$empresas = Erp_Model_Financeiro_StatusLancamentos::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("StatusLancamentoLiberado"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+								
+	<div class="control-group">
+	<label class="control-label">Status Lançamentos Cancelado</label>
+	<div class="controls">
+	<select name="StatusLancamentoCancelado[]" id="StatusLancamentoCancelado" multiple>
+	<?php
+	$empresas = Erp_Model_Financeiro_StatusLancamentos::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("StatusLancamentoCancelado")))){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>											
+	
+ </div>
+ <div class="span6">
+ <p class="f_legend">Configurações Sistema</p>
+ 	<div class="control-group">
+	<label class="control-label">Enviar email de resumo?</label>
+	<div class="controls">
+	<div id="toggle-emailsend" class="toggletbns">
+    <input type="checkbox" name="FinanEmailResumo" value="1" <?php if(System_Model_SysConfigs::getConfig("FinanEmailResumo") == 1){ echo "checked=\"checked\""; }; ?> >
+    </div>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Quais usuários devem receber?</label>
+	<div class="controls">
+	<select name="FinanEmailResumoUsers[]" id="FinanEmailResumoUsers" multiple>
+	<?php
+	$empresas = System_Model_Users::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("FinanEmailResumoUsers")))){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>					
+	
+ </div>
+ </div>
+  <div class="row-fluid">
+   <div class="span12">
+ 	<div class="control-group">
+ 	<div class="controls">
+ 	<button class="btn" type="submit">Salvar</button>
+	</div>
+	</div>
+	</div>
+	</div>							
+
+	</form>
+                                <script>
+
+                                $().ready(function(){
+
+                                	$("#toggle-emailsend").toggleButtons({
+                                  	     label: {
+                                  		 enabled: "Sim",
+                                  		 disabled: "Não"
+                                  		 }
+                                  		 });
+                                      
+
+                                	$("#toggle-obrigalib").toggleButtons({
+                                	    label: {
+                                		 enabled: "Sim",
+                                		 disabled: "Não"
+                                		 }
+                                		 });
+
+                                
+                                	$("#StatusLancamentoEncerrado").chosen();
+                                	$("#StatusLancamentoAberto").chosen();
+                                	$("#StatusLancamentoLiberado").chosen();
+                                	$("#StatusLancamentoCancelado").chosen();
+                                	$("#FinanTypeUserCanLib").chosen();
+
+                                	$("#FinanEmailResumoUsers").chosen();
+
+                                });
+
+
+                                </script>

@@ -1,0 +1,32 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Lancamento de Produção <span class="pull-right"> <small>Número: <?php echo $this->dataop['id_registro'] ?></small></span></h3>
+</div>
+</div>
+<form id="vendas" name="vendas" method="post" action="">
+<?php echo $this->form->id_producao ?>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->quantidade ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->etapa ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->usuario ?>
+</div>
+</div>
+
+<div class="row-fluid">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Salvar >>" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+</form>

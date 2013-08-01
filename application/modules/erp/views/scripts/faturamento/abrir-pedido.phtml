@@ -1,0 +1,504 @@
+<style>
+input[type=radio], input.radio {
+ float:left;
+ clear:none;
+ margin: 2px 0 0 2px;
+}
+label[for=endFaturamento] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+label[for=endCobranca] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+label[for=enviarEmail] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+label[for=modalidadefrete-1] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+label[for=modalidadefrete-2] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+</style>
+<form name="processaNFe" id="processaNFe" method="post" action="/erp/faturamento/salva-pedido-emissao">
+<input type="hidden" name="id_pedido_venda" value="<?php echo $this->dadosVenda->id_registro ?>">
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Faturar Pedido: <span class="pull-right"><small>N: <?php echo $this->dadosVenda->id_registro ?></small></span></h3>
+<div class="tabbable tabbable-bordered">
+                                <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab_br1" data-toggle="tab">Dados NFe</a></li>
+                                    <li><a href="#tab_br2" data-toggle="tab">Destinatário</a></li>
+                                    <li><a href="#tab_br3" data-toggle="tab">Itens</a></li>
+                                    <li><a href="#tab_br4" data-toggle="tab">Transporte</a></li>
+                                     <li><a href="#tab_br5" data-toggle="tab">Pagamentos</a></li>
+                                     <li><a href="#tab_br6" data-toggle="tab">Observações</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                <div class="tab-pane active" id="tab_br1">
+                                  <div class="row-fluid">
+                                 		 <div class="span4">
+										<strong>Empresa Emissora:</strong><br>
+										<select name="empresa" id="empresa">
+		<?php
+		$empresas = System_Model_Empresas::renderCombo();
+		foreach($empresas as $key=>$value){
+		if($key == System_Model_Empresas::getEmpresaPadrao()){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+
+		echo "<option value=\"$key\" $selected> $value </otion>";
+		}
+		?>
+		</select>
+										</div>
+										<div class="span4">
+										<strong>Natureza da Operação:</strong><br>
+										<input type="text" name="NaturezaOperacao" id="NaturezaOperacao" class="span12 required" placeholder="Informe a natureza da operação" value="<?php echo Erp_Model_Faturamento_Perfil::getNaturezaOperacao($this->dadosVenda['perfilnfe'])?>">
+										</div>
+										<div class="span2">
+										<strong>Descontos %:</strong><br>
+										<input type="text" name="DescontorPercent" id="DescontorPercent" class="span12" placeholder="0,00">
+										</div>
+										<div class="span2">
+										<strong>Descontos R$:</strong><br>
+										<input type="text" name="DescontosMoeda" id="DescontosMoeda" class="span12" placeholder="0,00">
+										</div>
+									</div>
+									
+									 <div class="row-fluid">
+										<div class="span2">
+										<strong>Data Saída:</strong><br>
+										<input type="text" name="DataSaida" id="DataSaida" class="span12 required" placeholder="dd/mm/yyyy" value="<?php echo date('d/m/Y')?>">
+										</div>
+										<div class="span2">
+										<strong>Hora Saída:</strong><br>
+										<input type="text" name="HoraSaida" id="HoraSaida" class="span12 required" placeholder="00:00" value="<?php echo date('H:i')?>">
+										</div>
+										<div class="span4">
+										<strong>Perfil Faturamento:</strong><br>
+										<select name="perfilfaturamento" id="perfilfaturamento">
+												<?php
+												$empresas = Erp_Model_Faturamento_Perfil::getCombo();
+													foreach($empresas as $key=>$value){
+														if($key == $this->dadosVenda['perfilnfe'] ){
+															$selected = 'selected="selected"';
+														}else{
+															$selected = '';
+														}
+														echo "<option value=\"$key\" $selected> $value </otion>";
+												} ?>
+												</select>
+										</div>
+										<div class="row-fluid">
+										<br><br><br><br><br><br><br><br><br><br><br><br>
+										</div>
+									</div>
+                                
+                                </div>
+                                    <div class="tab-pane" id="tab_br2">
+                                    <div class="row-fluid">
+										<div class="span4">
+										<strong>Razão Social:</strong><br>
+										<input type="hidden" name="id_pessoa" id="id_pessoa" value="<?php echo $this->dadosVenda->id_pessoa?>">
+										<?php echo Cadastros_Model_Pessoas::getNomeEmpresa($this->dadosVenda->id_pessoa)?>
+										</div>
+											<div class="span4">
+										<strong>CNPJ:</strong><br>
+										<?php echo $this->dadosPessoa->cnpj?>
+										</div>
+										
+										<div class="span4">
+										<strong>IE:</strong><br>
+										<?php echo $this->dadosPessoa->inscestadual ?>
+										</div>
+										
+									</div>
+																
+										<div class="row-fluid">
+										<div class="span12">
+										<h4 class="heading">Endereços:</h4>
+										<table class="table">
+										<thead>
+										<tr>
+										<th>Logradouro</th>
+										<th>Num</th>
+										<th>Comp</th>
+										<th>Bairro</th>
+										<th>Cidade</th>
+										<th>UF</th>
+										<th>CEP</th>
+										<th>IBGE</th>
+										<th>Uso</th>
+										</tr>
+										</thead>
+										<tbody>
+										<?php foreach($this->pessoaEnderecos as $end){ ?>
+										<tr>
+										<td><?php echo $end->logradouro ?> </td>
+										<td><?php echo $end->numero ?> </td>
+										<td><?php echo $end->complemento ?> </td>
+										<td><?php echo $end->bairro ?> </td>
+										<td><?php echo $end->cidade ?> </td>
+										<td><?php echo $end->estado ?> </td>
+										<td><?php echo $end->cep ?> </td>
+										<td><?php echo $end->codibge ?> </td>
+										<td><label for="endFaturamento"><input type="radio" name="endFaturamento" value="<?php echo $end->id_registro ?>" <?php if($end->isdefault == '1'){ echo "selected=\"selected\""; }; ?> >Faturamento</label> <label for="endCobranca"><input type="radio" name="endCobranca" value="<?php echo $end->id_registro ?>">Cobrança </label></td>
+										</tr>
+										<?php } ?>
+										</tbody>
+										</table>
+										</div>
+										</div>
+										
+										
+										<div class="row-fluid">
+										<div class="span12">
+										<h4 class="heading">Contatos:</h4>
+										<table class="table">
+										<thead>
+										<tr>
+										<th>Nome</th>
+										<th>Tel Comercial</th>
+										<th>Email</th>
+										<th>Uso:</th>
+										</tr>
+										</thead>
+										<tbody>
+										<?php foreach($this->pessoaContatos as $cont){ ?>
+										<tr>
+										<td><?php echo $cont->nomecontato ?> </td>
+										<td><?php echo $cont->telcomercial ?> </td>
+										<td><?php echo $cont->email ?> </td>
+										<td><label for="enviarEmail"><input type="radio" name="envviarEmail" value="<?php echo $cont->id_registro ?>" <?php if($cont->isdefault == '1'){ echo "selected=\"selected\""; }; ?>>Enviar Email</label></td>
+										</tr>
+										<?php } ?>
+										</tbody>
+										</table>
+										</div>
+										</div>
+                                       
+                                    </div>
+                                    <div class="tab-pane" id="tab_br3">
+                                    <h4 class="heading">Produtos a Faturar: <span class="pull-right"><small><span class="btn btn-gebo">Adicionar Pedido</span></small></span></h4>
+                                   <table class="table">
+                                   <thead>
+                                   <tr>
+                                   <th>Produto</th>
+                                   <th>Referência</th>
+                                   <th>Quant</th>
+                                   <th>Vl Uni</th>
+                                   <th>Desconto %</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   <?php foreach($this->vendaProdutos as $prod){
+                                   	$dadosprod = Cadastros_Model_Produtos::getProduto($prod->id_produto) ?>
+                                   <tr>
+                                  <td><input type="hidden" name="id_regprdvenda[]" value="<?php echo $prod->id_registro?>"><input type="hidden" name="id_produto[]" value="<?php echo $prod->id_produto?>"><?php echo $dadosprod['nomeproduto'] ?></td>
+                                  <td><input type="hidden" name="id_regvenda[]" value="<?php echo $prod->id_venda?>"><?php echo $dadosprod['referenciaproduto'] ?></td>
+                                  <td><input type="text" name="quantidadeprod[]" value="<?php echo number_format($prod->qtd_afaturar,2,',','') ?>"></td>
+                                  <td><input type="text" name="vlprodunit[]" value="<?php echo number_format($prod->vl_unitario,2,',','') ?>"></td>
+                                  <td><input type="text" name="descontoprodunit[]" value="" placeholder="0,00"></td>
+                                   </tr>
+                                   <?php } ?>
+                                   </tbody>
+                                   </table>
+                                    </div>
+                                    <div class="tab-pane" id="tab_br4">
+                                      <div class="row-fluid">
+                                      <div class="span6">
+                                      <input type="hidden" name="id_transportadora" value="<?php echo $this->pessoaOutros->transportadorpadrao ?>">
+                                      <label for="nometransportadora">Nome Transportadora:</label>
+                                      <div class="input-append">
+                                      
+                                      <input type="text" class="span10 required" name="nometransportadora" id="nometransportadora" value="<?php echo Cadastros_Model_Pessoas::getNomeEmpresa($this->pessoaOutros->transportadorpadrao)?>">
+                                      <span class="add-on"><i class="splashy-error_do_not_small removetransp" title="Limpar"></i></span>
+										</div>
+                                      </div>
+                                      <div class="span6">
+                                      Modalidade do Frete:<br>
+                                      <label for="modalidadefrete-1"><input type="radio" name="modalidadefrete" <?php if($this->pessoaOutros->modalidadefrete == 0){ echo "checked"; };?> value="0">Emitente</label> 
+                                      <label for="modalidadefrete-2"><input type="radio" name="modalidadefrete"  <?php if($this->pessoaOutros->modalidadefrete == 1){ echo "checked"; };?>  value="1">Dest/Rem</label>
+                                      <label for="modalidadefrete-2"><input type="radio" name="modalidadefrete"  <?php if($this->pessoaOutros->modalidadefrete == 2){ echo "checked"; };?>  value="2">Terceiros</label>
+                                      <label for="modalidadefrete-2"><input type="radio" name="modalidadefrete"  <?php if($this->pessoaOutros->modalidadefrete == 9){ echo "checked"; };?>  value="9">Sem Frete</label>
+                                      
+                                      </div>
+                                      </div>
+                                      <div class="row-fluid">
+                                      <div class="span4">
+                                      <label for="placaveiculo">Placa do Veículo</label>
+                                      <input type="text" class="span12" name="placaveiculo" id="placaveiculo" placeholder="AAA5452">
+                                      </div>
+                                      <div class="span4">
+                                      <label for=""ufplaca"">UF Veículo</label>
+                                      <input type="text" class="span12" name="ufplaca" id="ufplaca" placeholder="AA"></div>
+                                      <div class="span4">
+                                      <label for="ANTT">Código ANTT</label>
+                                      <input type="text" class="span12" name="ANTT" id="ANTT" placeholder="0000000000"></div>
+                                      </div>
+                                      <div class="row-fluid">
+                                      <div class="span3"><label for="tipovolume">Tipo de Volume</label>
+                                      <input type="text" class="span12 required" name="tipovolume" id="tipovolume" value=""></div>
+                                      <div class="span3"><label for="quantidadevolumes">Qtd</label>
+                                       <input type="text" class="span12 required" name="quantidadevolumes" id="quantidadevolumes" placeholder="0,00"></div>
+                                      <div class="span3"><label for="pesobruto">Peso Bruto</label>
+                                       <input type="text" class="span12 required" name="pesobruto" id="pesobruto" placeholder="0,000"></div>
+                                      <div class="span3"><label for="pesoliquido">Peso Liquido</label>
+                                       <input type="text" class="span12 required" name="pesoliquido" id="pesoliquido" placeholder="0,000"></div>
+                                      </div>
+                                    </div>
+                                     <?php 
+                                    
+                                    $formapagamento = Erp_Model_Financeiro_Perfil::getPerfil($this->dadosVenda['formapagamento']);
+                                                                     ?>
+                                    <div class="tab-pane" id="tab_br5">
+                                    <div class="row-fluid">
+                                    <div class="span6">
+                                    <label for="tipodepagamento">Tipo De Pagamento:</label>
+                                    <select name="tipodepagamenamento">
+                                    <option value="0" <?php if($formapagamento->tipoperfil == '0' && $formapagamento->quantidadeparcelas < 2 ){ echo 'selected';} ?> >A Vista</option>
+                                    <option value="1" <?php if($formapagamento->tipoperfil == '1' || $formapagamento->tipoperfil == '0' && $formapagamento->quantidadeparcelas > 1 ){ echo 'selected';} ?>>Faturado</option>
+                                    </select>
+                                    </div>                                   
+                                    </div>
+                                   
+                                    <div class="row-fluid">
+                                    <div class="span12">
+                                    <h4 class="heading">Parcelas e Vencimentos: (<?php echo $formapagamento->nomeperfil ?>)  <span class="pull-right"> <small><span class="btn btn-gebo" id="AddVencimento">Adicionar Vencimento</span></small> </span></h4>
+                                    </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                    <div class="span12">
+                                    <table class="table" id="parcelamentoTable">
+                                    <thead>
+                                    <tr>
+                                    <th width="5%"> Parcela </th>
+                                    <th width="15%"> Vencimento </th>
+                                    <th> </th>
+                                    </tr>
+                                    </thead>
+                                    <tboby>
+                                    <tr><td></td><td></td></tr>
+                                    <?php for($i=0;$i<$formapagamento->quantidadeparcelas;$i++){ 
+                                    if($formapagamento->tipoperfil == '0' && $i== '0'){
+											$vencimento = date('d/m/Y');										
+
+									}elseif($formapagamento->tipoperfil == '0' && $i > '0'){
+											$vencimento = date('d/m/Y');
+											$vencimento = Functions_Datas::SomaMes($vencimento, $formapagamento->intervalorparcelas * $i);
+
+									}else{
+
+										$vencimento = date('d/m/Y');
+										$vencimento = Functions_Datas::SomaMes($vencimento, $formapagamento->intervalorparcelas * $i + 1);
+
+									}
+
+                                    ?>
+                                    <tr>
+                                    <td><?php echo $i +1 ?></td>
+                                    <td><input type="text" class="span12 required dateparcela" name="parcela[]" id="parcela" value="<?php echo $vencimento ?>"></td>
+                                    <td><i class="splashy-calendar_day_remove removevencimento"></i></td>
+                                    </tr>
+                                    <?php } ?>
+                                    </tboby>
+                                    </table>
+                                    
+                                    </div>
+                                    </div>
+                                     
+                                    </div>
+                                    <div class="tab-pane" id="tab_br6">
+                                        <div class="row-fluid">
+                                        <div class="span12">
+                                        <?php  ?>
+                                        </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                        <div class="span12">
+                                        <h4 class="heading">Observações do FISCO</h4>
+                                         <textarea id="obsfisco" cols="80" style="width:100%" rows="5" name="obsfisco"><?php echo Erp_Model_Faturamento_Perfil::getObsFisco($this->dadosVenda['perfilnfe'])?></textarea>
+                                        </div>
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                        <div class="span12">
+                                        <h4 class="heading">Observações do Faturamento</h4>
+                                        <textarea id="obsfaturamento" cols="80" style="width:100%" rows="5" name="obsfaturamento"><?php echo $this->dadosVenda['obsfaturamento']?></textarea>
+                                        </div>
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                        <div class="span12">
+                                        <h4 class="heading">Outras Observações</h4>
+                                        </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                        <div class="span3">
+                                        <strong>Pedido:</strong>
+                                        </div>
+                                        <div class="span3">
+                                        <input type="text" class="span12" name="obsadicionais[Pedido]" id="parcela" value="<?php echo $this->dadosVenda['id_registro'] ?>">
+                                        </div>
+                                        <div class="span3">
+                                        <strong>Pedido do Cliente:</strong>
+                                        </div>
+                                        <div class="span3">
+                                         <input type="text" class="span12" name="obsadicionais[PedidoCliente]" id="parcela" value="<?php echo $this->dadosVenda['pedido_cliente'] ?>">
+                                        </div>
+                                                                                
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                        <div class="span3">
+                                        <strong>Data de Agendamento:</strong>
+                                        </div>
+                                        <div class="span3">
+                                        <input type="text" class="span12" name="obsadicionais[Agendamento]" id="parcela" value="<?php echo Functions_Datas::MyDateTime($this->dadosVenda['agendamento_entrega'],true) ?>">
+                                        </div>
+                                        <div class="span3">
+                                        <strong>Senha de Entrega:</strong>
+                                        </div>
+                                        <div class="span3">
+                                         <input type="text" class="span12" name="obsadicionais[SenhaEntrega]" id="parcela" value="">
+                                        </div>
+                                                                                
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                        <div class="span3">
+                                        <strong>Vendedor:</strong>
+                                        </div>
+                                        <div class="span3">
+                                        <input type="text" class="span12" name="obsadicionais[NomeVendedor]" id="parcela" value="<?php echo Cadastros_Model_Pessoas::getNomeEmpresa($this->dadosVenda->id_vendedor)?>">
+                                        </div>
+                                        <div class="span3">
+                                        <strong>Código de Fornecedor:</strong>
+                                        </div>
+                                        <div class="span3">
+                                         <input type="text" class="span12" name="obsadicionais[CodigoFornecedor]" id="parcela" value="">
+                                        </div>
+                                                                                
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+
+</div>
+
+</div>
+</div>
+
+<div class="row-fluid">
+<div class="span12">
+	<fieldset id="fieldset-botoes">
+			<div style="text-align:right">
+			<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+			<input type="submit" name="submit" id="submit" value="Processar >>" class="btn btn-large btn-primary">
+			</div>
+			</fieldset> 
+</div>
+</div>
+</form>
+
+<script>
+$().ready(function(){
+
+	$("#obsfaturamento").counter({
+		goal: 3000
+	});
+	
+	$("#empresa").chosen();
+	$("#perfilfaturamento").chosen();
+	$('#DataSaida').datepicker({language:"br", format: "dd/mm/yyyy"});
+
+	$('.dateparcela').datepicker({language:"br", format: "dd/mm/yyyy"});
+
+	$('#HoraSaida').timepicker({
+		defaultTime: false,
+		setTime: '<?php echo date('H:i') ?>',
+		minuteStep: 5,
+		disableFocus: true,
+		template: 'dropdown',
+		showMeridian: false
+	});
+
+	 $('.removevencimento').live('click',function () {
+		 $(this).parents("tr").remove();
+	    });
+
+	 $('.removetransp').live('click',function () {
+			 $('#id_transportadora').val('');
+	        $( "#nometransportadora" ).val('');
+	    });
+
+	 $('#AddVencimento').live('click',function () {
+	        $('#parcelamentoTable > tbody:last').append('<tr><td>(X)</td> <td><input type="text" class="span12 required dateparcela" name="parcela[]" id="parcela" value=""></td><td><i class="splashy-calendar_day_remove removevencimento"></i></td></tr>');
+	    });	    
+
+	 $("#perfilfaturamento").change(function(){
+
+	   	  $.ajax({ 
+	   			type: "POST", 
+	   			url: "/erp/faturamento/get-data-perfil/id/"+ $("#perfilfaturamento").val(), 
+	   			data: "other=0",
+	   			beforeSend: function() {
+	   				$.sticky("CARREGANDO INFORMAÇÕES DO PERFIL DE FATURAMENTO.", { type: 'st-info' });	
+	   				
+	   							
+	   	 		}, 
+	   			success: function(txt) {
+	   				$.sticky("INFORMAÇÕES DO PERFIL DE FATURAMENTO CARREGADAS COM SUCESSO.", { type: 'st-success' });
+	   				obj = jQuery.parseJSON(txt);
+	   				$("#NaturezaOperacao").val(obj.naturezaoperacao);
+	   				$("#obsfisco").val(obj.observacoesfisco);
+	   				
+	   			}, 
+	   			error: function(txt) { 
+	   				$.sticky("UM ERRO DE SISTEMA OCORREU." + txt, { type: 'st-error' });
+	   				//alert(txt);
+	   			} 
+	   		}); 
+	   		
+				
+		});
+
+	   $("#nometransportadora").autocomplete({
+			 
+		    source: "/system/auto-complete/pessoas",
+				minLength: 0,
+				focus: function( event, ui ) {
+			//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+				return false;
+			},
+
+		    select: function(event, ui) {
+		        $('#id_transportadora').val(ui.item.id_registro);
+		        $( "#nometransportadora" ).val( ui.item.razaosocial );
+		         return false;
+
+		    }
+		});  
+
+})
+
+
+</script>

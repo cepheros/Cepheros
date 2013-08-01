@@ -1,0 +1,607 @@
+<?php 
+$configs = Zend_Registry::get('configs');
+$userData = Zend_Auth::getInstance()->getStorage()->read();
+$menus = new System_Model_Menus();
+$fav = new System_Model_UsersFavoritos;
+$favoritos = $fav->getFavoritos($userData->id_registro);
+	   
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title><?php echo $configs->Leader->SysName ?></title>
+    
+        <!-- Bootstrap framework -->
+            <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css" />
+              <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
+        <!-- gebo blue theme-->
+            <link rel="stylesheet" href="/css/blue.css" id="link_theme" />
+        <!-- breadcrumbs-->
+            <link rel="stylesheet" href="/lib/jBreadcrumbs/css/BreadCrumb.css" />
+        <!-- tooltips-->
+            <link rel="stylesheet" href="/lib/qtip2/jquery.qtip.min.css" />
+        <!-- colorbox -->
+            <link rel="stylesheet" href="/lib/colorbox/colorbox.css" />    
+        <!-- code prettify -->
+            <link rel="stylesheet" href="/lib/google-code-prettify/prettify.css" />    
+        <!-- notifications -->
+            <link rel="stylesheet" href="/lib/sticky/sticky.css" />    
+        <!-- splashy icons -->
+            <link rel="stylesheet" href="/img/splashy/splashy.css" />
+		<!-- flags -->
+            <link rel="stylesheet" href="/img/flags/flags.css" />	
+		<!-- calendar -->
+            <link rel="stylesheet" href="/lib/fullcalendar/fullcalendar_gebo.css" />
+            
+            
+            
+          <!-- datepicker -->
+            <link rel="stylesheet" href="/lib/datepicker/datepicker.css" />
+        <!-- tag handler -->
+            <link rel="stylesheet" href="/lib/tag_handler/css/jquery.taghandler.css" />
+        <!-- nice form elements -->
+            <link rel="stylesheet" href="/lib/uniform/Aristo/uniform.aristo.css" />
+		<!-- 2col multiselect -->
+            <link rel="stylesheet" href="/lib/multiselect/css/multi-select.css" />
+		<!-- enhanced select -->
+            <link rel="stylesheet" href="/lib/chosen/chosen.css" />
+        <!-- upload -->
+            <link rel="stylesheet" href="/lib/plupload/js/jquery.plupload.queue/css/plupload-gebo.css" />
+		<!-- colorbox -->
+            <link rel="stylesheet" href="/lib/colorbox/colorbox.css" />
+		
+		 
+            <link rel="stylesheet" href="/lib/colorpicker/css/colorpicker.css" />	  
+            <link rel="stylesheet" href="/lib/tag_handler/css/jquery.taghandler.css" />
+            <link rel="stylesheet" href="/lib/bootstrap-switch-master/static/stylesheets/bootstrap-switch.css">
+            
+            
+             <link rel="stylesheet" href="/lib/toggle_buttons/bootstrap-toggle-buttons.css" />
+        <!-- main styles -->
+            <link rel="stylesheet" href="/css/style.css" />
+			
+            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans" />
+	
+        <!-- Favicon -->
+            <link rel="shortcut icon" href="/favicon.ico" />
+		
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="/css/ie.css" />
+            <script src="/js/ie/html5.js"></script>
+			<script src="/js/ie/respond.min.js"></script>
+			<script src="/lib/flot/excanvas.min.js"></script>
+        <![endif]-->
+		
+		<script>
+			//* hide all elements & show preloader
+			document.documentElement.className += 'js';
+		</script>
+		
+		<!-- JAVASCRIPT -->
+		 <script src="/js/jquery.min.js"></script>
+			<!-- smart resize event -->
+			<script src="/js/jquery.debouncedresize.min.js"></script>
+			<!-- hidden elements width/height -->
+			<script src="/js/jquery.actual.min.js"></script>
+			<!-- js cookie plugin -->
+			<script src="/js/jquery.cookie.min.js"></script>
+			<!-- main bootstrap js -->
+			<script src="/bootstrap/js/bootstrap.min.js"></script>
+			<!-- tooltips -->
+			<script src="/lib/qtip2/jquery.qtip.min.js"></script>
+			<!-- jBreadcrumbs -->
+			<script src="/lib/jBreadcrumbs/js/jquery.jBreadCrumb.1.1.min.js"></script>
+			<!-- lightbox -->
+            <script src="/lib/colorbox/jquery.colorbox.min.js"></script>
+            <!-- fix for ios orientation change -->
+			<script src="/js/ios-orientationchange-fix.js"></script>
+			<!-- scrollbar -->
+			<script src="/lib/antiscroll/antiscroll.js"></script>
+			<script src="/lib/antiscroll/jquery-mousewheel.js"></script>
+			<!-- to top -->
+			<script src="/lib/UItoTop/jquery.ui.totop.min.js"></script>
+			 <script src="/js/selectNav.js"></script>
+			<!-- common functions -->
+			
+			
+			<script src="/lib/jquery-ui/jquery-ui-1.8.23.custom.min.js"></script>
+            <!-- touch events for jquery ui-->
+            <script src="/js/forms/jquery.ui.touch-punch.min.js"></script>
+            <!-- multi-column layout -->
+            <script src="/js/jquery.imagesloaded.min.js"></script>
+            <script src="/js/jquery.wookmark.js"></script>
+            <!-- responsive table -->
+            <script src="/js/jquery.mediaTable.min.js"></script>
+            <!-- small charts -->
+            <script src="/js/jquery.peity.min.js"></script>
+            <!-- charts -->
+            <script src="/lib/flot/jquery.flot.min.js"></script>
+            <script src="/lib/flot/jquery.flot.resize.min.js"></script>
+            <script src="/lib/flot/jquery.flot.pie.min.js"></script>
+            <!-- calendar -->
+            <script src="/lib/fullcalendar/fullcalendar.js"></script>
+            <!-- sortable/filterable list -->
+            <script src="/lib/list_js/list.min.js"></script>
+            <script src="/lib/list_js/plugins/paging/list.paging.min.js"></script>
+            <script src="/lib/sticky/sticky.min.js"></script>
+             <script src="/lib/validation/jquery.validate.min.js"></script>
+             
+               <!-- masked inputs -->
+            <script src="/js/forms/jquery.inputmask.min.js"></script>
+            <!-- autosize textareas -->
+            <script src="/js/forms/jquery.autosize.min.js"></script>
+            <!-- textarea limiter/counter -->
+            <script src="/js/forms/jquery.counter.min.js"></script>
+            <!-- datepicker -->
+            <script src="/lib/datepicker/bootstrap-datepicker.min.js"></script>
+            <!-- timepicker -->
+            <script src="/lib/datepicker/bootstrap-timepicker.min.js"></script>
+            <!-- tag handler -->
+            <script src="/lib/tag_handler/jquery.taghandler.min.js"></script>
+            <!-- input spinners -->
+            <script src="/js/forms/jquery.spinners.min.js"></script>
+            <!-- styled form elements -->
+            <script src="/lib/uniform/jquery.uniform.min.js"></script>
+            <!-- animated progressbars -->
+            <script src="/js/forms/jquery.progressbar.anim.js"></script>
+            <!-- multiselect -->
+            <script src="/lib/multiselect/js/jquery.multi-select.min.js"></script>
+            <!-- enhanced select (chosen) -->
+            <script src="/lib/chosen/chosen.jquery.min.js"></script>
+            <!-- TinyMce WYSIWG editor -->
+            <script src="/lib/tiny_mce/jquery.tinymce.js"></script>
+			<!-- plupload and all it's runtimes and the jQuery queue widget (attachments) -->
+			<script type="text/javascript" src="/lib/plupload/js/plupload.full.js"></script>
+			<script type="text/javascript" src="/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js"></script>
+            <!-- colorpicker -->
+			<script src="/lib/colorpicker/bootstrap-colorpicker.js"></script>
+			  <script src="/lib/toggle_buttons/jquery.toggle.buttons.js"></script>
+			<!-- password strength checker -->
+			<script src="/lib/complexify/jquery.complexify.min.js"></script>
+			 <script src="/lib/datepicker/locales/bootstrap-datepicker.br.js"></script>
+			  <script src="/js/jquery.form.js"></script>
+			              <script src="/lib/datatables/jquery.dataTables.min.js"></script>
+            <script src="/lib/datatables/extras/Scroller/media/js/Scroller.min.js"></script>
+        	<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+            <!-- dashboard functions -->
+                <script src="/lib/justGage.1.0.1/resources/js/justgage.1.0.1.min.js"></script>
+             <script src="/lib/justGage.1.0.1/resources/js/raphael.2.1.0.min.js"></script>
+            <script src="/lib/bootstrap-switch-master/static/js/bootstrap-switch.js"></script>
+            <script src="/js/gebo_common.js"></script>
+   
+            
+    </head>
+    <body>
+		<div id="loading_layer" style="display:none"><img src="/img/ajax_loader.gif" alt="" /></div>
+		
+		
+		<div id="maincontainer" class="clearfix">
+			<!-- header -->
+            <header>
+                <div class="navbar navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container-fluid">
+                            <a class="brand" href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'index','action'=>'index')) ?>"><i class="icon-home icon-white"></i> <?php echo $configs->Leader->SysName ?></a>
+                            <ul class="nav user_menu pull-right">
+                                <li class="hidden-phone hidden-tablet">
+                                    <div class="nb_boxes clearfix">
+                                        <a data-toggle="modal" data-backdrop="static" href="#myMail" class="label ttip_b" title="Mensagens"><?php echo System_Model_Messages::countMyMessages(Zend_Auth::getInstance()->getStorage()->read()->id_registro)?> <i class="splashy-mail_light"></i></a>
+                                        <a data-toggle="modal" data-backdrop="static" href="#myTasks" class="label ttip_b" title="Tarefas"><?php echo System_Model_Tasks::countMyTasks(Zend_Auth::getInstance()->getStorage()->read()->id_registro)?> <i class="splashy-calendar_week"></i></a>
+                                    </div>
+                                </li>
+								<li class="divider-vertical hidden-phone hidden-tablet"></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle nav_condensed" data-toggle="dropdown"><i class="flag-br"></i> <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+										<li><a href="javascript:void(0)"><i class="flag-de"></i> Deutsch</a></li>
+										<li><a href="javascript:void(0)"><i class="flag-fr"></i> Français</a></li>
+										<li><a href="javascript:void(0)"><i class="flag-es"></i> Español</a></li>
+										<li><a href="javascript:void(0)"><i class="flag-ru"></i> Pусский</a></li>
+                                    </ul>
+                                </li>
+                                <li class="divider-vertical hidden-phone hidden-tablet"></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/img/user_avatar.png" alt="" class="user_avatar" /> <?php echo $userData->nomecompleto ?> <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+										<li><a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'user','action'=>'profile'),null,true) ?>">Meus Dados</a></li>
+										<li><a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'messages','action'=>'list'),null,true) ?>">Mensagens</a></li>
+										<li><a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'tasks','action'=>'list'),null,true) ?>">Tarefas</a></li>
+										<li><a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'calendar','action'=>'list'),null,true) ?>">Agenda</a></li>
+										<li class="divider"></li>
+										<li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'logout'),null,true) ?>">Sair</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+							<a data-target=".nav-collapse" data-toggle="collapse" class="btn_menu">
+								<span class="icon-align-justify icon-white"></span>
+							</a>
+                            <nav>
+                                <div class="nav-collapse">
+                                    <ul class="nav">
+                                        <li class="dropdown">
+                                          <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-list-alt icon-white"></i> Cadastros <b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'clientes','action'=>'index'),null,true) ?>">Clientes </a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'fornecedores','action'=>'index'),null,true) ?>">Fornecedores</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'transportadoras','action'=>'index'),null,true) ?>">Transportadoras</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'funcionarios','action'=>'index'),null,true) ?>">Funcionários</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'representantes','action'=>'index'),null,true) ?>">Representantes</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'franqueados','action'=>'index'),null,true) ?>">Franqueados</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'produtos','action'=>'index'),null,true) ?>">Produtos</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'cadastros','controller'=>'servicos','action'=>'index'),null,true) ?>">Serviços</a></li>
+                                           </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-th icon-white"></i> CRM <b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                             <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'tickets','action'=>'index'),null,true) ?>">Atendimento (Tickets)</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'prospects','action'=>'index',null,true)) ?>">Prospects & Leades</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'projetos','action'=>'index'),null,true) ?>">Projetos</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'ordem-servico','action'=>'index'),null,true) ?>">Ordens de Serviços</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'orcamentos','action'=>'index',null,true)) ?>">Orçamentos e Propostas</a></li>
+                                                <li class="divider"></li>
+												<li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'marketing','action'=>'index'),null,true) ?>">Mail Marketing</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'redes-sociais','action'=>'index'),null,true) ?>">Redes Sociais</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'base-conhecimentos','action'=>'index'),null,true) ?>">Base de Conhecimentos</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'crm','controller'=>'wiki','action'=>'index'),null,true) ?>">Wiki</a></li>
+                                            </ul>
+                                        </li>
+                                        
+                                          <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-barcode icon-white"></i> ERP <b class="caret"></b></a>
+                                              <ul class="dropdown-menu">
+                                                <li><a href="<?php echo $this->url(array('module'=>'erp','controller'=>'desenvolvimento-produtos','action'=>'index'),null,true) ?>">Desenvolvimento de Produtos</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'erp','controller'=>'estoque','action'=>'index'),null,true) ?>">Estoques</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'erp','controller'=>'compras','action'=>'index'),null,true) ?>">Compras</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'erp','controller'=>'vendas','action'=>'index'),null,true) ?>">Vendas</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'erp','controller'=>'producao','action'=>'index'),null,true) ?>">Produção</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'erp','controller'=>'financeiro','action'=>'index'),null,true) ?>">Financeiro</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'erp','controller'=>'faturamento','action'=>'index'),null,true) ?>">Faturamento</a></li>
+                                             </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-wrench icon-white"></i> Sistema <b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                  <li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'empresas','action'=>'index'),null,true) ?>">Empresas</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'configuracoes','action'=>'index'),null,true) ?>">Configurações</a></li>
+                                                <li class="divider"></li>
+												<li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'usuarios','action'=>'index',null,true)) ?>">Usuários</a></li>
+												<li class="divider"></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'backups','action'=>'index'),null,true) ?>">Backups</a></li>
+                                                <li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'arquivos','action'=>'index'),null,true) ?>">Arquivos</a></li>
+                                                <li class="divider"></li>
+												<li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'soap','action'=>'index'),null,true) ?>">SOAP</a></li>
+												<li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'cache','action'=>'index'),null,true) ?>">Cache & Temporários </a></li>
+												<li class="divider"></li>
+												<li><a href="<?php echo $this->url(array('module'=>'sistema','controller'=>'utilitarios','action'=>'index'),null,true) ?>">Utilitários</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-file icon-white"></i> Páginas <b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="chat.html">Chat</a></li>
+                                                <li><a href="error_404.html">Error 404</a></li>
+												<li><a href="mailbox.html">Mailbox</a></li>
+                                                <li><a href="search_page.html">Search page</a></li>
+                                                <li><a href="user_profile.html">User profile</a></li>
+												<li><a href="user_static.html">User profile (static)</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'help','action'=>'index'),null,true) ?>"><i class="icon-book icon-white"></i> Ajuda</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                 <div class="modal hide fade" id="myMail">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">×</button>
+                        <h3>Novas Mensagens</h3>
+                    </div>
+                    <div class="modal-body">
+                       <table class="table table-condensed table-striped" data-rowlink="a">
+                            <thead>
+                                <tr>
+                                    <th>De</th>
+                                    <th>Assunto</th>
+                                    <th>Data</th>
+                                    <th>Prioridade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <?php $messages = System_Model_Messages::getMyMessages(Zend_Auth::getInstance()->getStorage()->read()->id_registro);
+							if(count($messages) > 0){
+                            foreach($messages as $MyMessage) {
+                            ?>
+                                <tr>
+                                    <td><?php echo System_Model_Users::whoIs($MyMessage['user_from'])?></td>
+                                    <td><a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'messages','action'=>'read','message'=>$MyMessage['id_registro'])) ?>"><?php echo $MyMessage['assuntomessage']?> </a></td>
+                                    <td><?php echo Functions_Datas::MyDateTime($MyMessage['datemessage'],true)?></td>
+                                    <td><?php echo System_Model_Prioridades::getHtmlPrioridade($MyMessage['messageprioridade']) ?></</td>
+                                </tr>
+                                <?php };
+                                }else{
+                                 ?>
+                                  <tr>
+                                    <td colspan="4">Sem Novas Mensagens</td>
+                                  </tr>
+                                <?php } ?>
+                               
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'messages','action'=>'list'),null,true) ?>" class="btn">Ir para Mensagens</a>
+                    </div>
+                </div>
+                <div class="modal hide fade" id="myTasks">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">×</button>
+                        <h3>Tarefas</h3>
+                    </div>
+                    <div class="modal-body">
+                    
+                        <table class="table table-condensed table-striped" data-rowlink="a">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Sumário</th>
+                                    <th>Atualizado</th>
+                                    <th>Prioridade</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php $tasks = System_Model_Tasks::getMyTasks(Zend_Auth::getInstance()->getStorage()->read()->id_registro);
+							if(count($tasks) > 0){
+                            foreach($tasks as $MyTask) {
+                            ?>
+                                <tr>
+                                    <td><?php echo $MyTask['id_registro'] ?></td>
+                                    <td><a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'tasks','action'=>'read','task'=>$MyTask['id_registro'])) ?>"><?php echo $MyTask['assunto'] ?></a></td>
+                                    <td><?php echo date('d/m/Y h:i', strtotime($MyTask['dateupdate'])) ?></td>
+                                    <td class="tac"><span class="label label-important"><?php echo $MyTask['prioridade'] ?></span></td>
+                                    <td><?php echo $MyTask['status'] ?></td>
+                                </tr>
+                                <?php };
+                                }else{
+                                 ?>
+                                  <tr>
+                                    <td colspan="5">Sem Novas Tarefas</td>
+                                  </tr>
+                                <?php } ?>
+                             </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'tasks','action'=>'list'),null,true) ?>" class="btn">Abrir Gerenciador de Tarefas</a>
+                    </div>
+                </div>
+            </header>
+                <!-- main content -->
+            <div id="contentwrapper">
+                <div class="main_content">
+                  <nav>
+                        <div id="jCrumbs" class="breadCrumb module">
+                            <ul>
+                               <li>
+                                    <a href="<?php echo $this->url(array('module'=>'dashboard','controller'=>'index','action'=>'index'),null,true) ?>"><i class="icon-home"></i></a>
+                                </li>
+                                               <li>
+                                    <a href="<?php echo $this->url(array('module'=>$this->parameters['module'],'controller'=>'index','action'=>'index'),null,true) ?>"> <?php echo ucfirst($this->parameters['module']) ?></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->url(array('module'=>$this->parameters['module'],'controller'=>$this->parameters['controller'],'action'=>'index'),null,true) ?>"> <?php echo ucfirst($this->parameters['controller']) ?></a>
+                                </li>
+                                <li>
+                                    <?php echo ucfirst($this->parameters['action']) ?>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    
+                     <?php if ($this->DebugEnable){ 
+                     			echo Functions_Messages::renderAlert("O Debug do Sistema está ativo, todas as mensagens de erro serão exibidas",'alerta');
+						   }
+						   if($this->AlertMessage){
+								foreach($this->AlertMessage as $message){
+								echo $message;
+								}
+							};
+                            echo $this->layout()->content
+
+                            ?>              
+                </div>
+             </div>
+            
+            
+			<!-- sidebar -->
+            <a href="javascript:void(0)" class="sidebar_switch on_switch ttip_r" title="Esconder Sidebar">Sidebar switch</a>
+            <div class="sidebar">
+				
+				<div class="antiScroll">
+					<div class="antiscroll-inner">
+						<div class="antiscroll-content">
+					
+							<div class="sidebar_inner">
+								<form action="/dashboard/search" class="input-append" method="post" >
+									<input autocomplete="off" name="query" class="search_query input-medium" size="16" type="text" placeholder="Procurar..." /><button type="submit" class="btn"><i class="icon-search"></i></button>
+								</form>
+								<div id="side_accordion" class="accordion">
+									
+									 <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a href="#collapseOne" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
+                                        <i class="icon-bookmark"></i> Meus Favoritos
+                                    </a>
+                                </div>
+                                <div class="accordion-body collapse" id="collapseOne">
+                                    <div class="accordion-inner">
+                                        <ul class="nav nav-list" id="userFavs" >
+                                          <?php
+									foreach ($favoritos as $meufavorito ){ 
+                                         ?>
+                                            <li <?php if($this->parameters['action'] == $meufavorito['action']){ ?> class="active" <?php }?>><a href="<?php echo $this->url(array('module'=>$meufavorito['module'],'controller'=>$meufavorito['controller'],'action'=>$meufavorito['action']),null,true) ?>"  ><?php echo $meufavorito['nome'] ?></a></li>
+                                          <?php } ?>
+                                            <li><a href="javascript:void(0)" onclick="addfav('<?php echo $this->parameters['module']?>','<?php echo $this->parameters['controller']?>','<?php echo $this->parameters['action']?>') ">+ Adicionar Favorito</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+									<div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a href="#collapseTwo" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
+                                        <i class="icon-th"></i> <?php  if($this->parameters['controller'] <> 'index'){ echo ucfirst(str_replace(array('relatorios','-'), array('',' '), $this->parameters['controller'])); }else{ echo 'Início'; } ?>
+                                    </a>
+                                </div>
+                                <div class="accordion-body collapse in" id="collapseTwo">
+                                    <div class="accordion-inner">
+                                        <ul class="nav nav-list">
+                                        <?php 
+                                        $controller = str_replace(array('-relatorios'), array(''), $this->parameters['controller']);
+                                        if($this->parameters['module']== 'system'){
+                                        	$mod = $menus->fetchRow("controller = '{$this->parameters['controller']}' and module <> 'system'" );
+                                        	$module = $mod->module;
+                                        }else{
+                                        	$module = $this->parameters['module'];
+                                        }
+                                        
+                                        $estemenu = $menus->fetchAll("module = '{$module}' and controller = '{$controller}'","position ASC");
+                                        foreach ($estemenu as $menud){ 
+                                         ?>
+                                            <li <?php if($this->parameters['action'] == $menud->action){ ?> class="active" <?php }?>><a href="<?php echo $this->url(array('module'=>$menud->module,'controller'=>$menud->controller,'action'=>$menud->action),null,true) ?>"  ><?php echo $menud->nome ?></a></li>
+                                          <?php } ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a href="#collapseThree" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
+                                        <i class="icon-user"></i> Relatórios
+                                    </a>
+                                </div>
+                                <div class="accordion-body collapse" id="collapseThree">
+                                    <div class="accordion-inner">
+                                        <ul class="nav nav-list">
+                                            <?php 
+                                            $controller = str_replace('-relatorios', '', $this->parameters['controller']);
+                                            if($this->parameters['module']== 'system'){
+                                            	$mod = $menus->fetchRow("controller = '{$this->parameters['controller']}' and module <> 'system'" );
+                                            	$module = $mod->module;
+                                            }else{
+                                            	$module = $this->parameters['module'];
+                                            }
+                                            
+                                           
+
+                                            $estemenu = $menus->fetchAll("module = '{$module}' and controller = '{$controller}-relatorios'","position ASC");
+                                        foreach ($estemenu as $menud){ 
+                                         ?>
+                                            <li <?php if($this->parameters['action'] == $menud->action){ ?> class="active" <?php }?>><a href="<?php echo $this->url(array('module'=>$menud->module,'controller'=>$menud->controller,'action'=>$menud->action),null,true) ?>"  ><?php echo $menud->nome ?></a></li>
+                                          <?php } ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a href="#collapseFour" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
+                                        <i class="icon-cog"></i> Configurações
+                                    </a>
+                                </div>
+                                <div class="accordion-body collapse" id="collapseFour">
+                                    <div class="accordion-inner">
+                                        <ul class="nav nav-list">
+                                            <?php $estemenu = $menus->fetchAll("module = 'system' and controller = '{$this->parameters['controller']}'","position ASC");
+                                        foreach ($estemenu as $menud){ 
+                                         ?>
+                                            <li <?php if($this->parameters['action'] == $menud->action){ ?> class="active" <?php }?>><a href="<?php echo $this->url(array('module'=>$menud->module,'controller'=>$menud->controller,'action'=>$menud->action),null,true) ?>"  ><?php echo $menud->nome ?></a></li>
+                                          <?php } ?>
+                                        </ul> 
+                                    </div>
+                                </div>
+                            </div>
+									
+								</div>
+								
+								<div class="push"></div>
+							</div>
+							   
+							<div class="sidebar_info">
+								<ul class="unstyled">
+									<li>
+										<span class="act act-warning">65</span>
+										<strong>Novos Pedidos</strong>
+									</li>
+									<li>
+										<span class="act act-success">10</span>
+										<strong>Novos Tickets</strong>
+									</li>
+									<li>
+										<span class="act act-danger">85</span>
+										<strong>Novos Prospects</strong>
+									</li>
+								</ul>
+							</div> 
+						
+						</div>
+					</div>
+				</div>
+			
+			</div>
+            
+           
+    
+			<script>
+				$(document).ready(function() {
+					//* show all elements & remove preloader
+					setTimeout('$("html").removeClass("js")',1000);
+				});
+
+				  function addfav(module,controller,action){
+				    	if(confirm('Deseja Adicionar a página atual a seus favoritos?\n\n'+module+'/'+controller+'/'+action+'/')){
+				    		 $.ajax({ 
+									type: "GET", 
+									url: "/system/user/addfav", 
+									data: "module="+ module + "&controller="+controller+"&action="+action,
+									beforeSend: function() {
+							 		}, 
+									success: function(txt) { 
+										data = txt.split('|');
+										if(data[0] == 'OK'){						
+											$.sticky("Link adicionado aos favoritos", {autoclose : 5000, position: "top-right", type: "st-success" });
+										}else{
+											$.sticky("Esse Favorito já existe!", {autoclose : 5000, position: "top-right", type: "st-error" });	
+										}
+									},
+									error: function(txt) { 
+										$.sticky("Erro ao Adicionar o Favorito!", {autoclose : 5000, position: "top-right", type: "st-error" });
+										
+									} 
+								}); 
+						    	    		
+				    	}
+				    	
+				    }
+			</script>
+		
+		</div>
+	</body>
+</html>

@@ -1,0 +1,259 @@
+<form id="produtos" name="produtos" enctype="application/x-www-form-urlencoded" class="form-horizontal" method="post" action="">
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->nomeproduto?>
+</div>
+<div class="span3">
+<?php echo $this->form->referenciaproduto?>
+</div>
+<div class="span3">
+<?php echo $this->form->codigointerno?>
+</div>
+<div class="span3">
+<?php echo $this->form->codigonfe?>
+</div>
+</div>
+</fieldset>
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->categoriaproduto ?>
+</div>
+<div class="span3">
+<?php echo $this->form->subcategoriaproduto ?>
+</div>
+<div class="span3">
+<?php echo $this->form->origemproduto ?>
+</div>
+
+<div class="span3">
+<?php echo $this->form->ncmproduto ?>
+</div>
+
+</div>
+
+</fieldset>
+
+
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->eangtin; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->pesoproduto; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->unidadedemedida ?>
+</div>
+<div class="span3">
+<?php echo $this->form->contaestoque; ?>
+</div>
+
+</div>
+</fieldset>
+
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->estoqueatual; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->estoqueminimo; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->estoquemaximo ?>
+</div>
+<div class="span3" id="divlocalestoque">
+<?php echo $this->form->localestoque; ?>
+</div>
+</div>
+</fieldset>
+
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->precocusto; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->precovenda; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->margemlucro ?>
+</div>
+<div class="span3">
+<?php echo $this->form->orcarautomatico; ?>
+</div>
+</div>
+</fieldset>
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->infadicionaisnfe ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->obsinternas ?>
+</div>
+</div>
+</fieldset>
+<div class="row-fluid formSep">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Salvar" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+</form>
+<script>
+$.fn.chosenDestroy = function () {
+	$(this).show().removeClass('chzn-done')
+	$(this).next().remove()
+
+	  return $(this);
+	}
+
+
+$().ready(function(){
+
+	$("#contaestoque-0").attr('checked','checked');
+	$("#estoqueatual").val('0,00');
+	$("#estoqueminimo").val('0,00');
+	$("#estoquemaximo").val('0,00');
+	$("#estoqueatual").attr('readonly','readonly');
+	$("#estoqueminimo").attr('readonly','readonly');
+	$("#estoquemaximo").attr('readonly','readonly');
+	$("#orcarautomatico-0").attr('checked','checked');
+	$("#orcarautomatico-0").attr('readonly','readonly');
+	$("#orcarautomatico-1").attr('readonly','readonly');
+
+	$("#divlocalestoque").hide();
+	
+	$('#produtos').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+    $("#categoriaproduto").chosen();
+    $("#subcategoriaproduto").chosen();
+    $("#origemproduto").chosen();
+    $("#unidadedemedida").chosen();
+    $("#localestoque").chosen();
+
+    $('#categoriaproduto').change(function(){
+		$("#subcategoriaproduto").chosenDestroy();
+
+         $('#subcategoriaproduto')
+	    .find('option')
+	    .remove()
+	    .end()
+	    .append('<option value="whatever">Carregando ... </option>')
+	    .val('0');
+
+
+    	y = 1;
+    	$.getJSON("/cadastros/produtos/getsubcategorias/id/"+ $('#categoriaproduto').val(), function(data) {
+
+    		 $('#subcategoriaproduto')
+	     	    .find('option')
+	     	    .remove()
+	     	    .end()
+	     	    .append('<option value="0">- Selecione -</option>')
+	     	    .val('0')
+	     	;
+
+    		$.each(data, function(i,item){
+    			document.getElementById('subcategoriaproduto').options[y] = new Option( item.nomesubcategoria , item.id_registro );
+    			y++;
+    		});
+
+    		$("#subcategoriaproduto").chosen();
+    	});
+
+    })
+
+
+
+    	$('#contaestoque-0').click(function(){
+    		$("#divlocalestoque").hide("slow");
+        	$("#estoqueatual").val('0,00');
+        	$("#estoqueminimo").val('0,00');
+        	$("#estoquemaximo").val('0,00');
+        	$("#estoqueatual").attr('readonly','readonly');
+        	$("#estoqueminimo").attr('readonly','readonly');
+        	$("#estoquemaximo").attr('readonly','readonly');
+        	$("#orcarautomatico-0").attr('checked','checked');
+        	$("#orcarautomatico-0").attr('readonly','readonly');
+        	$("#orcarautomatico-1").attr('readonly','readonly');
+    	})
+
+    	$('#contaestoque-1').click(function(){
+			$("#divlocalestoque").show("slow");
+        	$("#estoqueatual").val('');
+        	$("#estoqueminimo").val('');
+        	$("#estoquemaximo").val('');
+        	$("#estoqueatual").removeAttr('readonly');
+        	$("#estoqueminimo").removeAttr('readonly');
+        	$("#estoquemaximo").removeAttr('readonly');
+        	$("#orcarautomatico-0").removeAttr('checked');
+        	$("#orcarautomatico-0").removeAttr('readonly');
+        	$("#orcarautomatico-1").removeAttr('readonly');
+    	})
+
+
+
+
+
+
+});
+
+</script>
+<style>
+input[type=radio], input.radio {
+ float:left;
+ clear:none;
+ margin: 2px 0 0 2px;
+}
+label[for=contaestoque-1] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+label[for=contaestoque-0] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+
+label[for=orcarautomatico-1] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+label[for=orcarautomatico-0] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+</style>

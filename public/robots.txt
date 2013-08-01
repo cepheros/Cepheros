@@ -1,0 +1,10 @@
+# robots.txt for http://www.32dll.com.br
+
+User-agent: *
+Disallow: /cadastros/ # This is an infinite virtual URL space
+Disallow: /erp/
+Disallow: /crm/
+Disallow: /sistema/
+Disallow: /system/
+Disallow: /dashboard/
+Disallow: /relatorios/

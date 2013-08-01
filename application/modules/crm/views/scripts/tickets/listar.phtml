@@ -1,0 +1,308 @@
+<div class="tabbable tabs-left">
+	 	<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_l1" data-toggle="tab" class="pop_over" data-content="Todos os Tickets atribuídos a você que ainda não foram resolvidos" data-original-title="Não Resolvidos" data-placement="right">Não Resolvidos <span class="pull-right label label-success"><?php echo $this->countNaoResolvidos ?></span></a></li>
+			<li><a href="#tab_l2" data-toggle="tab" class="pop_over" data-content="Todos os tickets que você acompanha e não foram resolvidos" data-original-title="Meus Acompanhamentos" data-placement="right">Meus Acompanhamentos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pull-right label label-success"><?php echo $this->countAcompanhamentos ?></span></a></li>
+			<li><a href="#tab_l3" data-toggle="tab" class="pop_over" data-content="Todos os Tickets dos departamentos aos quais você está vinculado e ainda não foram atribuidos a ninguem" data-original-title="Não Atribuídos" data-placement="right">Não Atribuídos <span class="pull-right label label-success"><?php echo $this->countNaoAtribuidos ?></span></a></li>
+			<li><a href="#tab_l4" data-toggle="tab" class="pop_over" data-content="Todos os tickets dos departamentos aos quais você está vinculado e foram atualizados nas últimas 48 horas" data-original-title="Atualizados Recentemente" data-placement="right">Atualizados Recentemente <span class="pull-right label label-success"><?php echo $this->countAtualizadoRecente ?></a></li>
+			<li><a href="#tab_l5" data-toggle="tab" class="pop_over" data-content="Todos os Tickets dos departamentos aos quais você está vinculado e ainda não foram resolvidos" data-original-title="Não Resolvidos" data-placement="right">Não Resolvidos dos Deptos <span class="pull-right label label-success"><?php echo $this->countDeptos ?></span></a></li>
+			<li><a href="#tab_l6" data-toggle="tab" class="pop_over" data-content="Todos os Tickets dos departamentos aos quais você está vinculado e estão em status pendente" data-original-title="Não Atribuídos" data-placement="right">Pendentes <span class="pull-right label label-success"><?php echo $this->countPendent ?></span></a></li>
+			<li><a href="#tab_l7" data-toggle="tab" class="pop_over" data-content="Todos os Tickets dos departamentos aos quais você está vinculado e foram resolvidos nas últimas 48 horas" data-original-title="Não Atribuídos" data-placement="right">Resolvidos Recentemente <span class="pull-right label label-success"><?php echo $this->countResolvidoRecente ?></span></a></li>
+			<li><a href="#tab_l8" data-toggle="tab" class="pop_over" data-content="Todos os Tickets dos departamentos aos quais você está vinculado e foram marcados como suspensos" data-original-title="Não Atribuídos" data-placement="right">Suspensos <span class="pull-right label label-success"><?php echo $this->countSuspended ?></span></a></li>
+			<li><a href="#tab_l9" data-toggle="tab" class="pop_over" data-content="Todos os Tickets dos departamentos aos quais você está vinculado e foram marcados como Encerados" data-original-title="Não Atribuídos" data-placement="right">Encerrados <span class="pull-right label label-success"><?php echo $this->countClosed ?></span></a></li>
+		</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab_l1">
+      	<table id="table-1"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane" id="tab_l2">
+      	<table id="table-2"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane" id="tab_l3">
+      	<table id="table-3"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane" id="tab_l4">
+      	<table id="table-4"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane " id="tab_l5">
+      	<table id="table-5"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane " id="tab_l6">
+      	<table id="table-6"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane " id="tab_l7">
+      	<table id="table-7"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane " id="tab_l8">
+      	<table id="table-8"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+		
+			<div class="tab-pane" id="tab_l9">
+      	<table id="table-9"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i style="cursor:pointer" class="splashy-star_empty" ></i></th>
+			<th>Depto</th>
+			<th>Protocolo</th>
+			<th>Assunto</th>
+			<th>Solicitante</th>
+			<th>Aberto a</th>
+			<th>Tipo</th>
+			<th>Prioridade</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
+	</div>
+</div>	
+
+<script>
+$().ready(function(){
+	$('#table-1').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/naoresolvidos"
+               	
+                    
+    });
+
+	$('#table-2').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/meusacompanhamentos"
+               	
+                    
+    });
+
+	$('#table-3').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/naoatribuidos"
+               	
+                    
+    });
+
+	$('#table-4').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/atualizadosrecente"
+               	
+                    
+    });
+
+	$('#table-5').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/naoresolvidosdeptos"
+               	
+                    
+    });
+
+	$('#table-6').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/pendentes"
+               	
+                    
+    });
+
+	$('#table-7').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/resolvidosrecente"
+               	
+                    
+    });
+
+	$('#table-8').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/suspensos"
+               	
+                    
+    });
+
+	$('#table-9').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-tickets/encerrados"
+               	
+                    
+    });
+	
+
+});
+</script>

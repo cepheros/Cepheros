@@ -1,0 +1,40 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Permissoes de Acesso Para: <?php echo System_Model_Login_Roles::getNomeRole($this->idrole)?></h3>
+</div>
+</div>
+<form id="Fnovorecurso" name="novorecurso" method="post" action="/sistema/usuarios/permissoes">
+<input type="hidden" name="id_role" id="id_role" value='<?php echo $this->idrole?>' >
+<table id="listaclientes" class="table table-striped table-bordered">
+<thead>
+<tr>
+<th width="5%">ID</th>
+<th width="30%">Recurso</th>
+<th width="30%">Descrição</th>
+<th width="20%">Permissao</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->data as $regra){
+$perm = System_Model_Login_Permissions::checkPermission($regra->id, $this->idrole);
+	?>
+<tr>
+<td><input type="hidden" name="id_resource[]" id="id_resource" value='<?php echo $regra->id ?>' ><?php echo $regra->id?></td>
+<td><?php echo $regra->resource?></td>
+<td><?php echo $regra->description ?></td>
+<td><select name="permission[]">
+<option value="allow" <?php if($perm == 'allow'){ echo "selected=\"selected\""; }else{ echo ''; } ?>>Permitir</option>
+<option value="deny" <?php if($perm == 'deny'){ echo "selected=\"selected\""; }else{ echo ''; } ?>>Recusar</option>
+</select></td>
+</tr>
+<?php } ?>
+</tbody>
+</table>
+<fieldset id="fieldset-botoes">
+		<div style="text-align:right">
+		<input type="reset" name="limparoutros" id="limparoutros" value="Limpar" class="btn btn-large btn-warning">
+		<input type="submit" name="submitoutros" id="submitoutros" value="Processar" class="btn btn-large btn-primary">
+		</div>
+		</fieldset>
+
+</form>

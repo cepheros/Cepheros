@@ -1,0 +1,137 @@
+
+<?php
+/**
+ * Este arquivo é parte do projeto SysAdmin - ERP em PHP
+ *
+ * Este programa é um software livre: você pode redistribuir e/ou modificá-lo
+ * sob os termos da Licença Pública Geral GNU (GPL)como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior
+ * e/ou 
+ * sob os termos da Licença Pública Geral Menor GNU (LGPL) como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior.
+ *
+ *
+ * Este programa é distribuído na esperança que será útil, mas SEM NENHUMA
+ * GARANTIA; nem mesmo a garantia explícita definida por qualquer VALOR COMERCIAL
+ * ou de ADEQUAÇÃO PARA UM PROPÓSITO EM PARTICULAR,
+ * veja a Licença Pública Geral GNU para mais detalhes.
+ *
+ * Você deve ter recebido uma cópia da Licença Publica GNU e da 
+ * Licença Pública Geral Menor GNU (LGPL) junto com este programa.
+ * Caso contrário consulte <http://www.fsfla.org/svnwiki/trad/GPLv3> ou
+ * <http://www.fsfla.org/svnwiki/trad/LGPLv3>. 
+ *
+ * @package   SysAdmin
+ * @name      
+ * @version   1.0.0
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL v.3
+ * @copyright 2009-2012 &copy; SysAdmin
+ * @link      http://www.cepheros.com.br
+ * @author    Daniel R. Chaves <dchaves at 32dll dot com dot br>
+ *
+ */
+
+?>
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Lançamento a Pagar</h3>
+</div>
+</div>
+
+<form id="recebimentos" name="recebimentos" method="post" action="/erp/financeiro/processar-pagamentos">
+<?php echo $this->form->id_pessoa ?>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->nomelancamento ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span2">
+<?php echo $this->form->id_empresa ?>
+</div>
+<div class="span5">
+<?php echo $this->form->pessoapagamento ?>
+</div>
+<div class="span3">
+<?php echo $this->form->categoria ?>
+</div>
+<div class="span2">
+<?php echo $this->form->contapadrao ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span2 well">
+<?php echo $this->form->totalgeral ?>
+</div>
+<div class="span2 well">
+<?php echo $this->form->numeroparcelas ?>
+</div>
+<div class="span2 well">
+<?php echo $this->form->intervaloparcelas ?>
+</div>
+<div class="span2 well">
+<?php echo $this->form->primeirovencimento ?>
+</div>
+<div class="span2 well">
+<?php echo $this->form->tipodocumento ?>
+</div>
+<div class="span2 well">
+<?php echo $this->form->numerodocumento ?>
+</div>
+
+</div>
+<fieldset id="fieldset-botoes">
+		<div style="text-align:right">
+		<input type="reset" name="limparoutros" id="limparoutros" value="Limpar" class="btn btn-large btn-warning">
+		<input type="submit" name="submitoutros" id="submitoutros" value="Processar" class="btn btn-large btn-primary">
+		</div>
+		</fieldset>
+
+</form>
+
+
+
+<script>
+$().ready(function(){
+
+	$('#recebimentos').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+	$(".combobox").chosen();
+	$('.datepicker').datepicker({language:"br", format: "dd/mm/yyyy"});
+
+	$("#pessoapagamento").autocomplete({
+		 
+	    source: "/system/auto-complete/pessoas",
+			minLength: 0,
+			focus: function( event, ui ) {
+		//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+			return false;
+		},
+
+	    select: function(event, ui) {
+	        $('#id_pessoa').val(ui.item.id_registro);
+	        $( "#pessoapagamento" ).val( ui.item.razaosocial );
+	         return false;
+
+	    }
+	});
+});
+
+</script>

@@ -1,0 +1,103 @@
+<?php echo $this->form ?>
+<script>
+$().ready(function(){
+	$('#novaempresa').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+	$("#cnpj").inputmask("99.999.999/9999-99");
+	$("#tiporegistro").chosen();
+	$("#regimetributario").chosen();
+	$("#cep").inputmask("99999999");
+	$("#codmun").inputmask("9999999");
+	$("#coduf").inputmask("99");
+	$("#codpais").inputmask("9999");
+	$("#telefone").inputmask("(99)9999-9999");
+	$("#fax").inputmask("(99)9999-9999");
+	
+	
+
+
+});
+
+$("#cnpj").live('change',function(){
+
+	 $.ajax({ 
+			type: "GET", 
+			url: "/system/functions/search-cadastro", 
+			data: "cnpj="+ $('#cnpj').val(),
+			beforeSend: function() {
+				$.sticky('Verificando CNPJ/CPF', { type: 'st-info' });
+	 		}, 
+			success: function(txt) { 
+									
+				dados = txt.split('|');														
+				if(dados[0] == 1 ){
+					$.sticky("CLIENTE J&Aacute; CADASTRADO!<br><strong><a href='cadastros/clientes/cadastro/id/"+dados[1]+"'>Edite o Cadastro aqui!.</a></strong>", {autoclose : 10000, type: 'st-error' });
+					$("#submit").attr("disabled", true);
+					$("#submit").click(function(){
+						$.sticky('Informe um CNPJ/CPF válido para continuar', { type: 'st-info' });
+					})
+				}else if(dados[0] == 0){
+					
+					$.sticky('CNPJ/CPF V&aacute;lido', { type: 'st-success' });
+					$("#submit").attr("disabled", false);
+				}else if(dados[0]==2){
+					$.sticky("CPNJ inv&aacute;lido, voc&ecirc; n&atilde;o pode continuar o cadastro!", { type: 'st-error'});	
+					$("#submit").attr("disabled", true);
+				}
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+	
+
+})
+
+$('#cep').live('change',function(){
+
+		 $.ajax({ 
+				type: "GET", 
+				url: "/system/functions/cep", 
+				data: "cep="+ $('#cep').val() +"&return=json",
+				beforeSend: function() {
+					$.sticky('Localizando endereço', { type: 'st-info' });	
+		 		}, 
+				success: function(txt) { 
+					var retorno = jQuery.parseJSON(txt);	
+					$("#endereco").val(retorno.tipo_endereco + ' ' +retorno.endereco);
+					$("#bairroend").val(retorno.bairro);
+					$("#cidadeend").val(retorno.cidade);
+					$("#estadoend").val(retorno.estado);
+					$("#codmun").val(retorno.cod_mun);
+					$("#codpais").val('1058');
+					coduf = retorno.cod_mun.substr(0,2);
+					$("#coduf").val(coduf);			
+					$("#numeroend").focus();																	
+					$.sticky('Endereço Localizado', { type: 'st-success' });	
+					 								}, 
+				error: function(txt) { 
+					$.sticky('Erro na solicitação', { type: 'st-error' });	
+				} 
+			}); 
+		
+
+	})
+
+</script>

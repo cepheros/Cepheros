@@ -1,0 +1,21 @@
+<?php
+$class .= 'field ' . strtolower(end(explode('_',$this->element->getType())));
+if ($this->element->isRequired()) {
+    $class .= ' required';
+}
+if ($this->element->hasErrors()) {
+    $class .= ' errors';
+}
+?>
+<div class="<?php echo $class; ?>" id="field_<?php echo $this->element->getId(); ?>">
+    <?php if (0 < strlen($this->element->getLabel())): ?>
+        <?php echo $this->formLabel($this->element->getFullyQualifiedName(), $this->element->getLabel());?>
+    <?php endif; ?>
+    <span class="value"><?php echo $this->content; ?></span>
+    <?php if ($this->element->hasErrors()): ?>
+        <?php echo $this->formErrors($this->element->getMessages()); ?>
+    <?php endif; ?>
+    <?php if (0 < strlen($this->element->getDescription())): ?>
+        <p class="hint"><?php echo $this->element->getDescription(); ?></p>
+    <?php endif; ?>
+</div>

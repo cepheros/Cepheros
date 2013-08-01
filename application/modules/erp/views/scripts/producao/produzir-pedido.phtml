@@ -1,0 +1,72 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Lista de Pedidos de Liberados para Produção</h3>
+<table id="listaclientes" class="table table-striped table-bordered">
+<thead>
+<tr>
+<th width="5%">Ped</th>
+<th width="5%">Tipo</th>
+<th width="15%">Cliente:</th>
+<th width="8%">CNPJ</th>
+<th width="8%">Ped. Cliente</th>
+<th width="8%">Agendamento:</th>
+<th width="8%">Valor:</th>
+<th width="5%">Alterações</th>
+<th width="5%">Opções</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="dataTables_empty" colspan="8">Não existem dados nessa consulta!</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<script>
+$().ready(function(){
+
+	$('#listaclientes').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/system/datatables/pedidos-produzir"
+               	
+                    
+    });
+
+
+	  $(".retornapedido").live('click',function(){
+	    	idmessage =  $(this).attr('id_registro');
+			if(confirm("Deseja retornar o pedido para vendas? ele não poderá ser produzido até nova liberação")){
+	    	  $.ajax({ 
+	    			type: "POST", 
+	    			url: "/erp/producao/liberar-vendas", 
+	    			data: "id="+ idmessage,
+	    			beforeSend: function() {
+	    								
+	    	 		}, 
+	    			success: function(txt) {
+	    				$.sticky("PEDIDO LIBERADO PARA VENDAS.", { type: 'st-success' });
+	    				reloadtable();
+	    			}, 
+	    			error: function(txt) { 
+	    				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+	    			} 
+	    		}); 
+			}
+});
+
+	  $(".block").live('click',function(){
+		  alert("Pedido Liberado para produção e bloqueado");
+	  })
+
+});
+
+function reloadtable(){
+	$("#listaclientes").dataTable().fnDraw(); 
+}
+</script>

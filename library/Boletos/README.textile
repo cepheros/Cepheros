@@ -1,0 +1,87 @@
+
+h1. Descrição
+
+
+Software gerador de boletos bancários de vários bancos para PHP, com interface orientada a objetos, suporte a plugins, uso de HTML5 e CSS3 e geração de código de barras em uma imagem única.
+
+h2. Conceitos
+
+
+h3. Facilidade de configuração
+
+ObjectBoleto tem sua própria camada de Visualização, dividida em Templates e Blocks.
+Templates são como layouts para uma página, onde você adiciona suas logomarcas, e demais informações, do jeito que preferir, podendo criar quantos templates desejar.
+Já os Blocks, são pedaços padronizados de html que podem ser importados para os templates.
+
+h3. Novas tecnologias
+
+Chega de sistemas de boletos cheios de tabelas e estilos inline, com funções ultrapassadas e/ou depreciadas.
+ObjectBoleto é todo desenvolvido com Html5 e CSS3, tudo para fazer a melhor apresentação do seu boleto.
+
+h3. Reaproveitamento de código
+
+ObjectBoleto usa uma biblioteca de classes que disponibiliza todos os métodos que o sistema precisa. Não precisa mais criar milhares de arquivos com os mesmos códigos para bancos diferentes, só por causa de uma mudança de logo no lado esquerdo.
+
+h3. Código de barras otimizado
+
+ObjectBoleto utiliza um gerador de código de barras em imagem única, evitando aquele html repetitivo e infindável, cheio de imagens pequenas.
+Economiza banda e melhora a legibilidade do html gerado.
+
+
+h3. Suporte a plugins
+
+O projeto ObjectBoleto prevê suporte a plugins dos mais diversos tipos, como:
+* Geração de boletos bancários em PDF,
+* Envio de boletos bancários por e-mail,
+* Processamento de dados de arquivos de retorno, etc.
+  
+
+h2. Exemplo de uso
+
+pre. //Incluindo o arquivo padrão de inicialização do ObjectBoleto
+    include 'OB_init.php';    
+    //Instanciando a class e informando o código do banco a ser utilizado
+    $ob = new OB('001');
+    //Definindo os dados do vendedor
+    $ob->Vendedor
+            ->setAgencia('2345')
+            ->setConta('67890')
+            ->setRazaoSocial('Jose Claudio Medeiros de Lima')
+            ->setCnpj('12.345.678/0001-90')
+            ->setEndereco('Rua dos Mororós 111 Centro, São Paulo/SP CEP 12345-678')
+            ->setEmail('joseclaudiomedeirosdelima@uol.com.br')
+        ;
+    //Definindo configurações gerais
+    $ob->Configuracao
+            ->setLocalPagamento('Pagável em qualquer banco até o vencimento')
+        ;
+    //Definindo configurações do template. Variáveis enviadas para a configuração do template
+    $ob->Template
+            ->setTitle('ObjBoleto')
+            ->setTemplate('html5')
+            ->set('variavel', 'valor')
+        ;
+    //Identificando o cliente
+    $ob->Cliente
+            ->setNome('Maria Joelma Bezerra de Medeiros')
+            ->setCpf('111.999.888-39')
+            ->setEmail('mariajoelma85@hotmail.com')
+        ;
+    //Passando dados pro boleto   
+    $ob->Boleto
+            ->setValor(129.45)
+            ->setDiasVencimento(5)
+            ->setNossoNumero('123456')
+            ->setNumDocumento('873245')
+        ;
+    //Renderizando o boleto       
+    $ob->render();
+    
+
+
+
+
+
+
+
+

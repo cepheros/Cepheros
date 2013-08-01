@@ -1,0 +1,81 @@
+
+ <div class="row-fluid">
+ 
+   						<div class="span4">
+							<h3 class="heading">Últimos Pedidos</h3>
+							<table class="table table-striped table-bordered mediaTable">
+								<thead>
+									<tr>
+										<th class="optional">Ped</th>
+										<th class="essential persist">Cliente</th>
+										<th class="optional">Ped Cliente</th>
+										<th class="optional">Agendamento</th>
+										<th class="essential">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($this->ultimosPedidos as $ped){?>
+									<tr>
+										<td><?php echo $ped['id_registro']?></td>
+										<td><?php echo $ped['razaosocial']?></td>
+										<td><?php echo $ped['pedido_cliente']?></td>
+										<?php if($ped['agendamento_entrega'] <> ''){?>
+											<td><?php echo Functions_Datas::MyDateTime($ped['agendamento_entrega'],true) ?></td>
+										<?php }else{ ?>
+											<td>Não Agendado</td>
+										<?php } ?>
+										<td>
+											<a href="/erp/vendas/abrir-pedido/id/<?php echo $ped['id_registro']?>" title="Edit"><i class="splashy-document_letter_edit"></i></a>
+										</td>
+									</tr>
+									<?php } ?>
+									</tbody>
+									</table>
+							
+                        </div>
+ 
+                        <div class="span8">
+							<h3 class="heading">Calendário de Entregas</h3>
+							<div id="calendar"></div>
+                        </div>
+     </div>
+                        
+                        
+<script>
+
+	
+	$(document).ready(function() {
+		$('.mediaTable').mediaTable({menuTitle:"Colunas"});
+		$('#calendar').fullCalendar({
+			 buttonText: {
+				    month: 'mês',
+				    week: 'semana',
+				    day: 'dia'
+				  },
+			defaultView: 'agendaWeek',
+			header: {
+				left: 'prev,next',
+				center: 'title,today',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			buttonText: {
+				prev: '<i class="icon-chevron-left cal_prev" />',
+				next: '<i class="icon-chevron-right cal_next" />'
+			},
+			theme: false,
+			aspectRatio: 1.5,
+			editable: false,
+			events: "/erp/vendas/calendar-pedidos",
+			loading: function(bool) {
+				if (bool) $('#loading').show();
+				else $('#loading').hide();
+			}
+			
+		});
+		
+	});
+
+	
+	
+
+</script>

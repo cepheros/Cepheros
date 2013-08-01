@@ -1,0 +1,205 @@
+<h3 class="heading">Novo Ticket: <span class="pull-right">Protocolo: <?php echo $this->protocol ?></span></h3>
+
+<form id="newticket" name="newticket" enctype="multipart/form-data" class="form-horizontal" method="post" action="">
+		<input type="hidden" name="protocolo" value="<?php echo $this->protocol ?>" id="protocolo">
+		<input type="hidden" name="solicitante" value="0" id="solicitante">
+			
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span12">
+		<label for="assuntoticket" class="optional">Assunto Ticket</label>
+		<input type="text" name="assuntoticket" id="assuntoticket" class="span12" >
+		</div>
+		
+		</div>
+		</fieldset>
+			
+		<fieldset id="fieldset-clientesfiles" class="form-horizontal">
+		<div class="row-fluid formSep">
+		
+		<div class="span3">
+		<label for="empresa" class="optional">Empresa</label>
+		<select name="empresa" id="empresa">
+		<?php
+		$empresas = System_Model_Empresas::renderCombo();
+		foreach($empresas as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+			</div>
+		
+		<div class="span3">
+		<label for="departamento" class="optional">Departamento</label>
+		<select name="departamento" class="span10" id="departamento">
+		<?php
+		$deptos = Crm_Model_TicketsDeptos::renderCombo();
+		foreach($deptos as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+		</div>
+		
+		<div class="span3">
+		<label for="tipoticket" class="optional">Tipo de Tickets</label>
+		<select name="tipoticket" class="span10" id="tipoticket">
+		<?php
+		$deptos = Crm_Model_TicketsTipos::renderCombo();
+		foreach($deptos as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+		</div>
+		
+		<div class="span3">
+		<label for="prioridadeticket" class="optional">Prioridade</label>
+		<select name="prioridadeticket"  class="span10" id="prioridadeticket">
+		<?php
+		$deptos = Crm_Model_TicketsPrioridades::renderCombo();
+		foreach($deptos as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+		</div>
+		
+		</div>
+		</fieldset>
+		
+	
+		
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span6 input-append">
+		<label for="nomesolicitante" class="optional">Solicitante</label>
+		<input type="text" class="span10" name="nomesolicitante" id="nomesolicitante" placeholder="Digite um nome para procurar" ><span class="add-on"><i class="splashy-zoom"></i></span>
+		<span class="help-block">O sistema buscará as pessoas no cadastro interno.</span>
+		</div>
+		<div class="span3 input-append">
+		<label for="emailsolicitante" class="optional">Email</label>
+		<input type="text" class="span10" name="emailsolicitante" id="emailsolicitante" placeholder="Digite um email para procurar" ><span class="add-on"><i class="splashy-zoom"></i></span>
+		<span class="help-block">O sistema buscará as pessoas no cadastro interno.</span>
+		</div>
+		<div class="span3 input-append">
+		<label for="celularsolicitante" class="optional">Celular</label>
+		<input type="text" class="span10" name="celularsolicitante" id="celularsolicitante" placeholder="(XX)xxxx-xxxx" ><span class="add-on"><i class="splashy-cellphone"></i></span>
+		<span class="help-block">Informe um celular para receber SMS</span>
+		</div>
+		</div>
+		</fieldset>
+		
+			<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span8">
+		<label for="tags" class="tags">Tags</label>
+		<input type="text" class="span12" name="tags" id="tags" placeholder="Digite palavras separadas por virgula para auxiliar a busca deste ticket" >
+		</div>
+		<div class="span4">
+		<label for="atribuidoa" class="optional">Atribuir a:</label>
+		<select name="atribuidoa" class="span12" id="atribuidoa">
+		<?php
+		$deptos = System_Model_Users::renderCombo();
+		foreach($deptos as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+		</div>
+		</div>
+		</fieldset>
+		
+	
+		
+		
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span12">
+		<label for="dadosticket" class="optional">Informações</label>
+		<textarea name="dadosticket" id="dadosticket" class="span12" rows="8"></textarea>
+		</div>
+		
+		</div>
+		</fieldset>
+		
+		<fieldset>
+		<legend>Opções do Ticket</legend>
+		<div class="row-fluid formSep">
+		<div class="span2">
+		<label><input type="checkbox" name="sendemail" value="1" class="uni_style" checked="checked"> Enviar Email</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="sendsms" value="1" class="uni_style"> Enviar SMS</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="acompanhar" value="1" class="uni_style" checked="checked"> Acompanhar</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="alertagerente" value="1" class="uni_style"> Alerta Gerência</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="closeafter" value="1" class="uni_style"> Encerrar após envio</label>
+		</div>
+		</div>
+		</fieldset>
+		
+		<fieldset id="fieldset-botoes"><div style="text-align:right">
+
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+
+<input type="submit" name="submit" id="submit" value="Salvar" class="btn btn-large btn-primary"></div></fieldset>
+		
+</form>
+
+<script>
+$().ready(function(){
+	$("#atribuidoa").chosen();
+	$("#prioridadeticket").chosen();
+	$("#tipoticket").chosen();
+	$("#departamento").chosen();
+	$("#empresa").chosen();
+	 $(".uni_style").uniform();
+
+	
+		$("#nomesolicitante").autocomplete({
+	 
+    source: "/system/auto-complete/tickets-contatos",
+		minLength: 0,
+		focus: function( event, ui ) {
+	//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+		return false;
+	},
+
+    select: function(event, ui) {
+        $('#solicitante').val(ui.item.id_registro);
+        $( "#nomesolicitante" ).val( ui.item.nomecontato );
+        $( "#emailsolicitante" ).val( ui.item.email );
+        $( "#celularsolicitante" ).val( ui.item.celular );
+              
+        return false;
+
+    }
+});
+
+		$("#emailsolicitante").autocomplete({
+			 
+		    source: "/system/auto-complete/tickets-contatos",
+				minLength: 0,
+				focus: function( event, ui ) {
+			//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+				return false;
+			},
+
+		    select: function(event, ui) {
+		        $('#solicitante').val(ui.item.id_registro);
+		        $( "#nomesolicitante" ).val( ui.item.nomecontato );
+		        $( "#emailsolicitante" ).val( ui.item.email );
+		        $( "#celularsolicitante" ).val( ui.item.celular );      
+		        return false;
+
+		    }
+		});
+
+});
+</script>

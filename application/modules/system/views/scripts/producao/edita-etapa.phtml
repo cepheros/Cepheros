@@ -1,0 +1,17 @@
+<input type="hidden" name="id_registro" value="<?php echo $this->dados->id_registro ?>" id="id_registro">
+<div class="row-fluid formSep">
+<div class="span6">
+<label for="assuntoticket" class="optional">Nome:</label>
+<input type="text" name="nomeetapa" id="nomeetapa" class="span12" value = "<?php echo $this->dados->nomeetapa ?>">
+</div>
+
+<div class="span6">
+<label for="tipoetapa" class="optional">Tipo:</label>
+<select name="tipoetapa" id="tipoetapa">
+<option value="Interna" <?php if($this->dados->tipoetapa ==  'Interna'){ echo "selected='selected'"; }; ?>>Interna</option>
+<option value="Externa" <?php if($this->dados->tipoetapa ==  'Externa'){ echo "selected='selected'"; }; ?>>Externa</option>
+<option value="Outros" <?php if($this->dados->tipoetapa ==  'Outros'){ echo "selected='selected'"; }; ?>>Outros</option>
+
+</select>
+</div>
+</div>

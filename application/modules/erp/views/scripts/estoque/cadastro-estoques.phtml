@@ -1,0 +1,78 @@
+<form id="produtos" name="produtos" enctype="application/x-www-form-urlencoded" class="form-horizontal" method="post" action="">
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->localestoque ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->informacoes ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span6">
+<?php echo $this->form->tipoestoque; ?>
+</div>
+<div class="span6">
+<?php echo $this->form->canmanualmove; ?>
+</div>
+</div>
+</fieldset>
+<div class="row-fluid formSep">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Salvar" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+</form>
+
+<style>
+input[type=radio], input.radio {
+ float:left;
+ clear:none;
+ margin: 2px 0 0 2px;
+}
+label[for=canmanualmove-1] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+label[for=canmanualmove-0] {
+ float:left;
+ clear:none;
+ display:block;
+ padding: 2px 1em 0 0;
+}
+</style>
+
+<script>
+$().ready(function(){
+
+
+
+	$('#produtos').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+    $("#tipoestoque").chosen();
+});
+</script>

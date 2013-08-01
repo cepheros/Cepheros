@@ -1,0 +1,855 @@
+ <?php if($this->dados['userbloq'] <> 0 || $this->dados['userbloq'] <> '' ){
+ 	$cadastrobloqueado = true; ?>
+ <div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-error fade in">
+<h4 class="alert-heading">Cadastro Bloqueado</h4>
+								<p>Este cadastro foi bloqueado pelo usuário <?php echo System_Model_Users::whoIs($this->dados['userbloq'])?> em <?php echo Functions_Datas::MyDateTime($this->dados['bloqcad'],true)?>.</p>
+								<?php if($this->dados['userbloq'] <>  Zend_Auth::getInstance()->getStorage()->read()->id_registro){ ?>
+								<p>Você deve solicitar a <?php echo System_Model_Users::whoIs($this->dados['userbloq']); ?> ou um administrador o desbloqueio do cadastro </p>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="solicitaDesbloqueio()"> <i class="splashy-check"></i> Solicitar Desbloqueio </a></p>
+								<?php }else{ ?>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="unblockCadastro()"> <i class="splashy-check"></i> Desbloquear</a></p>
+								<?php } ?>
+							</div>
+						</div>
+						</div>
+
+<?php }else{
+	$cadastrobloqueado = false;
+} ?>
+ 
+
+<h3 class="heading">Cadastro de Pessoa: <?php echo $this->dados['razaosocial'] ?> <span class="pull-right">  <?php if(!$cadastrobloqueado){ ?> <i class="splashy-document_letter_locked" title="Bloquear" style="cursor:pointer" onclick="blockCadastro()" ></i> <?php  }; ?><i class="splashy-printer" title="Imprimir" style="cursor:pointer" onclick="printCadastro()" ></i></span></h3>
+
+
+	<div class="tabbable tabs-left">
+	 	<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_l1" data-toggle="tab">Básicos</a></li>
+			<li><a href="#tab_l2" data-toggle="tab">Endereços </a></li>
+			<li><a href="#tab_l3" data-toggle="tab">Contatos</a></li>
+			<li><a href="#tab_l4" data-toggle="tab">Documentos</a></li>
+			<li><a href="#tab_l5" data-toggle="tab">Outros</a></li>
+		</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab_l1">
+		<?php echo $this->form ?>
+		</div>
+		
+		<div class="tab-pane" id="tab_l2">
+		
+		<?php echo $this->formendereco ?>
+		 <div class="row-fluid">
+                        <div class="span12">
+                            <h3 class="heading">Endereços Cadastrados:</h3>
+		<table id="table-enderecos"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i class="splashy-star_empty"></i></th>
+			<th>Tipo:</th>
+			<th>CEP</th>
+			<th>Logradouro</th>
+			<th>Bairro</th>
+			<th>Cidade</th>
+			<th>Estado</th>
+			<th>Pais</th>
+			<th>IBGE</th>
+			<th>Mapa</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php 
+		if($this->enderecos){
+		foreach($this->enderecos as $endereco){?>
+		<tr>
+		<td class="nohref starSelect"><i style="cursor:pointer" class="<?php if($endereco['isdefault'] == 1){ echo "splashy-star_full"; }else{ echo "splashy-star_empty"; } ?> endstar"  idend="<?php echo $endereco['id_registro'] ?>"></i></td>
+		<td><?php echo System_Model_Tiposenderecos::getNomeEndereco($endereco['tipoendereco']) ?></td>
+		<td><?php echo $endereco['cep'] ?></td>
+		<td><?php echo "{$endereco['logradouro']},{$endereco['numero']},{$endereco['complemento']}" ?></td>
+		<td><?php echo $endereco['bairro'] ?></td>
+		<td><?php echo $endereco['cidade'] ?></td>
+		<td><?php echo $endereco['estado'] ?></td>
+		<td><?php echo $endereco['codpais'] ?></td>
+		<td><?php echo $endereco['codibge'] ?></td>
+		<td><span class="pull-center" > <i class="splashy-map openaddmap" idend="<?php echo $endereco['id_registro'] ?>" style="cursor:pointer" ></i></span></td>
+		<td><span class="pull-center"> <i class="splashy-hcards_edit editend"  idend="<?php echo $endereco['id_registro'] ?>" style="cursor:pointer" ></i> <i class="splashy-hcards_remove removeend" idend="<?php echo $endereco['id_registro'] ?>" style="cursor:pointer" ></i></span></td>
+		</tr>
+		
+		<?php  
+		}
+		}
+		?>
+		</tbody>
+		
+		</table>
+		</div>
+		
+		</div>
+	
+		</div>
+		
+		<div class="tab-pane" id="tab_l3">
+		<?php echo $this->forcontatos ?>
+		 <div class="row-fluid">
+                        <div class="span12">
+                            <h3 class="heading">Contatos Cadastrados:</h3>
+                            
+                          	<table id="table-contatos"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th><i class="splashy-star_empty"></i></th>
+			<th>Tipo:</th>
+			<th>Nome</th>
+			<th>Contato</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php 
+		if($this->contatos){
+		foreach($this->contatos as $contato){?>
+		<tr>
+		<td class="nohref starSelect"><i style="cursor:pointer" class="<?php if($contato['isdefault'] == 1){ echo "splashy-star_full"; }else{ echo "splashy-star_empty"; } ?> contatostar"  idcontato="<?php echo $contato['id_registro'] ?>"></i></td>
+		<td><?php echo System_Model_Tiposcontatos::getNomeEndereco($contato['tipocontato']) ?></td>
+		<td><?php echo $contato['nomecontato'] ?></td>
+		<td><?php echo $contato['contato'] ?></td>
+		<td><span class="pull-center"> <i class="splashy-hcards_edit editcontato"  idcontato="<?php echo $contato['id_registro'] ?>" style="cursor:pointer" ></i> <i class="splashy-hcards_remove removecontato" idcontato="<?php echo $contato['id_registro'] ?>" style="cursor:pointer" ></i></span></td>
+		</tr>
+		
+		<?php  
+		}
+		}
+		?>
+		</tbody>
+		
+		</table>
+                           </div>
+                           </div>
+		
+		</div>
+		
+		<div class="tab-pane" id="tab_l4">
+
+		<form id="clientesfiles" name="clientesfiles" enctype="multipart/form-data" class="form-horizontal" method="post" action="/cadastros/clientes/save-file">
+		<input type="hidden" name="tipofile" value="pessoas" id="tipofile">
+		<input type="hidden" name="idreg" value="14" id="idreg">
+		
+		<fieldset id="fieldset-clientesfiles" class="form-horizontal">
+		<div class="row-fluid formSep">
+		
+		<div class="span3">
+		<label for="nomeamigavel" class="optional">Nome Amigavel:</label>
+		<input type="text" name="nomeamigavel" id="nomeamigavel">
+		</div>
+		
+		<div class="span3">
+		<label for="arquivo" class="tags">Tags:</label>
+		<input type="text" name="tags" id="tags">
+		</div>
+		
+		<div class="span3">
+		<label for="arquivo" class="optional">Selecione o Documento:</label>
+		<input type="hidden" name="MAX_FILE_SIZE" value="104857600" id="MAX_FILE_SIZE">
+		<input type="file" name="arquivo" id="arquivo"  class="uni_style">
+		</div>
+		
+		</div>
+		</fieldset>
+		
+		<fieldset id="fieldset-grupo20">
+		<div class="row-fluid formSep">
+		<div class="span11">
+		<label for="obsfile" class="optional">Observações do Arquivo:</label>
+		<textarea name="obsfile" id="obsfile" rows="5" style="width:100%" cols="80"></textarea>
+		</div>
+		</div>
+		</fieldset>
+		
+		<fieldset id="fieldset-botoes">
+		<div style="text-align:right">
+		<input type="reset" name="limparoutros" id="limparoutros" value="Limpar" class="btn btn-large btn-warning">
+		<input type="submit" name="submitoutros" id="submitoutros" value="Salvar" class="btn btn-large btn-primary">
+		</div>
+		</fieldset>
+		</form>
+		
+		
+	
+		 <div class="row-fluid">
+                        <div class="span12">
+                            <h3 class="heading">Arquivos do Cadastro:</h3>
+                            
+                          	<table id="table-arquivos"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th>Tipo:</th>
+			<th>Nome</th>
+			<th>Tags</th>
+			<th>Opções</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php 
+		if($this->arquivos){
+		foreach($this->arquivos as $arquivo){?>
+		<tr>
+		<td><?php echo $arquivo['filetype'] ?></td>
+		<td><?php echo $arquivo['nomeamigavel'] ?></td>
+		<td><?php echo $arquivo['tags'] ?></td>
+		<td><span class="pull-center"><a href="/system/files/get-file/id/<?php echo $arquivo['id_registro'] ?>" target="_blank" alt="Download do Arquivo" title="Download do Arquivo"><i class="splashy-folder_modernist_down"></i></a>  
+		<a href="/system/files/render/id/<?php echo $arquivo['id_registro'] ?>" target="_blank" alt="Visualizar Arquivo" title="Visualizar  Arquivo"><i class="splashy-document_a4_marked"></i></a> 
+		<i class="splashy-folder_modernist_remove removearquivo" idarquivo="<?php echo $arquivo['id_registro'] ?>" style="cursor:pointer"></i>
+		</span></td>
+		</tr>
+		
+		<?php  
+		}
+		}
+		?>
+		</tbody>
+		
+		</table>
+                           </div>
+                           </div>
+		
+
+		</div>
+		
+		<div class="tab-pane" id="tab_l5">
+		<?php echo $this->formoutros ?>
+		</div>
+	
+	</div>
+
+	</div>
+		
+<div id="ajaxforms"> </div>
+
+<script>
+$().ready(function(){
+
+	$('.endstar').live('click', function(){
+		$('.splashy-star_full').toggleClass('splashy-star_empty');
+		$(this).toggleClass('splashy-star_empty splashy-star_full');
+		
+		idmessage =  $(this).attr('idend');
+		 $.ajax({ 
+				type: "GET", 
+				url: "/cadastros/clientes/setdefaultend", 
+				data: "id="+idmessage ,
+				beforeSend: function() {
+										
+		 		}, 
+				success: function(txt) { 
+																											
+				}, 
+				error: function(txt) { 
+					$.sticky("Um erro ocorreu.", { type: 'st-error' });
+				} 
+			}); 
+		
+	});
+	
+	$('#table-enderecos').on('mouseenter','.starSelect', function(){
+		if($(this).children('i.splashy-star_empty').length) {
+			$(this).children('i.endstar').css('visibility','visible');
+		}
+	}).on('mouseleave', '.starSelect', function(){
+		if($(this).children('i.splashy-star_empty').length) {
+			$(this).children('i.endstar').css('visibility','');
+		}
+	});
+
+	$('#table-enderecos').dataTable({
+       "sPaginationType": "bootstrap_alt",
+       "oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		}
+    });
+
+	$('#table-contatos').dataTable({
+	       "sPaginationType": "bootstrap_alt",
+	       "oLanguage": {
+				"sUrl": "/js/datatable_ptbr.txt"
+			}
+	    });
+
+	$('#table-arquivos').dataTable({
+	       "sPaginationType": "bootstrap_alt",
+	       "oLanguage": {
+				"sUrl": "/js/datatable_ptbr.txt"
+			}
+	    });
+    
+	$('#clientes').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+	$('#clientesenderecos').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		},
+		submitHandler: function(form) {
+			jQuery(form).ajaxSubmit({
+				target: "#ajaxforms",
+				beforeSubmit:   function(){ 
+					$.sticky("Salvando dados de endereço do cliente.", {autoclose : 5000, position: "top-right", type: "st-info" });
+					
+				}, 
+			error: function(txt) { 
+				$.sticky("Ocorreu um erro com sua solicitação: "+ txt, {autoclose : 5000, position: "top-right", type: "st-error" });
+				$("#ajaxforms").html('');
+
+				
+			},
+			success: function(txt){
+				$.sticky("Endereço salvo com sucesso.", {autoclose : 5000, position: "top-right", type: "st-success" });
+				$("#ajaxforms").html('');
+				$("#id_registro_end").val('');
+				$("#id_pessoa_end").val('<?php echo $this->dados['id_registro'] ?>')
+				var retorno = jQuery.parseJSON(txt);	
+				$("#table-enderecos").dataTable().fnAddData([ 
+					                         					'<i class="splashy-star_empty endstar" style="cursor:pointer"  idend="'+retorno.id_registro+'"></i>',
+					                         					'',
+					                         					retorno.cep,
+					                         					retorno.logradouro +', '+ retorno.numero +', '+retorno.complemento ,
+					                         					retorno.bairro,
+					                         					retorno.cidade,
+					                         					retorno.estado,
+					                         					retorno.codpais,
+					                         					retorno.codibge,
+					                         					'<i class="splashy-map openaddmap" style="cursor:pointer" idend="'+retorno.id_registro+'"></i>',
+					                         					'<i class="splashy-hcards_edit editend"  idend="'+retorno.id_registro+'" style="cursor:pointer" ></i> <i class="splashy-hcards_remove removeend" idend="'+retorno.id_registro+'" style="cursor:pointer" ></i>',
+		                                      				 ]);
+				
+		
+			},
+		        clearForm: true
+				
+			});
+		}
+    });
+
+	$("#cnpj").inputmask("99.999.999/9999-99");
+	$("#cep").inputmask("99999999");
+	$("#codpais").inputmask("9999");
+	$("#codibge").inputmask("9999999");
+	$("#estado").inputmask("AA");		
+	$("#curso").chosen();
+	$("#id_empresa").chosen();
+	$("#tipopessoa").chosen();
+
+	$("#tipoendereco").chosen();
+	$("#tipocadastro").chosen();
+	$("#centrodecustos").chosen();
+	$("#planodecontas").chosen();
+	$("#tabeladeprecos").chosen();
+	$("#modalidadefrete").chosen();
+	$("#vendedorpadrao").chosen();
+	$("#transportadorpadrao").chosen();
+	$("#acessosistemas").chosen();
+	$("#acessosoap").chosen();
+	$("#envionewsletter").chosen();
+	$("#enviosms").chosen();
+	$("#categoria").chosen();
+	$("#tipocontato").chosen();
+
+	$("#tipopessoa").change(function(){
+		if($("#tipopessoa").val() == 1){
+			$("#cnpj").val('');
+			$("#cnpj").inputmask("99.999.999/9999-99");
+		}else{
+			$("#cnpj").val('');
+			$("#cnpj").inputmask("999.999.999-99");
+		}
+
+    })
+    
+    $("#dataabertura").datepicker();
+
+	$("#observacoes").counter({
+		goal: 5000
+	});
+
+	$("#obsnf").counter({
+		goal: 3000
+	});
+
+	$("#tags").tagHandler();
+
+	$('#cep').live('change',function(){
+
+		 $.ajax({ 
+				type: "GET", 
+				url: "/system/functions/cep", 
+				data: "cep="+ $('#cep').val() +"&return=json",
+				beforeSend: function() {
+					$.sticky('Localizando endereço', { type: 'st-info' });	
+		 		}, 
+				success: function(txt) { 
+					var retorno = jQuery.parseJSON(txt);	
+					$("#logradouro").val(retorno.tipo_endereco + ' ' +retorno.endereco);
+					$("#bairro").val(retorno.bairro);
+					$("#cidade").val(retorno.cidade);
+					$("#estado").val(retorno.estado);
+					$("#codibge").val(retorno.cod_mun);
+					$("#codpais").val('1058');		
+					$("#numero").focus();																	
+					$.sticky('Endereço Localizado', { type: 'st-success' });	
+					 								}, 
+				error: function(txt) { 
+					$.sticky('Erro na solicitação', { type: 'st-error' });	
+				} 
+			}); 
+		
+
+	})
+
+     $("#cnpj").live('change',function(){
+
+						 $.ajax({ 
+								type: "GET", 
+								url: "/system/functions/search-cadastro", 
+								data: "cnpj="+ $('#cnpj').val(),
+								beforeSend: function() {
+									$.sticky('Verificando CNPJ/CPF', { type: 'st-info' });
+						 		}, 
+								success: function(txt) { 
+														
+									dados = txt.split('|');														
+									if(dados[0] == 1 ){
+										$.sticky("CLIENTE J&Aacute; CADASTRADO!<br><strong><a href='cadastros/clientes/cadastro/id/"+dados[1]+"'>Edite o Cadastro aqui!.</a></strong>", {autoclose : 10000, type: 'st-error' });
+										$("#submit").attr("disabled", true);
+										$("#submit").click(function(){
+											$.sticky('Informe um CNPJ/CPF válido para continuar', { type: 'st-info' });
+										})
+									}else if(dados[0] == 0){
+										
+										$.sticky('CNPJ/CPF V&aacute;lido', { type: 'st-success' });
+										$("#submit").attr("disabled", false);
+									}else if(dados[0]==2){
+										$.sticky("CPNJ inv&aacute;lido, voc&ecirc; n&atilde;o pode continuar o cadastro!", { type: 'st-error'});	
+										$("#submit").attr("disabled", true);
+									}
+								}, 
+								error: function(txt) { 
+									$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+								} 
+							}); 
+						
+
+					})
+    
+})
+
+function blockCadastro(){
+	if(confirm("Deseja Bloquear este cadastro para futuras alterações?")){
+
+	 $.ajax({ 
+			type: "GET", 
+			url: "/system/functions/bloqcadastro", 
+			data: "id="+ $('#id_registro').val(),
+			beforeSend: function() {
+				
+				$.sticky('Solicitando Bloqueio do Cadastro', { type: 'st-info' });
+	 		}, 
+			success: function(txt) { 
+
+				dados = txt.split('|');	
+				if(dados[0] == 1 ){
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-success' });
+					$("#submit").attr("disabled", true);
+					$('#clientes :input').attr('disabled', 'disabled');
+					$('#clientesenderecos :input').attr('disabled', 'disabled');
+					document.location.reload(true);
+				}else{
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-error' });
+					$("#submit").attr("disabled", false);
+				}
+										
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+	}
+	
+}
+
+
+<?php if($cadastrobloqueado){?>
+
+$().ready(function(){
+	$('#clientes :input').attr('disabled', 'disabled');
+	$('#clientesenderecos :input').attr('disabled', 'disabled');
+	$('#clientescontatos :input').attr('disabled', 'disabled');
+	$('#clientesoutros :input').attr('disabled', 'disabled');
+});
+
+
+function unblockCadastro(){
+	if(confirm("Deseja desbloquear este cadastro para futuras alterações?")){
+
+	 $.ajax({ 
+			type: "GET", 
+			url: "/system/functions/unbloqcadastro", 
+			data: "id="+ $('#id_registro').val(),
+			beforeSend: function() {
+				
+				$.sticky('Solicitando desbloqueio do Cadastro', { type: 'st-info' });
+	 		}, 
+			success: function(txt) { 
+
+				dados = txt.split('|');	
+				if(dados[0] == 1 ){
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-success' });
+					$("#submit").attr("disabled", false);
+					document.location.reload(true);
+				}else{
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-error' });
+					$("#submit").attr("disabled", true);
+					$('#clientes :input').removeAttr('disabled');
+				}
+										
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+	}
+	
+}
+
+function solicitaDesbloqueio(){
+
+	if(confirm("Deseja solicitar a <?php echo System_Model_Users::whoIs($this->dados['userbloq']) ?> o desbloqueio deste cadastro?")){
+
+		 $.ajax({ 
+				type: "GET", 
+				url: "/system/functions/solicitaunbloqcadastro", 
+				data: "id="+ $('#id_registro').val(),
+				beforeSend: function() {
+					
+					$.sticky('Solicitando desbloqueio do Cadastro ao responsável', { type: 'st-info' });
+		 		}, 
+				success: function(txt) { 
+
+					dados = txt.split('|');	
+					if(dados[0] == 1 ){
+						$.sticky(dados[1], {autoclose : 10000, type: 'st-success' });
+					}else{
+						$.sticky(dados[1], {autoclose : 10000, type: 'st-error' });
+										}
+											
+				}, 
+				error: function(txt) { 
+					$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+				} 
+			}); 
+		}
+	
+}
+
+
+<?php } ?>
+
+$('.editend').live('click', function(){
+	var row = $(this).closest("tr").get(0);
+	idmessage =  $(this).attr('idend');
+	  $.ajax({ 
+			type: "GET", 
+			url: "/system/functions/getenderecopessoa", 
+			data: "id="+ idmessage,
+			beforeSend: function() {
+								
+	 		}, 
+			success: function(txt) {
+				
+			  	$("#table-enderecos").dataTable().fnDeleteRow( $("#table-enderecos").dataTable().fnGetPosition(row)); 
+				var retorno = jQuery.parseJSON(txt);	
+				$("#id_registro_end").val(retorno.id_registro);
+				$("#cep").val(retorno.cep);
+				$("#logradouro").val(retorno.logradouro);
+				$("#bairro").val(retorno.bairro);
+				$("#cidade").val(retorno.cidade);
+				$("#estado").val(retorno.estado);
+				$("#codibge").val(retorno.codibge);
+				$("#codpais").val(retorno.codpais);	
+				$("#numero").val(retorno.numero);
+				$("#complemento").val(retorno.complemento);							
+
+														
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+
+	
+});
+
+$('.removeend').live('click', function(){
+	
+	var row = $(this).closest("tr").get(0);
+	idmessage =  $(this).attr('idend');
+	if(confirm("Deseja remover esse endereço?\nEssa ação não poderá ser desfeita!")){
+	  $.ajax({ 
+			type: "GET", 
+			url: "/cadastros/clientes/removeend", 
+			data: "id="+ idmessage,
+			beforeSend: function() {
+								
+	 		}, 
+			success: function(txt) {
+				 	$("#table-enderecos").dataTable().fnDeleteRow( $("#table-enderecos").dataTable().fnGetPosition(row)); 
+				 	$.sticky('Endereço Removido', { type: 'st-success' });
+																		
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+	}
+
+	
+});
+
+
+$('#clientesoutros').validate({
+	onkeyup: false,
+	errorClass: 'error',
+	validClass: 'valid',
+	highlight: function(element) {
+		$(element).closest('div').addClass("f_error");
+	},
+	unhighlight: function(element) {
+		$(element).closest('div').removeClass("f_error");
+	},
+    errorPlacement: function(error, element) {
+        $(element).closest('div').append(error);
+    },
+  
+    invalidHandler: function(form, validator) {
+		$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+	},
+	submitHandler: function(form) {
+		jQuery(form).ajaxSubmit({
+			target: "#ajaxforms",
+			beforeSubmit:   function(){ 
+				$.sticky("Salvando outros dados.", {autoclose : 5000, position: "top-right", type: "st-info" });
+				
+			}, 
+		error: function(txt) { 
+			$.sticky("Erro: "+ txt, {autoclose : 5000, position: "top-right", type: "st-error" });
+			$("#ajaxforms").html('');
+
+			},
+		success: function(txt){
+			$.sticky("Dados Salvos com sucesso.", {autoclose : 5000, position: "top-right", type: "st-success" });
+					
+	
+		},
+	        clearForm: false
+			
+		});
+	}
+});
+
+$('#clientescontatos').validate({
+	onkeyup: false,
+	errorClass: 'error',
+	validClass: 'valid',
+	highlight: function(element) {
+		$(element).closest('div').addClass("f_error");
+	},
+	unhighlight: function(element) {
+		$(element).closest('div').removeClass("f_error");
+	},
+    errorPlacement: function(error, element) {
+        $(element).closest('div').append(error);
+    },
+  
+    invalidHandler: function(form, validator) {
+		$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+	},
+	submitHandler: function(form) {
+		jQuery(form).ajaxSubmit({
+			target: "#ajaxforms",
+			beforeSubmit:   function(){ 
+				$.sticky("Salvando dados de contato do cliente.", {autoclose : 5000, position: "top-right", type: "st-info" });
+				
+			}, 
+		error: function(txt) { 
+			$.sticky("Ocorreu um erro com sua solicitação: "+ txt, {autoclose : 5000, position: "top-right", type: "st-error" });
+			$("#ajaxforms").html('');
+
+			
+		},
+		success: function(txt){
+			$.sticky("Contato salvo com sucesso.", {autoclose : 5000, position: "top-right", type: "st-success" });
+			$("#ajaxforms").html('');
+			$("#id_registro_contato").val('');
+			$("#id_pessoa_contato").val('<?php echo $this->dados['id_registro'] ?>')
+			var retorno = jQuery.parseJSON(txt);
+				
+			$("#table-contatos").dataTable().fnAddData([ 
+				                         					'<i class="splashy-star_empty starcontato" style="cursor:pointer"  idcontato="'+retorno.id_registro+'"></i>',
+				                         				    retorno.tipocontato,
+				                         					retorno.nomecontato,
+				                         					retorno.contato,
+				                         					'<i class="splashy-hcards_edit editcontato"  idcontato="'+retorno.id_registro+'" style="cursor:pointer" ></i> <i class="splashy-hcards_remove removecontato" idcontato="'+retorno.id_registro+'" style="cursor:pointer" ></i>',
+	                                      				 ]);
+			
+	
+		},
+	        clearForm: true
+			
+		});
+	}
+});
+
+$('.contatostar').live('click', function(){
+	$('.splashy-star_full').toggleClass('splashy-star_empty');
+	$(this).toggleClass('splashy-star_empty splashy-star_full');
+	
+	idmessage =  $(this).attr('idcontato');
+	 $.ajax({ 
+			type: "GET", 
+			url: "/cadastros/clientes/setdefaultcontato", 
+			data: "id="+idmessage ,
+			beforeSend: function() {
+									
+	 		}, 
+			success: function(txt) { 
+																										
+			}, 
+			error: function(txt) { 
+				$.sticky("Um erro ocorreu.", { type: 'st-error' });
+			} 
+		}); 
+	
+});
+
+$('#table-contatos').on('mouseenter','.starSelect', function(){
+	if($(this).children('i.splashy-star_empty').length) {
+		$(this).children('i.endstar').css('visibility','visible');
+	}
+}).on('mouseleave', '.starSelect', function(){
+	if($(this).children('i.splashy-star_empty').length) {
+		$(this).children('i.endstar').css('visibility','');
+	}
+});
+
+
+$('.editcontato').live('click', function(){
+	var row = $(this).closest("tr").get(0);
+	idmessage =  $(this).attr('idcontato');
+	  $.ajax({ 
+			type: "GET", 
+			url: "/system/functions/getcontatopessoa", 
+			data: "id="+ idmessage,
+			beforeSend: function() {
+								
+	 		}, 
+			success: function(txt) {
+				
+			  	$("#table-contatos").dataTable().fnDeleteRow( $("#table-contatos").dataTable().fnGetPosition(row)); 
+				var retorno = jQuery.parseJSON(txt);	
+				$("#id_registro_contato").val(retorno.id_registro);
+				$("#nomecontato").val(retorno.nomecontato);
+				$("#contato").val(retorno.contato);							
+
+														
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+
+	
+});
+
+$('.removecontato').live('click', function(){
+	
+	var row = $(this).closest("tr").get(0);
+	idmessage =  $(this).attr('idcontato');
+	if(confirm("Deseja remover esse contato?\nEssa ação não poderá ser desfeita!")){
+	  $.ajax({ 
+			type: "GET", 
+			url: "/cadastros/clientes/removecontato", 
+			data: "id="+ idmessage,
+			beforeSend: function() {
+								
+	 		}, 
+			success: function(txt) {
+				 	$("#table-contatos").dataTable().fnDeleteRow( $("#table-contatos").dataTable().fnGetPosition(row)); 
+				 	$.sticky('Contato Removido', { type: 'st-success' });
+																		
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+	}
+
+	
+});
+
+
+$('.removearquivo').live('click', function(){
+	
+	var row = $(this).closest("tr").get(0);
+	idmessage =  $(this).attr('idarquivo');
+	if(confirm("Deseja remover esse documento?\nEssa ação não poderá ser desfeita!")){
+	  $.ajax({ 
+			type: "GET", 
+			url: "/system/files/delete-file", 
+			data: "id="+ idmessage,
+			beforeSend: function() {
+								
+	 		}, 
+			success: function(txt) {
+				 	$("#table-arquivos").dataTable().fnDeleteRow( $("#table-arquivos").dataTable().fnGetPosition(row)); 
+				 	$.sticky('Arquivo Removido', { type: 'st-success' });
+																		
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU." +txt, { type: 'st-error' });
+			} 
+		}); 
+	}
+
+	
+});
+
+
+</script>

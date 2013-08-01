@@ -1,0 +1,24 @@
+<?php switch($this->tipo){
+	case 'parcela';
+	$message = "<div class=\"alert alert-warning\">REPITA OS CARACTERES DA IMAGEM NA CAIXA ABAIXO E CLIQUE EM CONFIRMAR PARA CANCELAR ESTA PARCELA</div>";
+	break;
+	case 'lancamento';
+	$message = "<div class=\"alert alert-error\">REPITA OS CARACTERES DA IMAGEM NA CAIXA ABAIXO E CLIEQUE EM CONFIRMAR PARA CANCELAR TODAS AS PARCELAS DESTE LANÇAMENTO</div>";
+	break;
+}
+$captcha = new Zend_Service_ReCaptcha('6Ldk6-ISAAAAALqcpxh2182Y0Yd8ZqHr2p_QIGoO','6Ldk6-ISAAAAAHpOarrRAqW6S9uvJEdERs2MgP6h');
+?>
+<input type="hidden" name="tipo" value="<?php echo $this->tipo?>">
+<input type="hidden" name="id" value="<?php echo $this->id ?>">
+ <div class="row-fluid">
+ <div class="span12">
+ <?php echo $message ?>
+ </div>
+ </div>
+ <div class="row-fluid">
+ <div class="span12" style="text-align: center" id="captchadiv">
+
+ <?php echo $captcha->getHTML() ?>
+
+ </div>
+ </div>

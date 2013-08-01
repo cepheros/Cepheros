@@ -1,0 +1,86 @@
+<?php echo $this->form ?>
+<script>
+$().ready(function(){
+	$('#clientes').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+	$("#cnpj").inputmask("99.999.999/9999-99");
+	$("#curso").chosen();
+	$("#id_empresa").chosen();
+	$("#tipopessoa").chosen();
+	
+
+	$("#tipopessoa").change(function(){
+		if($("#tipopessoa").val() == 1){
+			$("#cnpj").val('');
+			$("#cnpj").inputmask("99.999.999/9999-99");
+		}else{
+			$("#cnpj").val('');
+			$("#cnpj").inputmask("999.999.999-99");
+		}
+
+    })
+    
+    $("#dataabertura").datepicker({language:"br", format: "dd/mm/yyyy"});
+
+	$("#observacoes").counter({
+		goal: 5000
+	});
+
+	$("#tags").tagHandler();
+
+     $("#cnpj").live('change',function(){
+
+						 $.ajax({ 
+								type: "GET", 
+								url: "/system/functions/search-cadastro", 
+								data: "cnpj="+ $('#cnpj').val(),
+								beforeSend: function() {
+									$.sticky('Verificando CNPJ/CPF', { type: 'st-info' });
+						 		}, 
+								success: function(txt) { 
+														
+									dados = txt.split('|');														
+									if(dados[0] == 1 ){
+										$.sticky("CLIENTE J&Aacute; CADASTRADO!<br><strong><a href='cadastros/clientes/cadastro/id/"+dados[1]+"'>Edite o Cadastro aqui!.</a></strong>", {autoclose : 10000, type: 'st-error' });
+										$("#submit").attr("disabled", true);
+										$("#submit").click(function(){
+											$.sticky('Informe um CNPJ/CPF válido para continuar', { type: 'st-info' });
+										})
+									}else if(dados[0] == 0){
+										
+										$.sticky('CNPJ/CPF V&aacute;lido', { type: 'st-success' });
+										$("#submit").attr("disabled", false);
+									}else if(dados[0]==2){
+										$.sticky("CPNJ inv&aacute;lido, voc&ecirc; n&atilde;o pode continuar o cadastro!", { type: 'st-error'});	
+										$("#submit").attr("disabled", true);
+									}
+								}, 
+								error: function(txt) { 
+									$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+								} 
+							}); 
+						
+
+					})
+    
+})
+
+
+</script>

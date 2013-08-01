@@ -1,0 +1,192 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Pedido de Venda <span class="pull-right"> <small>Número: <?php echo Erp_Model_Vendas_Basicos::getPedNumber()?></small></span></h3>
+</div>
+</div>
+<form id="vendas" name="vendas" method="post" action="">
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->id_pessoa ?>
+<?php echo $this->form->nomepessoa ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span6">
+<div class="row-fluid formSep">
+<div class="span6">
+<?php echo $this->form->tipo_pedido?>
+</div>
+<div class="span6">
+<?php echo $this->form->pedido_cliente?>
+</div>
+</div>
+<?php echo $this->form->id_vendedor ?>
+<div class="row-fluid formSep">
+<div class="span6">
+<?php echo $this->form->nomevendedor?>
+</div>
+<div class="span6">
+<?php echo $this->form->comissao?>
+</div>
+</div>
+</div>
+<div class="span6 form-horizontal well">
+<div class="span6">
+<?php echo $this->form->datainspecao?>
+</div>
+<div class="span6">
+<?php echo $this->form->tipo_inspecao?>
+</div>
+<div class="row-fluid formSep">
+<div class="span6">
+<?php echo $this->form->entrega_de?>
+</div>
+<div class="span6">
+<?php echo $this->form->entrega_ate?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span6">
+<?php echo $this->form->agendamento_entrega?>
+</div>
+<div class="span6">
+<?php echo $this->form->agendamento_entrega_hora?>
+</div>
+</div>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span6">
+<div class="span12">
+<?php echo $this->form->obspedido ?>
+</div>
+</div>
+<div class="span6">
+<div class="span12">
+<?php echo $this->form->obsfaturamento ?>
+</div>
+</div>
+</div>
+<div class="row-fluid">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Continuar >>" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+</form>
+
+<script>
+$().ready(function(){
+
+
+
+	$('#vendas').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+    $("#tipo_inspecao").chosen();
+    $("#tipo_pedido").chosen();
+  
+	$('#datainspecao').datepicker({language:"br", format: "dd/mm/yyyy"});
+
+	$('#agendamento_entrega').datepicker({language:"br", format: "dd/mm/yyyy"});
+	
+	$('#entrega_de').datepicker({language:"br", format: "dd/mm/yyyy"}).on('changeDate', function(ev){
+		var dateText = $(this).val();
+		
+		var endDateTextBox = $('#entrega_ate');
+		if (endDateTextBox.val() != '') {
+			var testStartDate = new Date(dateText);
+			var testEndDate = new Date(endDateTextBox.val());
+			if (testStartDate > testEndDate) {
+				endDateTextBox.val(dateText);
+			}
+		}
+		else {
+			endDateTextBox.val(dateText);
+		};
+		$('#entrega_ate').datepicker('setStartDate', dateText);
+		$('#entrega_de').datepicker('hide');
+	});
+	$('#entrega_ate').datepicker({language:"br", format: "dd/mm/yyyy"}).on('changeDate', function(ev){
+		var dateText = $(this).val();
+		var startDateTextBox = $('#entrega_de');
+		if (startDateTextBox.val() != '') {
+			var testStartDate = new Date(startDateTextBox.val());
+			var testEndDate = new Date(dateText);
+			if (testStartDate > testEndDate) {
+				startDateTextBox.val(dateText);
+			}
+		}
+		else {
+			startDateTextBox.val(dateText);
+		};
+
+		
+		$('#entrega_de').datepicker('setEndDate', dateText);
+		$('#entrega_ate').datepicker('hide');
+	});
+
+	$('#agendamento_entrega_hora').timepicker({
+		defaultTime: 'current',
+		minuteStep: 10,
+		disableFocus: true,
+		template: 'dropdown',
+		showMeridian: false
+	});
+
+
+	$("#nomepessoa").autocomplete({
+		 
+	    source: "/system/auto-complete/pessoas",
+			minLength: 0,
+			focus: function( event, ui ) {
+		//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+			return false;
+		},
+
+	    select: function(event, ui) {
+	        $('#id_pessoa').val(ui.item.id_registro);
+	        $( "#nomepessoa" ).val( ui.item.razaosocial );
+	         return false;
+
+	    }
+	});
+
+	$("#nomevendedor").autocomplete({
+		 
+	    source: "/system/auto-complete/pessoas/tipo/4",
+			minLength: 0,
+			focus: function( event, ui ) {
+		//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+			return false;
+		},
+
+	    select: function(event, ui) {
+	        $('#id_vendedor').val(ui.item.id_registro);
+	        $( "#nomevendedor" ).val( ui.item.razaosocial );
+	         return false;
+
+	    }
+	});
+	
+
+});
+</script>

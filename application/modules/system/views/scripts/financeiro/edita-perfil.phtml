@@ -1,0 +1,47 @@
+<input type="hidden" id="id_registro" name="id_registro"  value="<?php echo $this->dados->id_registro ?>"/>
+ <input type="hidden" id="tiporegistro" name="tiporegistro"  value="update"/>
+<div class="row-fluid formSep">
+<div class="span6">
+<label  for="nomeperfil">Nome do Perfil</legend>
+<input type="text" name="nomeperfil" id="nomeperfil" class="span12" value="<?php echo $this->dados->nomeperfil ?>" >
+</div>
+<div class="span6">
+<label  for="tipoperfil">Tipo de Perfil</legend>
+<select name="tipoperfil" id="tipoperfil_1">
+<option value="0" <?php if($this->dados->tipoperfil == '0'){ echo 'selected="selected"'; } ?>>Primeira a Vista</option>
+<option value="1" <?php if($this->dados->tipoperfil == '1'){ echo 'selected="selected"'; } ?>>Primeira Parcelado</option>
+</select>
+</div>
+</div>
+<div class="row-fluid">
+<div class="span3">
+<label  for="quantidadeparcelas">Qtd de Parcelas</legend>
+ <input type="text" id="quantidadeparcelas_1" name="quantidadeparcelas" class="span4" value="<?php echo number_format($this->dados->quantidadeparcelas,0) ?>"/>
+</div>
+<div class="span3">
+<label  for="intervalorparcelas">Intervalo Parcela</legend>
+<input type="text" id="intervalorparcelas_1" name="intervalorparcelas" class="span4" value="<?php echo number_format($this->dados->intervalorparcelas,0) ?>"/>
+</div>
+<div class="span6">
+<label  for="tipointervalo">Tipo Intervalo</legend>
+<select name="tipointervalo" id="tipointervalo_1">
+<option value="Diario" <?php if($this->dados->tipointervalo == 'Diario'){ echo 'selected="selected"'; } ?>>Diario</option>
+<option value="Mensal" <?php if($this->dados->tipointervalo == 'Mensal'){ echo 'selected="selected"'; } ?>>Mensal</option>
+<option value="Anual" <?php if($this->dados->tipointervalo == 'Anual'){ echo 'selected="selected"'; } ?>>Anual</option>
+</select>
+</div>
+</div>
+
+<script>
+$().ready(function(){
+
+
+	$("#tipointervalo_1").chosen();
+	$("#tipoperfil_1").chosen();
+
+	$("#quantidadeparcelas_1").spinner();
+	$("#intervalorparcelas_1").spinner();
+
+});
+
+</script>

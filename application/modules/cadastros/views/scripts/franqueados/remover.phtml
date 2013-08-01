@@ -1,0 +1,50 @@
+<?php if($this->dados['userbloq'] <> 0 || $this->dados['userbloq'] <> '' ){
+ 	$cadastrobloqueado = true; ?>
+ <div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-error fade in">
+<h4 class="alert-heading">Cadastro Bloqueado</h4>
+								<p>Este cadastro foi bloqueado pelo usuário <?php echo System_Model_Users::whoIs($this->dados['userbloq'])?> em <?php echo Functions_Datas::MyDateTime($this->dados['bloqcad'],true)?>.</p>
+								<?php if($this->dados['userbloq'] <>  Zend_Auth::getInstance()->getStorage()->read()->id_registro){ ?>
+								<p>Você deve solicitar a <?php echo System_Model_Users::whoIs($this->dados['userbloq']); ?> ou um administrador o desbloqueio do cadastro </p>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="solicitaDesbloqueio()"> <i class="splashy-check"></i> Solicitar Desbloqueio </a></p>
+								<?php }else{ ?>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="unblockCadastro()"> <i class="splashy-check"></i> Desbloquear</a></p>
+								<?php } ?>
+							</div>
+						</div>
+						</div>
+
+<?php }else{ ?>
+	
+
+<div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-error fade in">
+<h4 class="alert-heading">Remoção de Cadastro</h4>
+								<p>Atenção, você esta prestes a remover um cadastro so sistema</p>
+								<p>Esta é a última confirmação que você verá e os dados removidos não poderão ser recuperados</p>
+								<p>Todas as Informações referentes a esta pessoa serão excluídas do sistema, deseja realmente continuar?</p>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="removecad()"> <i class="splashy-check"></i> Confirmar </a>
+								<a href="javascript:history.back(-1)" class="btn btn-inverse" > <i class="splashy-error"></i> Cancelar </a>
+								</p>
+								</div>
+						</div>
+						</div>
+						
+						<?php } ?>
+
+<?php echo $this->form ?>
+<script>
+$().ready(function(){
+	$('#clientes :input').attr('disabled', 'disabled');
+	
+});
+
+function removecad(){
+	if(confirm("Confirma a remoção do cadastro?")){
+		document.location.href="/cadastros/pessoas/confirm-remove/id/<?php echo $this->dados['id_registro']?>"; 
+
+	}
+}
+</script>

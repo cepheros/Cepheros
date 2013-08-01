@@ -1,0 +1,171 @@
+<?php ?>
+
+<form id="ordem_servico" name="ordem_servico" enctype="application/x-www-form-urlencoded" class="form-horizontal" method="post" action="">
+
+
+<fieldset id="fieldset-clientes" class="form-horizontal">
+<div class="row-fluid">
+<div class="span2">
+<?php echo $this->formulario->cod_os; ?>
+</div>
+
+<div class="span6">
+<?php echo $this->formulario->id_cliente; ?>
+<?php echo $this->formulario->nome_cliente; ?>
+</div>
+
+<div class="span4">
+<?php echo $this->formulario->contato_cliente ; ?>
+</div>
+</div>
+
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->formulario->id_empresa ; ?>
+</div>
+<div class="span3">
+<?php echo $this->formulario->tipo_os ; ?>
+</div>
+
+<div class="span3">
+<?php echo $this->formulario->status_os ; ?>
+</div>
+<div class="span3">
+<?php echo $this->formulario->opcoes_os ; ?>
+</div>
+</div>
+
+
+
+
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->formulario->relato_cliente; ?>
+
+</div>
+</div>
+</fieldset>
+
+
+
+<div class="row-fluid">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Abrir OS" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+
+</form>
+
+
+<script>
+$.fn.chosenDestroy = function () {
+	$(this).show().removeClass('chzn-done')
+	$(this).next().remove()
+
+	  return $(this);
+	}
+
+	
+$().ready(function(){
+	$('#ordem_servico').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+    $("#contato_cliente").chosen();
+    $("#status_os").chosen();
+    $("#tipo_os").chosen();
+
+	$("#nome_cliente").autocomplete({
+		 
+	    source: "/system/auto-complete/pessoas",
+			minLength: 0,
+			focus: function( event, ui ) {
+		//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+			return false;
+		},
+
+	    select: function(event, ui) {
+	        $('#id_cliente').val(ui.item.id_registro);
+	        $( "#nome_cliente" ).val( ui.item.razaosocial );
+	        $("#contato_cliente").chosenDestroy();
+
+	        $('#contato_cliente')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="whatever">Carregando ... </option>')
+		    .val('0');
+	    	
+		    	
+	    	y = 1;
+	    	$.getJSON("/cadastros/pessoas/getcontatos/id/"+ $('#id_cliente').val(), function(data) {
+		    	
+	    		 $('#contato_cliente')
+		     	    .find('option')
+		     	    .remove()
+		     	    .end()
+		     	    .append('<option value="0">- Selecione -</option>')
+		     	    .val('0')
+		     	;
+	    	
+	    		$.each(data, function(i,item){
+	    			document.getElementById('contato_cliente').options[y] = new Option( item.nomecontato , item.id_registro );
+	    			y++;
+	    		});
+	    		
+	    		$("#contato_cliente").chosen();  
+	    	});
+	        	              
+	        return false;
+
+	    }
+	});
+	    
+
+});
+
+    </script>
+
+<style>
+input[type=checkbox], input.checkbox { 
+ float:left;
+ clear:none; 
+ margin: 2px 0 0 2px; 
+}
+label[for=opcoes_os-SendMail] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+label[for=opcoes_os-SendSMS] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+label[for=opcoes_os-ClientCheck] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+</style>

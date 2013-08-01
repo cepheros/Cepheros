@@ -1,0 +1,65 @@
+<div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-error fade in">
+<h4 class="alert-heading">Remoção de Cadastro</h4>
+								<p>Atenção, você esta prestes a remover um cadastro so sistema</p>
+								<p>Esta é a última confirmação que você verá e os dados removidos não poderão ser recuperados</p>
+								<p>Todas as Informações referentes a esta pessoa serão excluídas do sistema, deseja realmente continuar?</p>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="removecad()"> <i class="splashy-check"></i> Confirmar </a>
+								<a href="javascript:hitory.back(-1)" class="btn btn-inverse" > <i class="splashy-check"></i> Cancelar </a>
+								</p>
+								</div>
+						</div>
+						</div>
+
+<?php
+echo $this->form ?>
+
+<script>
+function removecad(){
+	if(confirm("Confirma a remoção do cadastro?")){
+		document.location.href="/sistema/usuarios/confirm-remover/id/<?php echo $this->dados['id_registro']?>"; 
+
+	}
+}
+
+$().ready(function(){
+	$('#novousuario :input').attr('disabled', 'disabled');
+	$("#phonenumber").inputmask("(99)9999-9999");
+	$("#novousuario").validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		 rules: {
+			    password: {
+			      required: true,
+			      minlength: 6
+			    },
+			    password2: {
+				    required: true,
+				    minlength: 6,
+				    equalTo: "#password"
+
+			    },
+			    email: {
+				    required: true,
+				    email: true
+			    }
+		 },
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+});
+
+</script>

@@ -1,0 +1,16 @@
+<?php 
+$message = "<div class=\"alert alert-warning\">REPITA OS CARACTERES DA IMAGEM NA CAIXA ABAIXO E CLIQUE EM CONFIRMAR PARA EXCLUIR ESSA CONTA. TODOS OS LANCAMENTOS FINANCEIROS VINCULADOS A ESTA CONTA SERÃO EXCLUÍDOS </div>";
+?>
+<input type="hidden" name="id" value="<?php echo $this->id ?>">
+ <div class="row-fluid">
+ <div class="span12">
+ <?php echo $message ?>
+ </div>
+ </div>
+ <div class="row-fluid">
+ <div class="span12" style="text-align: center" id="captchadiv">
+
+ <?php echo $captcha->getHTML() ?>
+
+ </div>
+ </div>

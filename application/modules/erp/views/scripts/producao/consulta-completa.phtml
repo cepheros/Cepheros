@@ -1,0 +1,17 @@
+<table class="table table-striped table-bordered" border="2">
+<tr>
+<td colspan="3">ETAPAS PRODUTIVAS DA OP N <?php echo $this->IdProd ?>:</td>
+</tr>
+<tr>
+<td>Etapa:</td>
+<td>Tipo:</td>
+<td>Quantidade:</td>
+</tr>
+<?php foreach($this->etapasProd as $etapas){ ?>
+<tr>
+<td><?php echo $etapas->nomeetapa ?></td>
+<td><?php echo $etapas->tipoetapa ?></td>
+<td><?php echo Erp_Model_Producao_Registros::GetSomaOP($this->IdProd,$etapas->id_registro)?></td>
+</tr>
+<?php } ?>
+</table>

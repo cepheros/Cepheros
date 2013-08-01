@@ -1,0 +1,184 @@
+<!doctype html>  
+<!--[if IE 7 ]><html lang="en-us" class="ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en-us" class="ie8"> <![endif]-->
+<!--[if (gt IE 8)|!(IE)]><!-->
+<html lang="en-us"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	
+	<title>Criador de Templates de Email</title>
+	
+	<meta name="author" content="revaxarts-themes.com">
+	<meta name="robots" content="noindex, nofollow, nocache">
+	
+	<link rel="stylesheet" href="_css/style.css">
+</head>
+    <body>
+		<header>
+			<h1 id="logo"><a href="./">Template de Email</a></h1>
+			<div id="status"></div>
+		</header>
+		<div id="wrap">
+		<div id="content">
+			
+			<nav>
+				<div id="progress"></div>
+				<ul>
+					<li><a href="#build" data-id="0" id="step1">Construa o Layout</a></li>
+					<li><a href="#precise" data-id="1" id="step2">Escolha as Cores</a></li>
+					<li><a href="#get" data-id="2" id="step3">Utilize o tema</a></li>
+				</ul>
+			</nav>
+				
+		
+			<section id="build">
+				<h2>Construa o Layout Layout</h2>
+			<a class="next" title="Precise the Template">&nbsp;</a>
+			<hr class="hidden">
+				<div class="col w25" id="prebuilds">
+				</div>
+				<div id="pool" class="col w50">
+					<h3>Modulos <a class="small" id="addAll">Adicionar Todos</a></h3>
+					<ul id="elements" class="connect">
+						<li>
+						</li>
+					</ul>
+				</div>
+				<div id="layout" class="col w25">
+					<h3>Layout</h3>
+					<a class="btn small" id="cleardz">Limpar</a>
+					<a class="btn small" id="savelayout">Salvar</a>
+					<div id="rec">
+						<div id="headerrec">
+						<img src="../_img/types/header.gif" width="98" alt="header">
+						</div>
+						<ul id="dropzone" class="connect">
+						</ul>
+						<div id="footerrec">
+						<img src="../_img/types/footer.gif" width="98" alt="footer">
+						</div>
+					</div>
+					
+				</div>
+			<div class="bottomnav">
+			<a class="next">Escolha as Cores</a>
+			</div>
+			</section>
+			<section id="precise">
+				<h2>Escolha as Cores/Layouts</h2>
+			<a class="prev" title="Build your Layout">&nbsp;</a>
+			<a class="next" title="Get the HTML">&nbsp;</a>
+			<hr class="hidden">
+				<form autocomplete="off">
+				<div class="col w30">
+					<h3>Versão</h3>
+					<div id="versions">
+					</div>
+					<h4>Cores</h4>
+					<label for="customcolor"><span class="small">#</span><input name="customcolor" id="customcolor" class="input color" maxlength="6"></label>
+					<span class="info small">Custom colors are only for HTML/CSS! For images you have to prepare the included psd/png file!</span>
+				</div>
+				<div class="col w35">
+					<h3>Service</h3>
+					<ul id="services">
+						<li><a data-role="null" class="tab active">None, I only need the HTML</a></li>
+						<li><a data-role="mc" class="tab">Mailchimp</a>
+							<div class="service">
+							<fieldset>
+								<label>API Key * (<a class="small" href="https://us1.admin.mailchimp.com/account/api-key-popup">get your API key</a>)
+								<input type="text" id="mc_apikey" name="mc_apikey" value="" class="input" maxlength="36"></label>
+								<label>Template Name *<input type="text" id="mc_templatename" name="mc_templatename" value="" class="input"></label>
+								<label>* required for API upload</label>
+								<a class="btn">check credentials</a>
+							</fieldset>
+							</div>
+						</li>
+						<li><a data-role="cm" class="tab">Campaign Monitor</a>
+							<div class="service">
+							<fieldset>
+								<label>API Key * (<a class="small" href="http://www.campaignmonitor.com/api/getting-started/#apikey">find your API key</a>)
+								<input type="text" id="cm_apikey" name="cm_apikey" value="" class="input" maxlength="32"></label>
+								<label>Client * (requires API Key)
+								<select id="cm_clientid" name="cm_clientid" disabled>
+								</select></label>
+								<label>Template Name *<input type="text" id="cm_templatename" name="cm_templatename" value="" class="input"></label>
+								<label>* required for API upload</label>
+								<a class="btn">check credentials</a>
+								<label><input type="checkbox" id="cm_useeditor" name="cm_useeditor" value="1"> use CM Editor for Layout <span class="info">with this options you just have to include modules you like to use. CM Editor let you design your layout. Every double used module will get removed</span></label>
+							</fieldset>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="col w35">
+					<h3>Options</h3>
+					<h4>Preheader</h4>
+					<fieldset>
+						<label><input type="text" id="preheader" name="preheader" value="" class="input" maxlength="80">
+						<span class="info">Preheaders can increase your click through rate. <a href="http://www.campaignmonitor.com/blog/post/3628/a-practical-guide-to-email-preheaders/">Read more</a> about them</span></label>
+					</fieldset>
+					<h4>Formating</h4>
+					<fieldset>
+						<label><input type="checkbox" id="inlinecss" name="inlinecss" value="1"> inline CSS <span class="info">not required for Mailchimp or Campaignmonitor. You can change styling and inline your CSS with <a href="http://premailer.dialect.ca/">premailer</a> later</span></label>
+					</fieldset>
+					<h4>Images</h4>
+					<fieldset>
+						<label>hostet at<input type="text" id="domain" name="domain" value="" class="input"></label>
+						<label><input type="checkbox" id="absoluteurls" name="absoluteurls" value="1"> absolute URLs <span class="info">required for Mailchimp or Campaignmonitor, only use relative paths when embedding images in email (phpMailer). Some clients wont display embeded background images. Embeded CSS background images are not possible</span></label>
+					</fieldset>
+					<fieldset id="save">
+						<hr>
+						<a class="btn" id="savesettings">Save Settings</a>
+						<a class="btn" id="clearsettings">Clear Settings</a>
+						<label><span class="info">save all settings in the local storage on this computer</span></label>
+					</fieldset>
+				</div>
+				</form>
+			<div class="bottomnav">
+			<a class="prev">Build your Layout</a>
+			<a class="next">Get the HTML</a>
+			</div>
+			</section>
+			<section id="get">
+			<h2>Get the HTML</h2>
+			<a class="prev" title="Precise the Template">&nbsp;</a>
+			<hr class="hidden">
+				<div class="col w30">
+					<h3>Options</h3>
+					<a class="btn" id="previewbtn">Preview</a>
+					<a class="btn" id="downloadbtn">Download</a>
+					<hr class="hidden">
+					<a class="btn" id="mc_upload" title="Upload to Mailchimp">Upload to Mailchimp</a>
+					<a class="btn" id="cm_upload" title="Upload to Campaing Monitor">Upload to CM</a>
+					<hr>
+					<h3>Summery</h3>
+					<dl id="summery">
+						<dt>Service</dt>
+						<dd>Mailchimp</dd>
+					</dl>
+				</div>
+				<div class="col w70">
+					<h3>HTML <a class="small" id="selectHTML">select all</a></h3>
+					<textarea id="output"></textarea>
+				</div>
+			<div class="bottomnav">
+			<a class="prev">Precise the Template</a>
+			</div>
+			</section>
+			
+		</div>
+	</div>
+		<footer>
+			<p>version 2.5 &copy; Copyright by <a href="http://revaxarts-themes.com">revaxarts-themes.com</a> 2013</p>
+		</footer>
+		
+	
+	<script>document.createElement('footer');document.createElement('header');document.createElement('section');document.createElement('nav');</script>
+	<script src="_js/jquery.js"></script>
+	<script src="_js/jquery.ui.js"></script>
+	<script src="_js/jquery.tipsy.js"></script>
+	<script src="_js/jscolor/jscolor.js"></script>
+	<script src="_js/custom.js"></script>
+	<script src="_js/script.js"></script>
+</body>
+</html>

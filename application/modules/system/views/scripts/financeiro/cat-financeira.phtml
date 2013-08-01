@@ -1,0 +1,334 @@
+<style>
+
+.dd { position: relative; display: block; margin: 0; padding: 0; max-width: 600px; list-style: none; font-size: 13px; line-height: 20px; }
+
+.dd-list { display: block; position: relative; margin: 0; padding: 0; list-style: none; }
+.dd-list .dd-list { padding-left: 30px; }
+.dd-collapsed .dd-list { display: none; }
+
+.dd-item,
+.dd-empty,
+.dd-placeholder { display: block; position: relative; margin: 0; padding: 0; min-height: 20px; font-size: 13px; line-height: 20px; }
+
+.dd-handle { display: block; height: 30px; margin: 5px 0; padding: 5px 10px; color: #333; text-decoration: none; font-weight: bold; border: 1px solid #ccc;
+    background: #fafafa;
+    background: -webkit-linear-gradient(top, #fafafa 0%, #eee 100%);
+    background:    -moz-linear-gradient(top, #fafafa 0%, #eee 100%);
+    background:         linear-gradient(top, #fafafa 0%, #eee 100%);
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+    box-sizing: border-box; -moz-box-sizing: border-box;
+}
+.dd-handle:hover { color: #2ea8e5; background: #fff; }
+
+.dd-item > button { display: block; position: relative; cursor: pointer; float: left; width: 25px; height: 20px; margin: 5px 0; padding: 0; text-indent: 100%; white-space: nowrap; overflow: hidden; border: 0; background: transparent; font-size: 12px; line-height: 1; text-align: center; font-weight: bold; }
+.dd-item > button:before { content: '+'; display: block; position: absolute; width: 100%; text-align: center; text-indent: 0; }
+.dd-item > button[data-action="collapse"]:before { content: '-'; }
+
+.dd-placeholder,
+.dd-empty { margin: 5px 0; padding: 0; min-height: 30px; background: #f2fbff; border: 1px dashed #b6bcbf; box-sizing: border-box; -moz-box-sizing: border-box; }
+.dd-empty { border: 1px dashed #bbb; min-height: 100px; background-color: #e5e5e5;
+    background-image: -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), 
+                      -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+    background-image:    -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), 
+                         -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+    background-image:         linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), 
+                              linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+}
+
+.dd-dragel { position: absolute; pointer-events: none; z-index: 9999; }
+.dd-dragel > .dd-item .dd-handle { margin-top: 0; }
+.dd-dragel .dd-handle {
+    -webkit-box-shadow: 2px 4px 6px 0 rgba(0,0,0,.1);
+            box-shadow: 2px 4px 6px 0 rgba(0,0,0,.1);
+}
+
+/**
+ * Nestable Extras
+ */
+
+.nestable-lists { display: block; clear: both; padding: 30px 0; width: 100%; border: 0; border-top: 2px solid #ddd; border-bottom: 2px solid #ddd; }
+
+#nestable-menu { padding: 0; margin: 20px 0; }
+
+#nestable-output,
+#nestable2-output { width: 100%; height: 7em; font-size: 0.75em; line-height: 1.333333em; font-family: Consolas, monospace; padding: 5px; box-sizing: border-box; -moz-box-sizing: border-box; }
+
+#nestable2 .dd-handle {
+    color: #fff;
+    border: 1px solid #999;
+    background: #bbb;
+    background: -webkit-linear-gradient(top, #bbb 0%, #999 100%);
+    background:    -moz-linear-gradient(top, #bbb 0%, #999 100%);
+    background:         linear-gradient(top, #bbb 0%, #999 100%);
+}
+#nestable2 .dd-handle:hover { background: #bbb; }
+#nestable2 .dd-item > button:before { color: #fff; }
+
+@media only screen and (min-width: 700px) { 
+
+    .dd { float: left; width: 100%; }
+    .dd + .dd { margin-left: 2%; }
+
+}
+
+.dd-hover > .dd-handle { background: #2ea8e5 !important; }
+
+/**
+ * Nestable Draggable Handles
+ */
+
+.dd3-content { display: block; height: 30px; margin: 5px 0; padding: 5px 10px 5px 40px; color: #333; text-decoration: none; font-weight: bold; border: 1px solid #ccc;
+    background: #fafafa;
+    background: -webkit-linear-gradient(top, #fafafa 0%, #eee 100%);
+    background:    -moz-linear-gradient(top, #fafafa 0%, #eee 100%);
+    background:         linear-gradient(top, #fafafa 0%, #eee 100%);
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+    box-sizing: border-box; -moz-box-sizing: border-box;
+}
+.dd3-content:hover { color: #2ea8e5; background: #fff; }
+
+.dd-dragel > .dd3-item > .dd3-content { margin: 0; }
+
+.dd3-item > button { margin-left: 30px; }
+
+.dd3-handle { position: absolute; margin: 0; left: 0; top: 0; cursor: pointer; width: 30px; text-indent: 100%; white-space: nowrap; overflow: hidden;
+    border: 1px solid #aaa;
+    background: #ddd;
+    background: -webkit-linear-gradient(top, #ddd 0%, #bbb 100%);
+    background:    -moz-linear-gradient(top, #ddd 0%, #bbb 100%);
+    background:         linear-gradient(top, #ddd 0%, #bbb 100%);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.dd3-handle:before { content: '≡'; display: block; position: absolute; left: 0; top: 3px; width: 100%; text-align: center; text-indent: 0; color: #fff; font-size: 20px; font-weight: normal; }
+.dd3-handle:hover { background: #ddd; }
+</style>
+<script src="/lib/nestable/jquery.nestable.js"></script>
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Categoria e Subcategorias de Receitas e Despesas</h3>
+</div>
+</div>
+<div class="row-fluid">
+<div class="span6">
+<p class="f_legend">Itens Existentes:</p>
+<?php $data = Erp_Model_Financeiro_CategoriasLancamentos::getCombo();
+?>
+<div class="dd">
+
+    <ol class="dd-list">
+    <?php foreach($data as $key => $value){
+    	if($key <> ''){
+    	$i=1;
+    
+     ?>
+        <li class="dd-item dd3-item" data-id="<?php echo $key?>">
+            <div class="dd-handle dd3-handle"></div><div class="dd3-content"><?php echo $value ?>
+            <span class="pull-right">
+            <i style="cursor:pointer" class="splashy-pencil_small editacat" namecat="<?php echo $value ?>" idcat="<?php echo $key ?>"></i>
+            <i style="cursor:pointer" class="splashy-remove_minus_sign_small removecat" namecat="<?php echo $value ?>" idcat="<?php echo $key ?>"></i></span></div>
+               <ol class="dd-list">
+            	<?php
+            	 $dados2 = Erp_Model_Financeiro_TiposLancamentos::getDataCategora($key);
+            	 foreach($dados2 as $key1=>$value1){ 
+            		if($key1 <> ''){?>
+                <li class="dd-item dd3-item" data-id="<?php echo $key1 ?>">
+                    <div class="dd-handle dd3-handle"></div><div class="dd3-content"><?php echo $value1 ?>
+                    <span class="pull-right">
+                    <i style="cursor:pointer" class="splashy-pencil_small editasubcat"  namecat="<?php echo $value1 ?>" idcat="<?php echo $key1 ?>"></i>
+                    <i style="cursor:pointer" class="splashy-remove_minus_sign_small removesubcat" namecat="<?php echo $value1 ?>" idcat="<?php echo $key1 ?>"></i></span></div>
+                </li>
+                <?php; }; } ?>
+            
+            </ol>
+            
+        </li>
+    
+       
+       
+    
+       
+       <?php $i++;
+       };
+		};
+?> 
+    </ol>
+
+    </div>
+
+
+
+</div>
+<div class="span6">
+<p class="f_legend">Nova Categoria:</p>
+<form method="post">
+<input type="hidden" name="tipo" value="categoria">
+<div class="row-fluid formSep">
+<div class="span6">
+<legend for="tipocategoria">Tipo de Categoria</legend>
+<select name="tipocategoria" id="tipocategoria">
+<option value="1">Receitas</option>
+<option value="2">Despesas</option>
+<option value="3">Transferencias</option>
+<option value="4">Outros</option>
+</select>
+
+</div>
+<div class="span6">
+<legend for="nomecategoria">Categoria</legend>
+<input type="text" class="span12" name="nomecategoria" id="nomecategoria">
+</div>
+
+</div>
+<fieldset id="fieldset-botoes">
+		<div style="text-align:right">
+		<input type="submit" name="submitoutros" id="submitoutros" value="Salvar" class="btn btn-large btn-primary">
+		</div>
+		</fieldset>
+
+
+</form>
+<p class="f_legend">Nova Subcategoria:</p>
+<form method="post">
+<input type="hidden" name="tipo" value="subcategoria">
+<div class="row-fluid formSep">
+<div class="span6">
+<legend for="id_categoria">Categoria</legend>
+<select name="id_categoria" id="id_categoria">
+	<?php
+	$empresas = Erp_Model_Financeiro_CategoriasLancamentos::getCombo();
+	foreach($empresas as $key=>$value){
+		
+		echo "<option value=\"$key\"> $value </otion>";
+	} ?>
+	</select>
+
+</div>
+<div class="span6">
+<legend for="nomesubcategoria">SubCategoria</legend>
+<input type="text" class="span12" name="nomesubcategoria" id="nomesubcategoria">
+</div>
+
+</div>
+<fieldset id="fieldset-botoes">
+		<div style="text-align:right">
+			<input type="submit" name="submitoutros" id="submitoutros" value="Salvar" class="btn btn-large btn-primary">
+		</div>
+		</fieldset>
+
+
+</form>
+</div>
+</div>
+
+<div class="modal hide fade" id="DeletaModal">
+ <form id="cancelalancamento" name="cancelalancamento" method="post" action="">
+ <div class="modal-header">
+   <button class="close" data-dismiss="modal">×</button>
+   <h3>Confirmar Cancelamento:</h3>
+   </div>
+ <div class="modal-body">
+ 
+ <div class="alert alert-error"><strong>Para excluir a <span id="nometipo"></span> de nome <span id="nome"></span> digite as palavras na caixa abaixo:</strong></div>
+ 
+ <input type="hidden" name="tipo" id="tipodeleta" value="">
+  <input type="hidden" name="id_registro" id="iddeleta" value="">
+ 	<div id="ModelPre"><?php 
+ $captcha = new Zend_Service_ReCaptcha('6Ldk6-ISAAAAALqcpxh2182Y0Yd8ZqHr2p_QIGoO','6Ldk6-ISAAAAAHpOarrRAqW6S9uvJEdERs2MgP6h');
+ echo $captcha->getHTML() ?></div>
+ 
+
+ </div>
+  <div class="modal-footer">
+<input type="submit" name="submit" id="submiteditnote" value="CONFIRMAR" class="btn btn-large btn-primary">
+</div>
+</form>
+ </div>
+ 
+ <div class="modal hide fade" id="editaModal">
+ <form id="cancelalancamento" name="cancelalancamento" method="post" action="">
+ <div class="modal-header">
+   <button class="close" data-dismiss="modal">×</button>
+   <h3>Editar <span id="nometipoed"></span></h3>
+   </div>
+ <div class="modal-body">
+  <input type="hidden" name="tipo" id="tipoedita" value="">
+  <input type="hidden" name="id_registro" id="idedita" value="">
+  <input type="text" name="valor" id="textvalor" class="span4"> 
+
+ </div>
+  <div class="modal-footer">
+<input type="submit" name="submit" id="submiteditnote" value="CONFIRMAR" class="btn btn-large btn-primary">
+</div>
+</form>
+ </div>
+
+<script>
+	$().ready(function(){
+		$('.dd').nestable();
+		$("#tipocategoria").chosen();
+		$("#id_categoria").chosen();
+
+		$(".removesubcat").click(function(){
+			id= $(this).attr('idcat');
+			nome = $(this).attr('namecat');
+			$("#tipodeleta").val("deletasubcategoria");
+			$("#iddeleta").val(id);
+			$("#nometipo").html("Subcategoria");
+			$("#nome").html(nome);
+			 showRecaptcha('ModelPre');
+			$("#DeletaModal").modal('show');
+			
+			
+		});
+
+
+		$(".removecat").click(function(){
+			id= $(this).attr('idcat');
+			nome = $(this).attr('namecat');
+			$("#tipodeleta").val("deletacategoria");
+			$("#iddeleta").val(id);
+			$("#nometipo").html("Categoria");
+			$("#nome").html(nome);
+			 showRecaptcha('ModelPre');
+			$("#DeletaModal").modal('show');
+			
+			
+		});
+
+		$(".editacat").click(function(){
+			id= $(this).attr('idcat');
+			nome = $(this).attr('namecat');
+			$("#tipoedita").val("editacategoria");
+			$("#idedita").val(id);
+			$("#nometipoed").html("Categoria");
+			$("#textvalor").val(nome);
+			 $("#editaModal").modal('show');
+			
+			
+		});
+
+		$(".editasubcat").click(function(){
+			id= $(this).attr('idcat');
+			nome = $(this).attr('namecat');
+			$("#tipoedita").val("editasubcategoria");
+			$("#idedita").val(id);
+			$("#nometipoed").html("SubCategoria");
+			$("#textvalor").val(nome);
+			 $("#editaModal").modal('show');
+			
+			
+		});
+	
+	});
+
+	function showRecaptcha(element) {
+	    Recaptcha.create("6Ldk6-ISAAAAALqcpxh2182Y0Yd8ZqHr2p_QIGoO", element, {
+	      theme: "red",
+	      callback: Recaptcha.focus_response_field});
+	  }
+</script>

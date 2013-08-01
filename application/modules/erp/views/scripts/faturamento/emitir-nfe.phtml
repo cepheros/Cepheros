@@ -1,0 +1,46 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Processo De Emissao de NFe: <span class="pull-right"><small>N: <?php echo $this->dadosVenda->id_registro ?></small></span></h3>
+</div>
+</div>
+
+<?php if ($this->ProcessoOK){ ?>
+<div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-success fade in">
+                                <a href="#" data-dismiss="alert" class="close">×</a>
+                                <h4 class="alert-heading">Processo Conclúído nas estapas:</h4>
+                                <ul>
+                                    <li>Envio do XML a Receita Federal</li>
+                                    <li>Obtenção do Protocolo do Envio</li>
+                                    <li>O Código de Status é: <?php echo $this->Retorno['cStat'] ?> - <?php echo $this->Retorno['xMotivo'] ?></li>
+                                    <li>Seu Protocolo de Envio é: <strong><?php echo $this->Retorno['nRec'] ?></strong></li>
+                                    <li>A Data de recebimento é: <?php echo $this->Retorno['dhRecbto'] ?></li>
+                                                                       
+                                </ul>
+                                <p> O que você gostaria de fazer agora? </p>
+                                <p><span class="pull-right"><a href="/erp/faturamento/consulta-retorno/id/<?php echo $this->idProcesso?>" class="btn btn-inverse"><i class="splashy-refresh"></i> Verificar Retorno </a></span></p>
+                                <br>
+                                <br>
+                            </div>
+</div></div>
+
+
+
+<?php }else{ ?>
+
+<div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-error fade in">
+                                <a href="#" data-dismiss="alert" class="close">×</a>
+                                <h4 class="alert-heading">Erro no processo de <?php echo $this->error ?></h4>
+                                <ul>
+                                <?php foreach($this->ErrorMessages as $erro){?>
+                                    <li><?php echo $erro?></li>
+                               <?php }?>
+                                </ul>
+                                <p><<a href="/erp/faturamento/emitir-nfe/id/<?php echo $this->idProcesso?>" class="btn btn-inverse"><i class="splashy-check"></i> Tente Novamente</a></p>
+                            </div>
+</div></div>
+
+<?php } ?>

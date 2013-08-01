@@ -1,0 +1,38 @@
+
+<table id="listaclientes" class="table table-striped table-bordered">
+<thead>
+<tr>
+
+<th width="10%">Tipo</th>
+<th width="5%">Status:</th>
+<th width="15%">Descricao</th>
+<th width="10%">Protocolo</th>
+<th width="10%">Data</th>
+<th width="8%">Opcoes:</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->Processos as $Processo){
+if($Processo->tipoProcesso == 'CCe'){
+	$icons.="<a href=\"/erp/faturamento/print-cce/id/{$Processo->id_registro}\" target=\"_blank\"><img src=\"/img/file_pdf.png\" width=\"20px\" heigth=\"20px\" title=\"Visualizar DANFE CCe\"></a> ";
+	$icons.="<a href=\"/erp/faturamento/get-xml-cce/id/{$Processo->id_registro}\" target=\"_blank\"><img src=\"/img/xml.png\" width=\"20px\" heigth=\"20px\" title=\"Visualizar XML CCe\"></a> ";
+}elseif($Processo->tipoProcesso == 'Cancelamento'){
+	$icons.="<a href=\"/erp/faturamento/get-xml-cce/id/{$Processo->id_registro}\" target=\"_blank\"><img src=\"/img/xml.png\" width=\"20px\" heigth=\"20px\" title=\"Visualizar XML CCe\"></a> ";
+}
+	?>
+<tr>
+
+<td><?php echo $Processo->tipoProcesso ?></td>
+<td><?php echo $Processo->xCode ?></td>
+<td><?php echo $Processo->xText ?></td>
+<td><?php echo $Processo->protocolo ?></td>
+<td><?php echo Functions_Datas::MyDateTime($Processo->dateProcesso,true)?></td>
+<td><?php echo $icons ?></td>
+</tr>
+<?php 
+$icons = '';
+} ?>
+</tbody>
+</table>
+</div>
+</div>

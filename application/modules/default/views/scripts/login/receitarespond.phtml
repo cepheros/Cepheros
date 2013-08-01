@@ -1,0 +1,90 @@
+
+<?php
+/**
+ * Este arquivo é parte do projeto SysAdmin - ERP em PHP
+ *
+ * Este programa é um software livre: você pode redistribuir e/ou modificá-lo
+ * sob os termos da Licença Pública Geral GNU (GPL)como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior
+ * e/ou 
+ * sob os termos da Licença Pública Geral Menor GNU (LGPL) como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior.
+ *
+ *
+ * Este programa é distribuído na esperança que será útil, mas SEM NENHUMA
+ * GARANTIA; nem mesmo a garantia explícita definida por qualquer VALOR COMERCIAL
+ * ou de ADEQUAÇÃO PARA UM PROPÓSITO EM PARTICULAR,
+ * veja a Licença Pública Geral GNU para mais detalhes.
+ *
+ * Você deve ter recebido uma cópia da Licença Publica GNU e da 
+ * Licença Pública Geral Menor GNU (LGPL) junto com este programa.
+ * Caso contrário consulte <http://www.fsfla.org/svnwiki/trad/GPLv3> ou
+ * <http://www.fsfla.org/svnwiki/trad/LGPLv3>. 
+ *
+ * @package   SysAdmin
+ * @name      
+ * @version   1.0.0
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL v.3
+ * @copyright 2009-2012 &copy; SysAdmin
+ * @link      http://www.cepheros.com.br
+ * @author    Daniel R. Chaves <dchaves at 32dll dot com dot br>
+ *
+ */
+// Pega os valores dos campos que foram enviados pelo formulário
+// *sem validação mesmo, é só pra exemplo tá?
+$cnpj = $_POST['cnpj'];
+$letras = $_POST['idLetra'];
+
+#Coisas importantes para dizer ao $ch logo mais
+
+//IMPORTANTE que o caminho esteja correto e tenha permissão CHMOD 777
+$cookie = APPLICATION_PATH.'/data/temp/receita.txt';
+
+// não sei.. coloquei pra garantir
+$reffer = "http://google.com";
+
+//sempre é bom ter para garantir a entrada do seu serviço
+$agent = "Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.4) Gecko/20030624 Netscape/7.1 (ax)";
+
+//url da receita que valida o formulário
+$url ="http://www.receita.fazenda.gov.br/PessoaJuridica/CNPJ/cnpjreva/valida.asp";
+
+//dados do POST do formulário da receita.
+//** Muito importante entender os formulários que você esteja trabalhando **
+//os campos NESTA EXATA ordem funcionaram legal ;)
+$post_fields = "origem=comprovante&cnpj={$cnpj}&idLetra={$letras}&idSom=&submit1=Consultar&search_type=cnpj";
+
+//agora sim.. 1, 2, 3 VALENDO!
+$ch = curl_init();
+
+curl_setopt_array($ch, array(
+CURLOPT_URL => $url, //sem isso, seu cURL é imprestável
+CURLOPT_POST => 1, //afirmo que ele irá fazer um POST
+CURLOPT_POSTFIELDS => $post_fields, //quais são os campos que estarei enviando ao valida.asp?
+CURLOPT_USERAGENT => $agent, //ahh é importante sempre ter né =D
+CURLOPT_REFERER => $reffer, //não sei.. coloquei pra garantir
+CURLOPT_COOKIEFILE => $cookie, //lembra dos cookies que guardamos qndo digitamos o captcha?
+CURLOPT_COOKIEJAR => $cookie,  //então, precisamos deles :)
+CURLOPT_FOLLOWLOCATION => 1, // não quero explicar, mas é importante. pesquisa ae depois ;)
+CURLOPT_RETURNTRANSFER => 1, // quer ver os dados? então sempre ative esta opção no seu script
+CURLOPT_HEADER => 0, // sem header
+));
+
+$result = curl_exec($ch);
+
+curl_close($ch);
+
+//Se deu algum erro, a Receita mostra a mesma página do formulario do captcha
+//Vamos descobrir se é a mesma página do formulário do captcha e redirecionar para a nossa página.
+if (preg_match("/<title>Emiss.*<\/title>/siU", $result)) {
+//Então volta pro nosso formulário para preenchimento dos dados.
+	//Estava com preguiça de pensar algo mais útil, então fiz esse só de exemplo mesmo.
+	$host  = $_SERVER['HTTP_HOST'];
+  $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	$extra = 'default/index/testereceita';
+  header("Location: http://$host$uri/$extra");
+  return;
+}
+
+print $result;
+?>

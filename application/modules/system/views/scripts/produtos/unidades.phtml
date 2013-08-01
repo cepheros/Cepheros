@@ -1,0 +1,123 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Unidades de Medida
+<span class="pull-right"><i style="cursor:pointer" class="splashy-document_a4_new newdepto ttip_b" title="Nova unidade de Medida"></i></span></h3>
+<table id="listaclientes" class="table table-striped table-bordered">
+<thead>
+<tr>
+<th width="5%">ID</th>
+<th width="25%">Descricao</th>
+<th width="25%">Abreviação</th>
+<th width="25%">Multiplicador</th>
+<th width="5%">Opções</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach($this->dados as $dado){ ?>
+<tr>
+<td width="5%"><?php echo $dado->id_registro ?></td>
+<td width="25%"><?php echo $dado->descricao ?></td>
+<td width="25%"><?php echo $dado->abreviacao ?></td>
+<td width="25%"><?php echo number_format($dado->multiplicador,'3',',','');  ?></td>
+<td width="5%"><i class="splashy-hcards_edit editdepto"  idreg="<?php echo  $dado->id_registro ?>" style="cursor:pointer" ></i> <i class="splashy-hcards_remove removedepto" idreg="<?php echo $dado->id_registro ?>" style="cursor:pointer" ></i></span></td>
+</tr>
+<?php }; ?>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="modal hide fade" id="NewDepto">
+   <div class="modal-header">
+   <button class="close" data-dismiss="modal">×</button>
+   <h3>Unidade de Medida:</h3>
+   </div>
+<form id="newreply" name="newreply" enctype="id_note" class="form-horizontal" method="post" action="/system/produtos/nova-unidade">
+<input type="hidden" name="id_registro" value="0" id="id_registro">
+<div class="modal-body">
+<div class="row-fluid formSep">
+		<div class="span4">
+		<label for="descricao" class="optional">Descrição:</label>
+		<input type="text" name="descricao" id="descricao" class="span12" >
+		</div>
+		<div class="span4">
+		<label for="abreviacao" class="optional">Abreviação:</label>
+		<input type="text" name="abreviacao" id="abreviacao" class="span12" >
+		</div>
+		<div class="span4">
+		<label for="multiplicador" class="optional">Multiplicador:</label>
+		<input type="text" name="multiplicador" id="multiplicador" class="span12" >
+		</div>
+		</div>
+		  
+</div>
+<div class="modal-footer">
+<div style="text-align:right">
+<a href="javascript:void(0)" class="btn btn-large btn-warning" data-dismiss="modal">Cancelar</a>
+<input type="submit" name="submit" id="submiteditnote" value="Salvar" class="btn btn-large btn-primary">
+</div>		
+</form>
+</div>
+</div>
+
+<script>
+$().ready(function(){
+
+	$('#listaclientes').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap"
+                     	
+                    
+    });
+
+    $(".newdepto").click(function(){
+	    $("#NewDepto").modal('show');    
+		
+    });
+
+    $(".editdepto").click(function(){
+        id = $(this).attr('idreg');
+
+   	 $.ajax({ 
+			type: "GET", 
+			url: "/system/produtos/getunidadedata/id/"+ id , 
+			data: "undo="+ id,
+			beforeSend: function() {
+								
+	 		}, 
+			success: function(txt) {
+			
+				var retorno = jQuery.parseJSON(txt);	
+				$("#id_registro").val(retorno.id_registro);
+				$("#descricao").val(retorno.descricao);
+				$("#abreviacao").val(retorno.abreviacao);
+				$("#multiplicador").val(retorno.multiplicador);
+				$("#NewDepto").modal('show');  	
+
+														
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+
+    });
+
+    $(".removedepto").click(function(){
+  	  	id = $(this).attr('idreg');
+  	  	if(confirm("Deseja Realmente excluir esta Unidade de Medida?")){
+    	 document.location.href="/system/produtos/removeunidade/id/"+id;
+  	  	}
+  	  
+
+    });
+
+    
+
+
+});
+
+
+</script>

@@ -1,0 +1,164 @@
+<?php
+//ob_start(); //inicia o buffer
+?>
+<html>
+<link rel="stylesheet" href="/css/blue.css" id="link_theme" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans" />
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
+<link rel="stylesheet" href="/css/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+	body { font-size: 10%;}
+</style>
+<body>
+
+<table width="100%">
+<tr>
+<td width="25%" align="left"><img src="/default/arquivos/get-logo-report"></td>
+<td align="center"><h3><?php echo System_Model_Empresas::getNomeFantasiaEmpresa(System_Model_Empresas::getEmpresaPadrao())?> - Ficha de Produção <?php echo $this->dadosOP->id_registro ?></h3></td>
+<td width="25%" align="right"><img src="/default/arquivos/render-op-code/id/<?php echo $this->dadosOP->id_registro ?>" width="250px"></td>
+</tr>
+</table>
+<table class="table table-striped table-bordered" border="2">
+<thead>
+<tr>
+<th>Ped:</th>
+<th>Ref:</th>
+<th>Cliente:</th>
+<th>Entrada:</th>
+<th>Entrega:</th>
+<th>Qtd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><?php echo $this->dadosVenda['id_registro']?></td>
+<td><?php echo $this->dadosProduto['codigointerno']?></td>
+<td><?php echo Cadastros_Model_Pessoas::getNomeEmpresa($this->dadosVenda['id_pessoa'])?></td>
+<td><?php echo Functions_Datas::MyDateTime($this->dadosVenda['datacriado']) ?></td>
+<td><?php if($this->dadosVenda['agendamento_entrega'] <> ''){
+			echo Functions_Datas::MyDateTime($this->dadosVenda['agendamento_entrega']);
+		}else{
+			echo "Entrega sem Agendamento";
+		} ?></td>
+<td><?php echo number_format($this->dadosProduto['quantidade'],2,',','') ?></td>
+</tr>
+</tbody>
+</table>
+
+
+<table class="table table-striped table-bordered">
+<tr>
+<td colspan="2"><strong>DESCRIÇÃO TÉCNICA DO PRODUTO:</strong></td>
+</tr>
+<tr>
+<td width="50%"><img src="/system/files/render/id/<?php echo $this->DataProd['imagempadrao'] ?>" alt="" width="350px" height="350px" /></td>
+<td width="50%"><table  class="table table-striped table-bordered" border="2">
+
+<tr>
+<td>Descrição:</td>
+<td><?php echo $this->DataProd->nomeproduto?></td>
+</tr>
+<tr>
+<td>Referência:</td>
+<td>&nbsp;<?php echo $this->DataProd->referenciaproduto?></td>
+</tr>
+<tr>
+<td>Adicional</td>
+<td>&nbsp;<?php echo $this->dadosProduto['adicional1'] ?></td>
+</tr>
+<tr>
+<td>Adicional</td>
+<td>&nbsp;<?php echo $this->dadosProduto['adicional2'] ?></td>
+</tr>
+<tr>
+<td>Observações</td>
+<td>&nbsp;<?php echo $this->dadosProduto['adicional3'] ?></td>
+</tr>
+<tr>
+<td>Peso Unit.</td>
+<td>&nbsp;<?php echo  number_format($this->DataProd['pesoproduto'],3,',','') ?></td>
+</tr>
+<tr>
+<td>Peso Tot.</td>
+<td>&nbsp;<?php echo number_format($this->DataProd['pesoproduto'] * $this->dadosProduto['quantidade'],3,',','') ?> </td>
+</tr>
+</table></td>
+</tr>
+</table>
+
+<table class="table table-striped table-bordered" border="2">
+<tr>
+<td colspan="5"><strong>MATERIAIS:</strong></td>
+</tr>
+<tr>
+<td>Material:</td>
+<td>Quantidade:</td>
+<td>Status:</td>
+<td>Data:</td>
+<td>Responsável:</td>
+</tr>
+<?php $produtoemfalta = '';
+foreach($this->compostos as $composto){ 
+if($composto['quantidade'] < $composto['estoqueatual']){
+$statusprod = '<i class="splashy-check ttip_r" title="Produto OK"></i>';
+}elseif($composto['quantidade'] > $composto['estoqueatual']){
+if(!$produtoemfalta){
+$produtoemfalta = true;
+}
+$statusprod = '<i class="splashy-error_do_not  ttip_r" title="Produto em Falta"></i>';
+}
+?>
+<tr>
+<td><?php echo $composto['produto']?></td>
+<td><?php echo number_format($composto['quantidade'],2,',','')?></td>
+<td><?php echo $statusprod?></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<?php } ?>
+
+</table>
+
+<table class="table table-striped table-bordered" border="2">
+<tr>
+<td colspan="6">ETAPAS PRODUTIVAS:</td>
+</tr>
+<tr>
+<td>Etapa:</td>
+<td>Tipo:</td>
+<td>Quantidade:</td>
+<td>Status:</td>
+<td>Data:</td>
+<td>Responsável:</td>
+</tr>
+<?php foreach($this->etapasProd as $etapas){ ?>
+<tr>
+<td><?php echo $etapas->nomeetapa ?></td>
+<td><?php echo $etapas->tipoetapa ?></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<?php } ?>
+</table>
+
+</body>
+</html>
+
+<?php
+//$html = ob_get_clean();
+//$mpdf = new Reports_PDF_Mpdf();
+//$mpdf->SetAutoFont(AUTOFONT_ALL);
+//$mpdf->WriteHTML($html);
+//$mpdf->Output();
+// imprime
+
+//exit();
+// finaliza o codigo
+
+?>
+

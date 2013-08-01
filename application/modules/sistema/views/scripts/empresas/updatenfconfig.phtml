@@ -1,0 +1,26 @@
+<h3 class="heading">Cadastro de Empresa: <?php echo $this->dados['razaosocial'] ?></h3>
+
+
+	<div class="tabbable tabs-left">
+	 	<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_l1" data-toggle="tab">Básicos</a></li>
+			<li><a href="#tab_l2" data-toggle="tab">Nota Fiscal</a></li>
+			<li><a href="#tab_l3" data-toggle="tab">Logos</a></li>
+			<li><a href="#tab_l4" data-toggle="tab">Documentos</a></li>
+					</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab_l1">
+		<?php echo $this->form ?>
+		</div>
+		
+		<div class="tab-pane " id="tab_l2">
+		<?php echo $this->formnfe ?>
+		</div>
+		<div class="tab-pane " id="tab_l3">
+		Logos
+		</div>
+		<div class="tab-pane " id="tab_l4">
+		Documentos
+		</div>
+		
+   </div>

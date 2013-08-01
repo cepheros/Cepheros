@@ -1,0 +1,274 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Processo de Importação de NFe</h3>
+</div>
+</div>
+
+
+<form class="form-horizontal well" method="post" action="/erp/faturamento/reprocessa-nfe-entrada/" >
+<input type="hidden" name="id_nfe" value="<?php $this->idNFe ?>">
+<div class="row-fluid">
+ <div class="span12">
+                   
+                            <div class="tabbable tabs-right">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#tab_r1" data-toggle="tab">Emitente</a></li>
+                                    <li><a href="#tab_r2" data-toggle="tab">Produtos</a></li>
+                                    <li><a href="#tab_r3" data-toggle="tab">Duplicatas</a></li>
+                                    <li><a href="#tab_r4" data-toggle="tab">Transportadora</a></li>
+                                    <li><a href="#tab_r5" data-toggle="tab">Observações</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_r1">
+                                    <?php if($this->Erros['Emitente'] <> ''){ 
+                                    		echo Functions_Messages::renderAlert('<strong>'.$this->Erros['Emitente'].'</strong>','erro');
+                                    }?>
+                                    <div class="row-fluid">
+                                    <div class="span6">
+                                    <label><strong>Emitente</strong></label>
+                                    <?php echo $this->NFe['Emitente']['xNome']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>CNPJ</strong></label>
+                                    <?php echo Functions_Auxilio::formatText($this->NFe['Emitente']['CNPJ'],"##.###.###/####-##")?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>IE</strong></label>
+                                    <?php echo $this->NFe['Emitente']['IE']?>
+                                    </div>
+                                    </div>
+                                    
+                                     <div class="row-fluid">
+                                    <div class="span6">
+                                    <label><strong>Chave Acesso</strong></label>
+                                    <?php echo $this->NFe['Basicos']['Id']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Numero NF</strong></label>
+                                    <?php echo $this->NFe['Basicos']['nNF']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Emissão:</strong></label>
+                                    <?php echo Functions_Datas::MyDateTime($this->NFe['Basicos']['dEmi'])?>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="row-fluid">
+                                    <div class="span6">
+                                    <label><strong>Endereço</strong></label>
+                                    <?php echo $this->NFe['Emitente']['xLgr'] ?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Numero</strong></label>
+                                    <?php echo $this->NFe['Emitente']['nro']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Complemento:</strong></label>
+                                    <?php echo $this->NFe['Emitente']['xCpl']?>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="row-fluid">
+                                    <div class="span2">
+                                    <label><strong>Bairro</strong></label>
+                                    <?php echo $this->NFe['Emitente']['xBairro'] ?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Cidade</strong></label>
+                                    <?php echo $this->NFe['Emitente']['xMun']?>
+                                    </div>
+                                     <div class="span2">
+                                    <label><strong>UF:</strong></label>
+                                    <?php echo $this->NFe['Emitente']['UF']?>
+                                    </div>
+                                     <div class="span2">
+                                    <label><strong>CEP:</strong></label>
+                                    <?php echo $this->NFe['Emitente']['CEP']?>
+                                    </div>
+                                      <div class="span2">
+                                    <label><strong>Telefone:</strong></label>
+                                    <?php echo Functions_Auxilio::formatText($this->NFe['Emitente']['fone'],"(##)####-####")?>
+                                    </div>
+                                    </div>
+                                    
+                                    </div>
+                                     <div class="tab-pane" id="tab_r2">
+                                       
+                                     
+                                     <?php 
+                                     foreach($this->Erros['Produtos'] as $erro){
+                                     	echo Functions_Messages::renderAlert('<strong>'.$erro.'</strong>','erro');
+                                     };
+                                     foreach($this->NFe['Produtos'] as $produto){ 
+                                     	
+                                 
+                                    
+                                    ?>
+                                   
+                                     <div class="row-fluid formSep">
+                                    <div class="span1">
+                                    <label><strong>Código</strong></label>
+                                    <?php echo $produto['cProd']?>
+                                    </div>
+                                     <div class="span7">
+                                    <label><strong>Produto</strong></label>
+                                    <?php echo $produto['xProd']?>
+                                    </div>
+                                     <div class="span1">
+                                    <label><strong>Qtd:</strong></label>
+                                    <?php echo $produto['qCom']?>
+                                    </div>
+                                     <div class="span1">
+                                    <label><strong>Vl Unit:</strong></label>
+                                    <?php echo number_format($produto['vUnCom'],2,',','') ?>
+                                    </div>
+                                      <div class="span2">
+                                    <label><strong>Total:</strong></label>
+                                    <?php echo number_format($produto['vProd'],2,',','') ?>
+                                    </div>
+                                    </div>
+                                    
+                                     
+                                     <?php   } ?>
+                                     
+                                     </div>
+                                     <div class="tab-pane" id="tab_r3">
+                                  
+                                       
+                                     <div class="row-fluid">
+                                    <div class="span3">
+                                    <label><strong>Fatura</strong></label>
+                                    <?php echo $this->NFe['Fatura']['nFat']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Valor Bruto</strong></label>
+                                    <?php echo number_format($this->NFe['Fatura']['vOrig'],2,',','') ?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Descontos</strong></label>
+                                    <?php echo number_format($this->NFe['Fatura']['vDesc'],2,',','')?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Valor Liquido</strong></label>
+                                    <?php echo number_format($this->NFe['Fatura']['vLiq'],2,',','') ?>
+                                    </div>
+                                    </div>
+                                    
+                                    <?php foreach($this->Duplicatas as $duplicata){?>
+                                    <div class="row-fluid">
+                                    <div class="span4">
+                                    <label><strong>Duplicata</strong></label>
+                                    <?php echo $duplicata['nDup']?>
+                                    </div>
+                                     <div class="span4">
+                                    <label><strong>Vencimento</strong></label>
+                                    <?php echo Functions_Datas::MyDateTime($duplicata['dVenc']) ?>
+                                    </div>
+                                     <div class="span4">
+                                    <label><strong>Valor</strong></label>
+                                    <?php echo number_format($duplicata['vDup'],2,',','')?>
+                                    </div>
+                                    </div>
+                                    
+                                    <?php }; ?>
+                                       
+                                       
+                                     </div>
+                                     <div class="tab-pane" id="tab_r4">
+                                     
+                                        <div class="row-fluid">
+                                    <div class="span6">
+                                    <label><strong>Transportadota</strong></label>
+                                    <?php echo $this->NFe['Transporte']['xNome']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>CNPJ</strong></label>
+                                    <?php echo Functions_Auxilio::formatText($this->NFe['Transporte']['CNPJ'],"##.###.###/####-##")?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>IE</strong></label>
+                                    <?php echo $this->NFe['Transporte']['IE']?>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="row-fluid">
+                                    <div class="span6">
+                                    <label><strong>Endereço</strong></label>
+                                    <?php echo $this->NFe['Transporte']['xEnder'] ?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Cidade</strong></label>
+                                    <?php echo $this->NFe['Transporte']['xMun']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Estado:</strong></label>
+                                    <?php echo $this->NFe['Transporte']['UF']?>
+                                    </div>
+                                    </div>
+                                    
+                                    
+                                      <div class="row-fluid">
+                                    <div class="span3">
+                                    <label><strong>Tipo Volume</strong></label>
+                                    <?php echo $this->NFe['Transporte']['volumes']['esp'] ?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Quantidade</strong></label>
+                                    <?php echo $this->NFe['Transporte']['volumes']['qVol']?>
+                                    </div>
+                                     <div class="span3">
+                                    <label><strong>Peso Liq</strong></label>
+                                    <?php echo $this->NFe['Transporte']['volumes']['pesoL']?>
+                                    </div>
+                                    <div class="span3">
+                                    <label><strong>Peso Bru</strong></label>
+                                    <?php echo $this->NFe['Transporte']['volumes']['pesoB']?>
+                                    </div>
+                                    </div>
+                                    
+                                     </div>
+                                     
+                                     <div class="tab-pane" id="tab_r5">
+                                      
+                                      <div class="row-fluid">
+                                    <div class="span12">
+                                    <label><strong>Observações do Fisco</strong></label>
+                                    <?php echo $this->NFe['Observacoes']['infAdFisco'] ?>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="row-fluid">
+                                    <div class="span12">
+                                    <label><strong>Observações:</strong></label>
+                                    <?php echo $this->NFe['Observacoes']['infCpl'] ?>
+                                    </div>
+                                    </div>
+                                      
+                                     </div>
+                                    
+                                 </div>
+                                 
+                             </div>
+                             
+</div>
+</div>
+<?php if($this->Erros['Emitente'] <> '' || $this->Erros['Produtos'] <> ''){ ?>
+<?php echo Functions_Messages::renderAlert("Corrija os erros encontrados e reprocesse a nfe",'erro') ?>
+<div class="row-fluid">
+ <div class="span12">
+ <span class=" pull-right"><button class="btn btn-gebo" type="submit">Reprocessar NFe</button></span>
+ </div>
+ </div>
+ 
+<?php }elseif($this->Erros['Destinatario'] <> ''){
+   echo Functions_Messages::renderAlert($this->Erros['Destinatario'],'erro'); 
+	
+	
+}else{
+
+	echo Functions_Messages::renderAlert("A Nota fiscal foi processada com sucesso",'sucesso');
+} 
+?>
+</form>
+
+

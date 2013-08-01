@@ -1,0 +1,193 @@
+<div class="tabbable tabs-left">
+	 	<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_l1" data-toggle="tab" class="pop_over" data-content="Ordens de serviços com status Nova" data-original-title="Novas" data-placement="right">Novas <span class="pull-right label label-success"><?php echo Crm_Model_Os_Basicos::countAbertos()?></span></a></li>
+			<li><a href="#tab_l2" data-toggle="tab" class="pop_over" data-content="Ordens de Serviços que estão em andamento" data-original-title="Em Andamento" data-placement="right">Em Andamento&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pull-right label label-success"><?php echo Crm_Model_Os_Basicos::countAndamento()?></span></a></li>
+			<li><a href="#tab_l3" data-toggle="tab" class="pop_over" data-content="Ordens de Serviço encerradas, mas que ainda não foram faturadas" data-original-title="Encerradas" data-placement="right">Encerradas <span class="pull-right label label-success"><?php echo Crm_Model_Os_Basicos::countEncerradas()?></span></a></li>
+			<li><a href="#tab_l4" data-toggle="tab" class="pop_over" data-content="Ordens de Serviços encerradas e já faturadas" data-original-title="Faturadas" data-placement="right">Faturadas<span class="pull-right label label-success"><?php echo Crm_Model_Os_Basicos::countFaturadas()?></a></li>
+			
+		</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab_l1">
+		<table id="table-1"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th width="2%">ID:</th>
+			<th width="5%">Cod:</th>
+			<th width="5%">Data</th>
+			<th width="5%">Tipo:</th>
+			<th width="45%">Cliente:</th>
+			<th width="10%">Prod</th>
+			<th width="10%">Serv</th>
+			<th width="10%">Total</th>
+			<th width="5%"></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		
+		</div>
+		<div class="tab-pane" id="tab_l2">
+		
+		<table id="table-2"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+				<th width="2%">ID:</th>
+			<th width="5%">Cod:</th>
+			<th width="5%">Data</th>
+			<th width="5%">Tipo:</th>
+			<th width="45%">Cliente:</th>
+			<th width="10%">Prod</th>
+			<th width="10%">Serv</th>
+			<th width="10%">Total</th>
+			<th width="5%"></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		
+		</div>
+		<div class="tab-pane" id="tab_l3">
+		
+		<table id="table-3"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+				<th width="2%">ID:</th>
+			<th width="5%">Cod:</th>
+			<th width="5%">Data</th>
+			<th width="5%">Tipo:</th>
+			<th width="45%">Cliente:</th>
+			<th width="10%">Prod</th>
+			<th width="10%">Serv</th>
+			<th width="10%">Total</th>
+			<th width="5%"></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		
+		</div>
+		<div class="tab-pane" id="tab_l4">
+		
+		<table id="table-4"  class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+				<th width="2%">ID:</th>
+			<th width="5%">Cod:</th>
+			<th width="5%">Data</th>
+			<th width="5%">Tipo:</th>
+			<th width="45%">Cliente:</th>
+			<th width="10%">Prod</th>
+			<th width="10%">Serv</th>
+			<th width="10%">Total</th>
+			<th width="5%"></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		
+		</div>
+	</div>
+	
+</div>
+
+<script>
+$().ready(function(){
+	$('#table-1').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"aoColumns": [
+		              null,
+		              null,
+		              null,
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false }
+		              ],
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-os/novas"
+               	
+                    
+    });
+
+	$('#table-2').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"aoColumns": [
+		              null,
+		              null,
+		              null,
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false }
+		              ],
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-os/andamento"
+               	
+                    
+    });
+
+	$('#table-3').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"aoColumns": [
+		              null,
+		              null,
+		              null,
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false }
+		              ],
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-os/encerradas"
+               	
+                    
+    });
+
+	$('#table-4').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"aoColumns": [
+		              null,
+		              null,
+		              null,
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false },
+		              { "bSortable": false }
+		              ],
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/crm/lista-os/faturadas"
+               	
+                    
+    });
+
+});
+</script>
+		

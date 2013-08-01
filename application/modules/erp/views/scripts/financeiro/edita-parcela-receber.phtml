@@ -1,0 +1,64 @@
+<?php echo $this->form->id_registro ?>
+<?php echo $this->form->id_pessoa ?>
+<div class="row-fluid formSep">
+<div class="span2">
+<?php echo $this->form->id_empresa ?>
+</div>
+<div class="span10">
+<?php echo $this->form->nomelancamento ?>
+</div>
+<div class="row-fluid formSep">
+<div class="span6">
+<?php echo $this->form->pessoapagamento ?>
+</div>
+<div class="span3">
+<?php echo $this->form->categoria ?>
+</div>
+
+<div class="span3">
+<?php echo $this->form->contapadrao ?>
+</div>
+</div>
+
+<div class="row-fluid formSep">
+<div class="span3 well">
+<?php echo $this->form->totalgeral ?>
+</div>
+<div class="span3 well">
+<?php echo $this->form->primeirovencimento ?>
+</div>
+<div class="span3 well">
+<?php echo $this->form->tipodocumento ?>
+</div>
+<div class="span3 well">
+<?php echo $this->form->numerodocumento ?>
+</div>
+
+</div>
+
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Parcela</h3>
+</div>
+<div class="row-fluid formsep">
+<div class="span2">
+<label for="lanc_numerodocumento">Número Documento:</label>
+<input type="hidden" name="lanc_id_registro" value="<?php echo $this->dadosL->id_registro ?>">
+<input type="text" name="lanc_numerodocumento" value="<?php echo $this->dadosL->numerodocumento ?>"  class="span12">
+</div>
+<div class="span2">
+<label for="lanc_valororiginal">Valor:</label>
+<input type="text" name="lanc_valororiginal" value="<?php echo number_format($this->dadosL->valororiginal,2,',','') ?>" class="span12">
+</div>
+<div class="span2">
+<label for="lanc_datavencimento">Vencimento:</label>
+<input type="text" name="lanc_datavencimento" value="<?php echo Functions_Datas::MyDateTime($this->dadosL->datavencimento) ?>" class="span12">
+</div>
+<div class="span2">
+<label for="lanc_numeroparcela">Parcela:</label>
+<input type="text" name="lanc_numeroparcela" value="<?php echo $this->dadosL->numeroparcela ?>" class="span6">/<?php echo $this->dadosL->quantidadeparcelas ?>
+</div>
+<div class="span4">
+<label for="lanc_linhadigitavel">Linha Digitavel:</label>
+<input type="text" name="lanc_linhadigitavel" value="<?php echo $this->dadosL->linhadigitavel ?>" class="span12">
+</div>

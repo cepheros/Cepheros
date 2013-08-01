@@ -1,0 +1,44 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Processo De Cancelamento da NFe: <span class="pull-right"><small>N: <?php echo $this->dadosVenda->id_registro ?></small></span></h3>
+</div>
+</div>
+
+<?php if($this->StatusRet){ 
+			
+				$tipoalert = 'success';
+				
+				$icons = "<p><span class=\"pull-right\"><a href=\"/erp/faturamento/imprimir-danfe/id/{$this->dadosRetorno['id_evento']}\" target=\"_blank\" class=\"btn btn-inverse\">
+				<i class=\"splashy-document_a4\"></i> Imprimir DANFE Cancelada </a> Ou 
+				 <span class=\"pull-right\"><a href=\"/erp/faturamento/get-xml-cce/id/{$this->dadosRetorno['id_evento']}\" target=\"_blank\" class=\"btn btn-inverse\">
+				<i class=\"splashy-document_a4\"></i> Visualizar XML </a></span></p>";
+
+}else{	
+			
+				$tipoalert = 'error';
+				$icons = "<a href=\"/erp/faturamento/\" class=\"btn btn-inverse\"><i class=\"splashy-check\"></i> Voltar ao Inicio </a></span></p>";
+			}
+
+
+	?>
+
+<div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-<?echo $tipoalert ?> fade in">
+                                <a href="#" data-dismiss="alert" class="close">×</a>
+                                <h4 class="alert-heading"><?php echo $this->dadosRetorno['xMotivo']?></h4>
+                                <ul>
+                                    <li>Código de Status: <?php echo $this->dadosRetorno['cStat']?> </li>
+                                     <li>Protocolo: <?php echo $this->dadosRetorno['nProt']?> </li>
+                                    <li><strong><?php echo $this->dadosRetorno['xEvento']?></strong></li>
+                                    <li>Processo efetuado em: <?php echo $this->dadosRetorno['dhRegEvento']?></li>
+                                </ul>
+                                <p> O que você gostaria de fazer agora? </p>
+                                <?php echo $icons ?>
+                                <br>
+                                <br>
+                            </div>
+</div></div>
+	
+
+

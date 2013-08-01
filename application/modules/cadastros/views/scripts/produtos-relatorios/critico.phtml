@@ -1,0 +1,24 @@
+
+<h3 class="heading">Relatório de estoque Critico <small>Nesse relatório serão exibidos todos os produtos com estoque menor que o minimo</small></h3>
+<form action="/cadastros/produtos-relatorios/gerar-estoque-critico" target="_blank" class="form-horizontal">
+	<fieldset id="fieldset-clientesfiles" class="form-horizontal">
+		<div class="row-fluid formSep">
+<div class="span6">
+		<label for="tiporelatorio" class="optional">Tipo de Relatório</label>
+		<select name="tiporelatorio"  class="span12" id="tiporelatorio">
+		<option value="PDF">PDF</option>
+		<option value="XLS">Excell</option>
+		<option value="DOCx">Word</option>
+		<option value="Text">Texto</option>
+		<option value="XML">XML</option>
+		</select>
+		</div>
+
+
+<div class="span6"  style="text-align:right">
+<input type="submit" name="submit" id="submit" value="Gerar Relatório" class="btn btn-large btn-primary">
+</div>
+</div>
+</fieldset>
+
+</form>

@@ -1,0 +1,675 @@
+<style>
+input[type=radio], input.radio { 
+ float:left;
+ clear:none; 
+ margin: 2px 0 0 2px; 
+}
+label[for=contaestoque-1] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+label[for=contaestoque-0] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+
+label[for=orcarautomatico-1] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+label[for=orcarautomatico-0] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+</style>
+	<script src="http://vjs.zencdn.net/c/video.js"></script>
+			<!-- colorbox -->
+			<script src="/lib/colorbox/jquery.colorbox.min.js"></script>
+			<!-- multi-column layout -->
+			<script src="/js/jquery.imagesloaded.min.js"></script>
+			<script src="/js/jquery.wookmark.js"></script>
+			<!-- gallery functions -->
+			<script src="/js/gebo_gallery.js"></script>
+<?php if($this->dados['userbloq'] <> 0 || $this->dados['userbloq'] <> '' ){
+ 	$cadastrobloqueado = true; ?>
+ 	 <div class="row-fluid">
+<div class="span12">
+<div class="alert alert-block alert-error fade in">
+<h4 class="alert-heading">Cadastro Bloqueado</h4>
+								<p>Este cadastro foi bloqueado pelo usuário <?php echo System_Model_Users::whoIs($this->dados['userbloq'])?> em <?php echo Functions_Datas::MyDateTime($this->dados['datebloq'],true)?>.</p>
+								<?php if($this->dados['userbloq'] <>  Zend_Auth::getInstance()->getStorage()->read()->id_registro){ ?>
+								<p>Você deve solicitar a <?php echo System_Model_Users::whoIs($this->dados['userbloq']); ?> ou um administrador o desbloqueio do cadastro </p>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="solicitaDesbloqueio()"> <i class="splashy-check"></i> Solicitar Desbloqueio </a></p>
+								<?php }else{ ?>
+								<p><a href="javascript:void(0)" class="btn btn-inverse" onclick="unblockCadastro()"> <i class="splashy-check"></i> Desbloquear</a></p>
+								<?php } ?>
+							</div>
+						</div>
+						</div>
+
+<?php }else{
+	$cadastrobloqueado = false;
+} ?>
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Cadastro do produto composto <?php echo $this->dados['nomeproduto'] ?>: <span class="pull-right">  <?php if(!$cadastrobloqueado){ ?> <i class="splashy-document_letter_locked" title="Bloquear" style="cursor:pointer" onclick="blockCadastro()" ></i> <?php  }; ?><i class="splashy-printer" title="Imprimir" style="cursor:pointer" onclick="printCadastro()" ></i></span></h3>
+</div>
+</div>
+
+<div class="tabbable tabs-left">
+	 	<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_l1" data-toggle="tab" class="pop_over" data-content="Cadastro do Produto no sistema, como ele é realmente tratado." data-original-title="Produto" data-placement="right">Produto </a></li>
+			<li><a href="#tab_l2" data-toggle="tab" class="pop_over" data-content="Fotos e outras imagens referentes ao produto" data-original-title="Imagens" data-placement="right">Imagens<span class="pull-right label label-success"><?php echo count($this->arquivos) ?></span></a></li>
+			<li><a href="#tab_l3" data-toggle="tab" class="pop_over" data-content="Compostos são produtos que tem em sua composição outros produtos cadastrados no sistema" data-original-title="Compostos" data-placement="right">Compostos:&nbsp; <span class="pull-right label label-success"><?php echo Cadastros_Model_ProdutosCompostos::countCompostos($this->dados['id_registro'])?></span></a></li>
+			
+			</ul>
+	<div class="tab-content">
+	<div class="tab-pane active" id="tab_l1">
+	<form id="produtos" name="produtos" enctype="application/x-www-form-urlencoded" class="form-horizontal" method="post" action="">
+<?php echo $this->form->id_registro?>
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->nomeproduto?>
+</div>
+<div class="span3">
+<?php echo $this->form->referenciaproduto?>
+</div>
+<div class="span3">
+<?php echo $this->form->codigointerno?>
+</div>
+<div class="span3">
+<?php echo $this->form->codigonfe?>
+</div>
+</div>
+</fieldset>
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->categoriaproduto ?>
+</div>
+<div class="span3">
+<?php echo $this->form->subcategoriaproduto ?>
+</div>
+<div class="span3">
+<?php echo $this->form->origemproduto ?>
+</div>
+
+<div class="span3">
+<?php echo $this->form->ncmproduto ?>
+</div>
+
+</div>
+
+</fieldset>
+
+
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->eangtin; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->pesoproduto; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->unidadedemedida ?>
+</div>
+<div class="span3">
+<?php echo $this->form->contaestoque; ?>
+</div>
+</div>
+</fieldset>
+
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->estoqueatual; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->estoqueminimo; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->estoquemaximo ?>
+</div>
+<div class="span3">
+<?php echo $this->form->orcarautomatico; ?>
+</div>
+</div>
+</fieldset>
+
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->form->precocusto; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->precovenda; ?>
+</div>
+<div class="span3">
+<?php echo $this->form->margemlucro ?>
+</div>
+<div class="span3">
+</div>
+</div>
+</fieldset>
+<fieldset id="fieldset-clientes" class="form-vertical">
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->infadicionaisnfe ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->form->obsinternas ?>
+</div>
+</div>
+</fieldset>
+<div class="row-fluid formSep">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Editar" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+</form>
+	</div>
+	<div class="tab-pane" id="tab_l2">
+	
+		<form id="clientesfiles" name="clientesfiles" enctype="multipart/form-data" class="form-horizontal" method="post" action="/cadastros/produtos/save-file">
+		<input type="hidden" name="tipofile" value="produtos" id="tipofile">
+		<input type="hidden" name="idreg" value="<?php echo $this->dados['id_registro']?>" id="idreg">
+		
+		<fieldset id="fieldset-clientesfiles" class="form-horizontal">
+		<div class="row-fluid formSep">
+		
+		<div class="span6">
+		<label for="nomeamigavel" class="optional">Descrição do Documento:</label>
+		<input type="text" name="nomeamigavel" id="nomeamigavel">
+		</div>
+		
+		
+		<div class="span3">
+		<label for="arquivo" class="optional">Selecione o Documento:</label>
+		<input type="hidden" name="MAX_FILE_SIZE" value="104857600" id="MAX_FILE_SIZE">
+		<input type="file" name="arquivo" id="arquivo"  class="uni_style">
+		</div>
+		
+		
+		
+		<div class="span3">
+		<div style="text-align:right">
+		<input type="submit" name="submitoutros" id="submitoutros" value="Salvar" class="btn btn-large btn-primary">
+		</div>
+		</div>
+		</div>
+		</fieldset>
+	
+
+	</form>
+
+	
+	<div class="row-fluid">
+						<div class="span12">
+						<div id="large_grid" class="wmk_grid">
+								<ul>
+								<?php  if($this->arquivos){
+		foreach($this->arquivos as $arquivo){?>
+									<li class="thumbnail">
+										<a href="/system/files/render/id/<?php echo $arquivo['id_registro'] ?>" title="<?php echo $arquivo['nomeamigavel'] ?>">
+											<img src="/system/files/render/id/<?php echo $arquivo['id_registro'] ?>" alt="" />
+										</a>
+										<p>
+										<?php if($this->dados['imagempadrao'] <> $arquivo['id_registro'] ) {?>
+											<a href="javascript:void(0)" onclick="SetDefaultImage(<?php echo $arquivo['id_registro'] ?>)" title="Marcar como Favorito"><i class="icon-star-empty"></i></a>
+											<?php }else{ ?>
+											<a href="javascript:void(0)" ><i class="icon-star" title="Imagem Padrão"></i> </a>
+											<?php }; ?>
+											<a href="javascript:void(0)" onclick="RemoveFile(<?php echo $arquivo['id_registro'] ?>)" title="Remove"><i class="icon-trash"></i></a>
+											<span><?php echo $arquivo['nomeamigavel'] ?></span>
+										</p>
+									</li>	
+									<?php } 
+									} ?>						</ul>
+							</div>
+						</div>
+					</div>
+
+	</div>
+	<div class="tab-pane" id="tab_l3">
+	<script src="/js/forms/jquery.spinners.min.js"></script>
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Cadastrar composto para o produto: <?php echo $this->dadosdoproduto['nomeproduto'] ?> </h3>
+</div>
+</div>
+<form>
+<input type="hidden" id="idproduto_C" value="">
+<input type="hidden" id="nomeproduto_C" value="">
+<input type="hidden" id="categoriaproduto_C" value="">
+<input type="hidden" id="subcategoriaproduto_C" value="">
+<input type="hidden" id="codigointerno_C" value="">
+<input type="hidden" id="referenciaproduto_C" value="">
+<input type="hidden" id="unidadedemedida_C" value="">
+<div class="row-fluid formSep">
+<div class="span6">
+<label for="produto" class="required">Produto:</label>
+<input type="text" name="produto_C" id="produto_C" value="" title="Procure o Produto por nome, código ou referencia" class="span12">
+</div>
+<div class="span4">
+<label for="sp_basic">Quantidade:</label>
+<input autocomplete="off" id="sp_basic_C" name="sp_basic_C" class="span12 ui-spinner-box" value="0" type="text">
+</div>
+<div class="span2">
+<label for="salvar">&nbsp;</label>
+<input type="button" name="salvar" id="salvar" class="btn btn-success" value="Incluir >>">
+</div>
+</div>
+</form>
+<div class="row-fluid formSep">
+<table id="produtos-compostos"  class="table table-striped table-bordered table-condensed">
+<thead>
+<tr>
+<th>ID:</th>
+<th>Código:</th>
+<th>Produto:</th>
+<th>Qtd:</th>
+<th>Un:</th>
+<th>Op:</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+	</div>
+	
+	</div>
+	</div>
+
+	<script>
+$().ready(function(){
+
+
+    
+	$("#salvar").click(function(){
+		var nomeproduto = $("#nomeproduto_C").val();
+		if(confirm("Deseja Adicionar o produto "+nomeproduto+" ao composto?")){
+
+			 $.ajax({ 
+					type: "GET", 
+					url: "/cadastros/produtos/salva-composto/id/<?php echo $this->dados['id_registro'] ?>", 
+					data: "idcomposto="+ $('#idproduto_C').val() +"&quantidade="+ $('#sp_basic_C').val(),
+					beforeSend: function() {
+						$.sticky('Salvando Composto', { type: 'st-info' });	
+			 		}, 
+					success: function(txt) { 
+					//	$("#produtos-compostos").dataTable().fnAddData([ 
+					//	                								$("#idproduto").val() ,
+					//	                								$("#codigointerno").val() ,
+					//	                								$("#nomeproduto").val() ,
+					//	                								$("#sp_basic").val() ,
+					//	                								$("#unidadedemedida").val() ,
+					//	                				                '<i class="splashy-map openaddmap" style="cursor:pointer" idend=""></i>'
+					//	                				                ]);
+						$("#produtos-compostos").dataTable().fnDraw();
+						                			
+						                			$("#idproduto_C").val("");
+						                			$("#codigointerno_C").val("");
+						                			$("#nomeproduto_C").val("");
+						                			$("#sp_basic_C").val("0");
+						                			$("#unidadedemedida_C").val("");
+						                			$("#produto_C").val(""); 							
+						$.sticky('Composto Adicionado', { type: 'st-success' });	
+						 								}, 
+					error: function(txt) { 
+						$.sticky('Erro na solicitação', { type: 'st-error' });	
+					} 
+				}); 			
+
+			
+		}
+	});
+
+	$('#produtos-compostos').dataTable({
+	       "sPaginationType": "bootstrap_alt",
+	       "oLanguage": {
+				"sUrl": "/js/datatable_ptbr.txt"
+			},
+
+			"sPaginationType": "bootstrap",
+	        "bProcessing": true,
+			"bServerSide": true,
+	        "sAjaxSource": "/system/datatables/produto-composto/id/<?php echo $this->dados['id_registro'] ?>"
+	    });
+	//$("#sp_basic").spinner();
+	
+});
+$("#produto_C").autocomplete({
+	 
+    source: "/system/auto-complete/produtos/id/<?php echo $this->dados['id_registro'] ?>",
+		minLength: 0,
+		focus: function( event, ui ) {
+	//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+		return false;
+	},
+
+    select: function(event, ui) {
+        $('#idproduto_C').val(ui.item.id_registro);
+        $( "#nomeproduto_C" ).val( ui.item.nomeproduto );
+        $( "#produto_C" ).val( ui.item.value );
+        $( "#categoriaproduto_C" ).val( ui.item.categoriaproduto );
+        $( "#subcategoriaproduto_C" ).val( ui.item.subcategoriaproduto );
+        $( "#codigointerno_C" ).val( ui.item.codigointerno );
+        $( "#referenciaproduto_C" ).val( ui.item.referenciproduto );
+        $( "#unidadedemedida_C" ).val( ui.item.unidadedemedida );
+                  
+        return false;
+
+    }
+
+    
+});
+function removecomposto(id){
+		if(confirm("Deseja remover este produto do composto?")){
+		  $.ajax({ 
+				type: "GET", 
+				url: "/cadastros/produtos/remove-composto", 
+				data: "id="+ id,
+				beforeSend: function() {
+					$.sticky('Removendo Composto', { type: 'st-info' });			
+		 		}, 
+				success: function(txt) {
+					
+					$("#produtos-compostos").dataTable().fnDraw(); 
+					$.sticky('Composto Removido', { type: 'st-success' });					
+
+															
+				}, 
+				error: function(txt) { 
+					$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+				} 
+			}); 
+			
+		
+	}
+}
+
+function RemoveFile(id){
+	if(confirm("Deseja Realmente remover este arquivo?")){
+			  $.ajax({ 
+					type: "GET", 
+					url: "/system/files/delete-file", 
+					data: "id="+ id,
+					beforeSend: function() {
+										
+			 		}, 
+					success: function(txt) {
+						 	$.sticky('Arquivo Removido', { type: 'st-success' });
+																				
+					}, 
+					error: function(txt) { 
+						$.sticky("UM ERRO DE SISTEMA OCORREU." +txt, { type: 'st-error' });
+					} 
+				}); 
+			}
+
+}
+
+function SetDefaultImage(id){
+	if(confirm("Deseja utilizar esta imagem como a padrão do produto?")){
+
+		$.ajax({ 
+			type: "GET", 
+			url: "/cadastros/produtos/set-default-image/id/<?php echo $this->dados['id_registro'] ?>", 
+			data: "idimage="+ id,
+			beforeSend: function() {
+								
+	 		}, 
+			success: function(txt) {
+				 	$.sticky('Foto marcada como padrão', { type: 'st-success' });
+																		
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU." +txt, { type: 'st-error' });
+			} 
+		}); 
+	}
+
+	}
+	
+
+</script>
+	
+<script>
+$.fn.chosenDestroy = function () {
+	$(this).show().removeClass('chzn-done')
+	$(this).next().remove()
+
+	  return $(this);
+	}
+	
+	
+$().ready(function(){
+
+	
+	    
+	$('#produtos').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+    $("#categoriaproduto").chosen();
+    $("#subcategoriaproduto").chosen();
+    $("#origemproduto").chosen();
+    $("#unidadedemedida").chosen();
+
+    $('#categoriaproduto').change(function(){
+		$("#subcategoriaproduto").chosenDestroy();
+
+         $('#subcategoriaproduto')
+	    .find('option')
+	    .remove()
+	    .end()
+	    .append('<option value="whatever">Carregando ... </option>')
+	    .val('0');
+    	
+	    	
+    	y = 1;
+    	$.getJSON("/cadastros/produtos/getsubcategorias/id/"+ $('#categoriaproduto').val(), function(data) {
+	    	
+    		 $('#subcategoriaproduto')
+	     	    .find('option')
+	     	    .remove()
+	     	    .end()
+	     	    .append('<option value="0">- Selecione -</option>')
+	     	    .val('0')
+	     	;
+    	
+    		$.each(data, function(i,item){
+    			document.getElementById('subcategoriaproduto').options[y] = new Option( item.nomesubcategoria , item.id_registro );
+    			y++;
+    		});
+    		
+    		$("#subcategoriaproduto").chosen();  
+    	});
+ 
+    })
+
+
+    
+    	$('#contaestoque-0').click(function(){
+
+        	$("#estoqueatual").val('0,00');
+        	$("#estoqueminimo").val('0,00');
+        	$("#estoquemaximo").val('0,00');
+        	$("#estoqueatual").attr('readonly','readonly');
+        	$("#estoqueminimo").attr('readonly','readonly');
+        	$("#estoquemaximo").attr('readonly','readonly');
+        	$("#orcarautomatico-0").attr('checked','checked');
+        	$("#orcarautomatico-0").attr('readonly','readonly');
+        	$("#orcarautomatico-1").attr('readonly','readonly');
+    	})
+
+    	$('#contaestoque-1').click(function(){
+
+        	$("#estoqueatual").val('');
+        	$("#estoqueminimo").val('');
+        	$("#estoquemaximo").val('');
+        	$("#estoqueatual").removeAttr('readonly');
+        	$("#estoqueminimo").removeAttr('readonly');
+        	$("#estoquemaximo").removeAttr('readonly');
+        	$("#orcarautomatico-0").removeAttr('checked');
+        	$("#orcarautomatico-0").removeAttr('readonly');
+        	$("#orcarautomatico-1").removeAttr('readonly');
+    	})
+
+    	
+  
+
+
+
+});
+
+function blockCadastro(){
+	if(confirm("Deseja Bloquear este cadastro para futuras alterações?")){
+
+	 $.ajax({ 
+			type: "GET", 
+			url: "/system/functions/bloqproduto", 
+			data: "id="+ $('#id_registro').val(),
+			beforeSend: function() {
+				
+				$.sticky('Solicitando Bloqueio do Cadastro', { type: 'st-info' });
+	 		}, 
+			success: function(txt) { 
+
+				dados = txt.split('|');	
+				if(dados[0] == 1 ){
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-success' });
+					$("#submit").attr("disabled", true);
+					$('#clientes :input').attr('disabled', 'disabled');
+					$('#clientesenderecos :input').attr('disabled', 'disabled');
+					document.location.reload(true);
+				}else{
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-error' });
+					$("#submit").attr("disabled", false);
+				}
+										
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+	}
+	
+}
+
+
+<?php if($cadastrobloqueado){?>
+
+$().ready(function(){
+	$('#produtos :input').attr('disabled', 'disabled');
+	//$('#clientesenderecos :input').attr('disabled', 'disabled');
+	//$('#clientescontatos :input').attr('disabled', 'disabled');
+	//$('#clientesoutros :input').attr('disabled', 'disabled');
+	//$('#clientesfiles :input').attr('disabled', 'disabled');
+});
+
+
+function unblockCadastro(){
+	if(confirm("Deseja desbloquear este cadastro para futuras alterações?")){
+
+	 $.ajax({ 
+			type: "GET", 
+			url: "/system/functions/unbloqproduto", 
+			data: "id="+ $('#id_registro').val(),
+			beforeSend: function() {
+				
+				$.sticky('Solicitando desbloqueio do Cadastro', { type: 'st-info' });
+	 		}, 
+			success: function(txt) { 
+
+				dados = txt.split('|');	
+				if(dados[0] == 1 ){
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-success' });
+					$("#submit").attr("disabled", false);
+					document.location.reload(true);
+				}else{
+					$.sticky(dados[1], {autoclose : 10000, type: 'st-error' });
+					$("#submit").attr("disabled", true);
+					$('#clientes :input').removeAttr('disabled');
+				}
+										
+			}, 
+			error: function(txt) { 
+				$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+			} 
+		}); 
+	}
+	
+}
+
+function solicitaDesbloqueio(){
+
+	if(confirm("Deseja solicitar a <?php echo System_Model_Users::whoIs($this->dados['userbloq']) ?> o desbloqueio deste cadastro?")){
+
+		 $.ajax({ 
+				type: "GET", 
+				url: "/system/functions/solicitaunbloqproduto", 
+				data: "id="+ $('#id_registro').val(),
+				beforeSend: function() {
+					
+					$.sticky('Solicitando desbloqueio do Cadastro ao responsável', { type: 'st-info' });
+		 		}, 
+				success: function(txt) { 
+
+					dados = txt.split('|');	
+					if(dados[0] == 1 ){
+						$.sticky(dados[1], {autoclose : 10000, type: 'st-success' });
+					}else{
+						$.sticky(dados[1], {autoclose : 10000, type: 'st-error' });
+										}
+											
+				}, 
+				error: function(txt) { 
+					$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+				} 
+			}); 
+		}
+	
+}
+
+
+<?php } ?>
+
+</script>	
+
+
+
+
+
+

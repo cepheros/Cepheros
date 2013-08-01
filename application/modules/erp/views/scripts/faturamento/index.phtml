@@ -1,0 +1,82 @@
+<div class="row-fluid">
+<div class="span6">
+<h3 class="heading">NFe Aguardando Resposta: <span class="pull-right"> <small>Número: <?php echo $this->basicosData['id_registro']?></small></span></h3>
+<table id="listalancamentos" class="table table-striped table-bordered">
+<thead>
+<tr>
+<th width="10%">Empresa</th>
+<th width="10%">NFe</th>
+<th width="65%">Destinatário</th>
+<th width="5%">Total:</th>
+<th width="10%">Opções:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="dataTables_empty" colspan="5">Não existem dados nessa consulta!</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="span6">
+<h3 class="heading">Status do Serviço (NFe)</h3>
+<table  class="table table-striped table-bordered table-condensed">
+<thead>
+<tr>
+<th>Empresa</th>
+<th>Serviço</th>
+<th>Data</th>
+<th>Status</th>
+</thead>
+<tbody>
+<?php foreach($this->statusServico as $stat){ 
+		if(isset($stat['statusret']['xMotivo']) && $stat['statusret']['xMotivo'] <> ""){
+			$Status = $stat['statusret']['xMotivo'];
+		}else{
+			$Status = "Sem retorno do serviço";
+		}
+		if(isset($stat['statusret']['dhRecbto']) && $stat['statusret']['dhRecbto'] <> ''){
+			$DatConsulta =  $stat['statusret']['dhRecbto'];
+		}else{
+			$DatConsulta = date('d/m/Y H:i:s');
+		}	
+		
+		if(isset($stat['statusret']['verAplic']) && $stat['statusret']['verAplic'] <> ''){
+			$Aplicattion = $stat['statusret']['verAplic'];
+		}else{
+			$Aplicattion = "Desconhecido";
+		}
+
+	?>
+<tr>
+<td><?php echo $stat['empresa']?></td>
+<td><?php echo $Aplicattion ?></td>
+<td><?php echo $DatConsulta ?></td>
+<td><?php echo $Status ?></td>
+</tr>
+<?php } ?>
+</tbody>
+
+</table>
+</div>
+</div>
+
+<script>
+$().ready(function(){
+	$('#listalancamentos').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/system/datatables-faturamento/listar-nfe-emitida-resumo"
+               	
+                    
+    });
+	
+});
+
+</script>
+
+

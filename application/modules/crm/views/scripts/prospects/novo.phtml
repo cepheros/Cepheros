@@ -1,0 +1,313 @@
+<h3 class="heading">Novo Prospect: <span class="pull-right">Protocolo: <?php echo $this->protocol ?></span></h3>
+
+<form id="newticket" name="newticket" enctype="multipart/form-data" class="form-horizontal" method="post" action="">
+		<input type="hidden" name="protocolo" value="<?php echo $this->protocol ?>" id="protocolo">
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span9 input-append">
+		<label for="nomesolicitante" class="optional">Empresa Solicitante</label>
+		<input type="hidden" name="id_empresa" value="0" id="id_empresa">
+		<input type="text" class="span11" name="nomeempresa" id="nomeempresa" placeholder="Digite um nome para procurar" ><span class="add-on"><i class="splashy-zoom"></i></span>
+		<span class="help-block">O sistema buscará as pessoas no cadastro interno.</span>
+		</div>
+		
+		<div class="span3">
+		<label for="tiponegocio" class="optional">Tipo de Negócio:</label>
+		<select name="tiponegocio" id="tiponegocio">
+		<?php
+		$empresas = Crm_Model_Prospects_TiposNegocios::renderCombo();
+		foreach($empresas as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+			</div>
+		
+		</div>
+		</fieldset>	
+	
+		
+		<fieldset id="fieldset-clientesfiles" class="form-horizontal">
+		<div class="row-fluid formSep">
+		
+		<div class="span2">
+		<label for="estagioproposta" class="optional">Estágio Proposta:</label>
+		<select name="estagioproposta" id="estagioproposta"  class="span12" >
+		<?php
+		$empresas = Crm_Model_Prospects_EstagioProposta::renderCombo();
+		foreach($empresas as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+			</div>
+			
+				<div class="span2">
+		<label for="fonteproposta" class="optional">Fonte da Proposta</label>
+		<select name="fonteproposta"  class="span12" id="fonteproposta">
+		<?php
+		$deptos = Crm_Model_Prospects_FontesPropostas::renderCombo();
+		foreach($deptos as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+		</div>
+		
+				<div class="span2">
+		<label for="campanhaproposta" class="optional">Campanha</label>
+		<select name="campanhaproposta"  class="span12" id="campanhaproposta">
+		<?php
+		$deptos = Crm_Model_Marketing_Campanhas::renderCombo();
+		foreach($deptos as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+		</div>
+		
+		<div class="span2">
+		<label for="probabilidadeproposta" class="optional">Probabilidade Proposta</label>
+		<input type="text" class="span12" name="probabilidadeproposta" id="probabilidadeproposta" placeholder="0.00" >
+		</div>
+		
+		<div class="span2">
+		<label for="datalimite" class="optional">Data Limite</label>
+		<input type="text" class="span12" name="datalimite" id="datalimite" placeholder="dd/mm/aaaa" >
+		</div>
+		
+		<div class="span2 input-append">
+		<label for="valorproposta" class="optional">Valor</label>
+		<input type="text" class="span10" name="valorproposta" id="valorproposta" placeholder="0.00" ><span class="add-on"><i class="icon-briefcase"></i>
+		</div>
+		
+	
+		
+		</div>
+		</fieldset>
+		
+		
+		
+	
+		
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span6 input-append">
+		<label for="nomesolicitante" class="optional">Solicitante</label>
+		<input type="hidden" name="id_solicitante" value="0" id="id_solicitante">
+		<input type="text" class="span10" name="nomesolicitante" id="nomesolicitante" placeholder="Digite um nome para procurar" ><span class="add-on"><i class="splashy-zoom"></i></span>
+		<span class="help-block">O sistema buscará as pessoas no cadastro interno.</span>
+		</div>
+		<div class="span3 input-append">
+		<label for="emailsolicitante" class="optional">Email</label>
+		<input type="text" class="span10" name="emailsolicitante" id="emailsolicitante" placeholder="Digite um email para procurar" ><span class="add-on"><i class="splashy-zoom"></i></span>
+		<span class="help-block">O sistema buscará as pessoas no cadastro interno.</span>
+		</div>
+		<div class="span3 input-append">
+		<label for="celularsolicitante" class="optional">Celular</label>
+		<input type="text" class="span10" name="celularsolicitante" id="celularsolicitante" placeholder="(XX)xxxx-xxxx" ><span class="add-on"><i class="splashy-cellphone"></i></span>
+		<span class="help-block">Informe um celular para receber SMS</span>
+		</div>
+		</div>
+		</fieldset>
+		
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span6 input-append">
+		<label for="nomesolicitante" class="optional">Solicitante Alternativo</label>
+		<input type="hidden" name="id_solicitante1" value="0" id="id_solicitante">
+		<input type="text" class="span10" name="nomesolicitante1" id="nomesolicitante1" placeholder="Digite um nome para procurar" ><span class="add-on"><i class="splashy-zoom"></i></span>
+		<span class="help-block">O sistema buscará as pessoas no cadastro interno.</span>
+		</div>
+		<div class="span3 input-append">
+		<label for="emailsolicitante" class="optional">Email <small>Alternativo</small></label>
+		<input type="text" class="span10" name="emailsolicitante1" id="emailsolicitante1" placeholder="Digite um email para procurar" ><span class="add-on"><i class="splashy-zoom"></i></span>
+		<span class="help-block">O sistema buscará as pessoas no cadastro interno.</span>
+		</div>
+		<div class="span3 input-append">
+		<label for="celularsolicitante" class="optional">Celular <small>Alternativo</small></label>
+		<input type="text" class="span10" name="celularsolicitante1" id="celularsolicitante1" placeholder="(XX)xxxx-xxxx" ><span class="add-on"><i class="splashy-cellphone"></i></span>
+		<span class="help-block">Informe um celular para receber SMS</span>
+		</div>
+		</div>
+		</fieldset>
+		
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span8">
+		<label for="tags" class="tags">Tags</label>
+		<input type="text" class="span12" name="tags" id="tags" placeholder="Digite palavras separadas por virgula para auxiliar a busca deste ticket" >
+		</div>
+		<div class="span4">
+		<label for="atribuidoa" class="optional">Atribuir a:</label>
+		<select name="atribuidoa" class="span12" id="atribuidoa">
+		<?php
+		$deptos = System_Model_Users::renderCombo();
+		foreach($deptos as $key=>$value){
+		echo "<option value=\"$key\"> $value </otion>";
+		}
+		?>
+		</select>
+		</div>
+		</div>
+		</fieldset>
+		
+		
+	
+		
+		
+		<fieldset>
+		<div class="row-fluid formSep">
+		<div class="span12">
+		<label for="descritivoproposta" class="optional">Descrição</label>
+		<textarea name="descritivoproposta" id="descritivoproposta" class="span12" rows="8"></textarea>
+		</div>
+		
+		</div>
+		</fieldset>
+		
+		
+		
+		<fieldset>
+		<legend>Opções do Prospect</legend>
+		<div class="row-fluid formSep">
+		<div class="span2">
+		<label><input type="checkbox" name="sendemail" value="1" class="uni_style" checked="checked"> Enviar Email</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="sendsms" value="1" class="uni_style"> Enviar SMS</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="acompanhar" value="1" class="uni_style" checked="checked"> Acompanhar</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="alertagerente" value="1" class="uni_style"> Alerta Gerência</label>
+		</div>
+		<div class="span2">
+		<label><input type="checkbox" name="closeafter" value="1" class="uni_style"> Encerrar após envio</label>
+		</div>
+		</div>
+		</fieldset>
+		
+		<fieldset id="fieldset-botoes"><div style="text-align:right">
+
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+
+<input type="submit" name="submit" id="submit" value="Salvar" class="btn btn-large btn-primary"></div></fieldset>
+		
+</form>
+
+<script>
+$().ready(function(){
+	$("#tiponegocio").chosen();
+	$("#estagioproposta").chosen();
+	$("#fonteproposta").chosen();
+	$("#campanhaproposta").chosen();
+	$("#atribuidoa").chosen();
+	$("#empresa").chosen();
+	$("#datalimite").datepicker({language:"br", format: "dd/mm/yyyy"});
+	 $(".uni_style").uniform();
+	 $("#tags").tagHandler();
+
+	
+		$("#nomesolicitante").autocomplete({
+	 
+    source: "/system/auto-complete/tickets-contatos",
+		minLength: 0,
+		focus: function( event, ui ) {
+	//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+		return false;
+	},
+
+    select: function(event, ui) {
+        $('#id_solicitante').val(ui.item.id_registro);
+        $( "#nomesolicitante" ).val( ui.item.nomecontato );
+        $( "#emailsolicitante" ).val( ui.item.email );
+        $( "#celularsolicitante" ).val( ui.item.celular );
+              
+        return false;
+
+    }
+});
+
+		$("#emailsolicitante").autocomplete({
+			 
+		    source: "/system/auto-complete/tickets-contatos",
+				minLength: 0,
+				focus: function( event, ui ) {
+			//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+				return false;
+			},
+
+		    select: function(event, ui) {
+		        $('#id_solicitante').val(ui.item.id_registro);
+		        $( "#nomesolicitante" ).val( ui.item.nomecontato );
+		        $( "#emailsolicitante" ).val( ui.item.email );
+		        $( "#celularsolicitante" ).val( ui.item.celular );
+		              
+		        return false;
+
+		    }
+		});
+
+
+		$("#nomesolicitante1").autocomplete({
+			 
+		    source: "/system/auto-complete/tickets-contatos",
+				minLength: 0,
+				focus: function( event, ui ) {
+			//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+				return false;
+			},
+
+		    select: function(event, ui) {
+		        $('#id_solicitante1').val(ui.item.id_registro);
+		        $( "#nomesolicitante1" ).val( ui.item.nomecontato );
+		        $( "#emailsolicitante1" ).val( ui.item.email );
+		        $( "#celularsolicitante1" ).val( ui.item.celular );
+		              
+		        return false;
+
+		    }
+		});
+
+				$("#emailsolicitante1").autocomplete({
+					 
+				    source: "/system/auto-complete/tickets-contatos",
+						minLength: 0,
+						focus: function( event, ui ) {
+					//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+						return false;
+					},
+
+				    select: function(event, ui) {
+				        $('#id_solicitante1').val(ui.item.id_registro);
+				        $( "#nomesolicitante1" ).val( ui.item.nomecontato );
+				        $( "#emailsolicitante1" ).val( ui.item.email );
+				        $( "#celularsolicitante1" ).val( ui.item.celular );
+				              
+				        return false;
+
+				    }
+				});
+
+		$("#nomeempresa").autocomplete({
+			 
+		    source: "/system/auto-complete/pessoas",
+				minLength: 0,
+				focus: function( event, ui ) {
+			//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+				return false;
+			},
+
+		    select: function(event, ui) {
+		        $('#id_empresa').val(ui.item.id_registro);
+		        $( "#nomeempresa" ).val( ui.item.razaosocial );
+		        	              
+		        return false;
+
+		    }
+		});
+
+});
+</script>

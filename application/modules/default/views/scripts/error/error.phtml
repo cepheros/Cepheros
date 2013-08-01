@@ -1,0 +1,27 @@
+<h1 class="heading"><?php echo $this->message ?></h1>
+<div class="alert alert-error">
+<a class="close" data-dismiss="alert">x</a>
+<strong><?php echo $this->exception->getMessage() ?></strong>
+</div>
+
+<div class="well">
+		<p class="f_legend">Parametros da Solicitação:</p>
+		<pre>
+		<?php echo var_export($this->request->getParams(), true) ?>
+		</pre>
+</div>		
+		
+<div class="well">
+		<p class="f_legend">Pilha de Rastreamento:</p>
+		<p><?php echo $this->exception->getTraceAsString() ?></p>
+		<p class="pull-right"><small>Estes dados foram enviados ao suporte para solucionar este problema</small> </p>
+		
+</div>
+<div class="modal" id="myModalError"><img src="/img/msg-erro.jpg" width='100%'></div>
+
+<script>
+$().ready(function(){
+	$('#myModalError').modal('show');
+});
+setTimeout("window.history.go(-1)",10000);
+</script>  	

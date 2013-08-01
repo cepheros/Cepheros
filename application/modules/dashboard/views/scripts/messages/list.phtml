@@ -1,0 +1,244 @@
+			<script src="/lib/datatables/jquery.dataTables.min.js"></script>
+			<!-- additional sorting for datatables -->
+			<script src="/lib/datatables/jquery.dataTables.sorting.js"></script>
+			<!-- plupload and all it's runtimes and the jQuery queue widget (attachments) -->
+			<script type="text/javascript" src="/lib/plupload/js/plupload.full.js"></script>
+			<script type="text/javascript" src="/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js"></script>
+			<!-- autosize textareas (new message) -->
+			<script src="/js/forms/jquery.autosize.min.js"></script>
+			<!-- tag handler (recipients) -->
+			<script src="/lib/tag_handler/jquery.taghandler.min.js"></script>
+			<!-- mailbox functions -->
+			<script src="/js/gebo_mailbox.js"></script>
+			
+			
+
+<div class="row-fluid">
+						<div class="span12">
+							<div class="mbox">
+								<div class="tabbable">
+									<div class="heading">
+										<ul class="nav nav-tabs">
+											<li><a href="#mbox_new" data-toggle="tab"><i class="splashy-document_letter_edit"></i> Nova Mensagem </a></li>
+											<li class="active"><a href="#mbox_inbox" data-toggle="tab"><i class="splashy-mail_light_down"></i>  Caixa de Entrada </a></li>
+											<li><a href="#mbox_outbox" data-toggle="tab"><i class="splashy-mail_light_up"></i> Enviadas </a></li>
+											<li><a href="#mbox_trash" data-toggle="tab"><i class="icon-adt_trash"></i> Lixo </a></li>
+										</ul>
+									</div>
+									<div class="tab-content">
+										<div class="tab-pane" id="mbox_new">
+											<form id="new_message_form"  method="post" action="">
+											<div class="row-fluid">
+													<label for="user_from">De</label>
+													<select name="user_from" id="mail_sender">
+														<option value="<?php echo $this->UserInfo->id_registro ?>"><?php echo $this->UserInfo->nomecompleto ?></option>
+													</select>
+													
+													<label for="messageprioridade">Prioridade</label>
+													<select name="messageprioridade" id="messageprioridade">
+														<?php foreach($this->prioridades as $users){ ?>
+													<option value="<?php echo $users['id_registro'] ?>"><?php echo $users['nome'] ?></option>
+														<?php } ?>
+														</select>
+											</div>
+												<div class="sepH_b">
+													<label>Para</label>
+									<select name="users_to[]" id="user_to" multiple data-placeholder="Selecione os Destinatários..." class="chzn_b span8">
+									<?php foreach($this->sysusers as $users){ ?>
+									<option value="<?php echo $users['id_registro'] ?>"><?php echo $users['nomecompleto'] ?></option>
+									<?php } ?>
+								</select>
+												</div>
+												
+												<div class="sepH_b">
+													<label for="mail_subject">Assunto</label>
+													<input type="text" class="span12" id="mail_subject" name="assuntomessage">
+												</div>
+											
+												<div class="formSep">
+													<label for="mail_message">Mensagem</label>
+													<textarea class="span12 auto_expand" rows="12" cols="10" id="mail_message" name="contentmessage"></textarea>
+												</div>
+												
+												<div>
+													<button class="btn btn-gebo" type="submit">Enviar Mensagem</button>
+												</div>
+											</form>
+										</div>
+									
+										<div class="tab-pane active" id="mbox_inbox">
+											<table data-msg_rowlink="a" class="table table_vam mbox_table dTableR" id="dt_inbox">
+												<thead>
+													<tr>
+														<th class="table_checkbox"><input type="checkbox" data-tableid="dt_inbox" class="select_msgs" name="select_msgs"></th>
+														<th><i class="splashy-star_empty"></i></th>
+														<th><i class="splashy-mail_light"></i></th>
+														<th>Assunto:</th>
+														<th>De:</th>
+														<th>Data:</th>
+														<th>Prioridade:</th>
+														<th><i class="icon-adt_atach"></i></th>
+													</tr>
+												</thead>
+												<tbody>
+												<?php foreach($this->messages as $inboxmsg){?>
+													<tr class="<?php if($inboxmsg['statusmessage'] == 1){ echo "unread"; }else{ echo "nohref"; } ?>" idmessage="<?php echo $inboxmsg['id_registro'] ?>">
+														<td class="nohref"><input type="checkbox" class="select_msg" name="msg_sel[]" value="<?php echo $inboxmsg['id_registro'] ?>"></td>
+														<td class="nohref starSelect"><i idmessage="<?php echo $inboxmsg['id_registro'] ?>" class="<?php if($inboxmsg['flagmessage'] == 1){ echo "splashy-star_full"; }else{ echo "splashy-star_empty"; } ?> mbox_star"></i></td>
+														<td><i class="splashy-mail_light"></i></td>
+														<td><a href="#msg_view"><?php echo $inboxmsg['assuntomessage'] ?></a></td>
+														<td><span><?php echo System_Model_Users::whoIs($inboxmsg['user_from'])?></span></td>
+														<td><?php echo Functions_Datas::MyDateTime($inboxmsg['datemessage'],true)?></td>
+														<td><?php echo System_Model_Prioridades::getHtmlPrioridade($inboxmsg['messageprioridade']) ?></td>
+														<td></td>
+													</tr>
+													<?php } ?>
+													</tbody>
+											</table>	
+										</div>
+								
+										<div class="tab-pane" id="mbox_outbox">
+											<table data-msg_rowlink="a" class="table table_vam mbox_table dTableR" id="dt_outbox">
+												<thead>
+													<tr>
+														<th class="table_checkbox"><input type="checkbox" data-tableid="dt_outbox" class="select_msgs" name="select_msgs"></th>
+														<th><i class="splashy-star_empty"></i></th>
+														<th><i class="splashy-mail_light"></i></th>
+														<th>Assunto</th>
+														<th>Para</th>
+														<th>Data</th>
+														<th>Prioridade</th>
+														<th><i class="icon-adt_atach"></i></th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach($this->sentmessages as $inboxmsg){?>
+													<tr class="nohref" idmessage="<?php echo $inboxmsg['id_registro'] ?>">
+														<td class="nohref"><input type="checkbox" class="select_msg" name="msg_sel[]" value="<?php echo $inboxmsg['id_registro'] ?>"></td>
+														<td class="nohref starSelect"><i class="<?php if($inboxmsg['flagmessage'] == 1){ echo "splashy-star_full"; }else{ echo "splashy-star_empty"; } ?> mbox_star"></i></td>
+														<td><i class="splashy-mail_light"></i></td>
+														<td><a href="#msg_view"><?php echo $inboxmsg['assuntomessage'] ?></a></td>
+														<td><span><?php echo System_Model_Users::whoIs($inboxmsg['user_to'])?></span></td>
+														<td><?php echo Functions_Datas::MyDateTime($inboxmsg['datemessage'],true)?></td>
+														<td><?php echo System_Model_Prioridades::getHtmlPrioridade($inboxmsg['messageprioridade']) ?></td>
+														<td></td>
+													</tr>
+													<?php } ?>
+													
+												</tbody>
+											</table>
+										</div>
+									
+										<div id="msg_view" class="tab-pane">
+											<div class="doc_view">
+												<div class="doc_view_header">
+													<dl class="dl-horizontal">
+														<dt>Assunto</dt>
+															<dd id="assuntoread"></dd>
+														<dt>Enviado por:</dt>
+															<dd><span id="enviadopor"></span></dd>
+														<dt>Para:</dt>
+															<dd><?php echo $this->UserInfo->nomecompleto ?></dd>
+														<dt>Data:</dt>
+															<dd id="dataenvio"></dd>
+														</dl>
+												</div>
+												<div class="doc_view_content" id="conteudomensagem">
+													
+												</div>
+												<div class="doc_view_footer clearfix">
+													<div class="btn-group pull-left">
+														<a class="btn" href="javascript:void(0)"><i class="icon-pencil"></i> Responder</a>
+														<a class="btn" href="javascript:void(0)"><i class="icon-share-alt"></i> Encaminhar</a>
+														<a class="btn" href="javascript:void(0)" id="deletemessage" idmessage=""><i class="icon-trash"></i> Excluir</a>
+													</div>
+													<div class="pull-right">
+														Prioridade: <span id="prioridademensagem"></span>
+													</div>
+												</div>
+											</div>
+											
+										</div>
+										<div class="tab-pane" id="mbox_trash">
+											<table data-msg_rowlink="a" class="table table_vam mbox_table dTableR" id="dt_trash">
+												<thead>
+													<tr>
+														<th class="table_checkbox"><input type="checkbox" data-tableid="dt_trash" class="select_msgs" name="select_msgs"></th>
+														<th><i class="splashy-star_empty"></i></th>
+														<th><i class="splashy-mail_light"></i></th>
+														<th>Assunto</th>
+														<th>De</th>
+														<th>Data</th>
+														<th>Prioridade</th>
+														<th><i class="icon-adt_atach"></i></th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach($this->garbagemessages as $inboxmsg){?>
+													<tr class="<?php if($inboxmsg['statusmessage'] == 1){ echo "unread"; }else{ echo "nohref"; } ?>" idmessage="<?php echo $inboxmsg['id_registro'] ?>">
+														<td class="nohref"><input type="checkbox" class="select_msg" name="msg_sel[]" value="<?php echo $inboxmsg['id_registro'] ?>"></td>
+														<td class="nohref starSelect"><i class="<?php if($inboxmsg['flagmessage'] == 1){ echo "splashy-star_full"; }else{ echo "splashy-star_empty"; } ?> mbox_star"></i></td>
+														<td><i class="splashy-mail_light"></i></td>
+														<td><a href="#msg_view"><?php echo $inboxmsg['assuntomessage'] ?></a></td>
+														<td><span><?php echo System_Model_Users::whoIs($inboxmsg['user_to'])?></span></td>
+														<td><?php echo Functions_Datas::MyDateTime($inboxmsg['datemessage'],true)?></td>
+														<td><?php echo System_Model_Prioridades::getHtmlPrioridade($inboxmsg['messageprioridade']) ?></td>
+														<td></td>
+													</tr>
+													<?php } ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					
+					<!-- hide elements -->
+					<div class="hide">
+						<!-- actions for inbox -->
+						<div class="dt_inbox_actions">
+							<div class="btn-group">
+								<a href="javascript:void(0)" class="btn" title="Answer"><i class="icon-pencil"></i></a>
+								<a href="javascript:void(0)" class="btn" title="Forward"><i class="icon-share-alt"></i></a>
+								<a href="#" class="delete_msg btn" title="Delete" data-tableid="dt_inbox"><i class="icon-trash"></i></a>
+							</div>
+						</div>
+						<!-- actions for outbox -->
+						<div class="dt_outbox_actions">
+							<div class="btn-group">
+								<a href="javascript:void(0)" class="btn" title="Resend"><i class="icon-share-alt"></i></a>
+								<a href="#" class="delete_msg btn" title="Delete" data-tableid="dt_outbox"><i class="icon-trash"></i></a>
+							</div>
+						</div>
+						<!-- actions for trash -->
+						<div class="dt_trash_actions">
+							<div class="btn-group">
+								<a href="#" class="delete_msg btn" title="Delete permamently" data-tableid="dt_trash"><i class="icon-trash"></i></a>
+							</div>
+						</div>
+						<!-- confirmation box -->
+						<div id="confirm_dialog" class="cbox_content">
+							<div class="sepH_c tac"><strong>Are you sure you want to delete this message(s)?</strong></div>
+							<div class="tac">
+								<a href="#" class="btn btn-gebo confirm_yes">Yes</a>
+								<a href="#" class="btn confirm_no">No</a>
+							</div>
+						</div>
+					</div>
+                        
+                </div>
+            </div>
+            
+            <script>
+			$().ready(function(){
+            $("#user_to").chosen();
+			});
+
+		
+			
+            </script>
+            
+			

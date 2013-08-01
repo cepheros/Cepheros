@@ -1,0 +1,68 @@
+
+ <?php echo $this->form->id_registro ?>
+ <div class="row-fluid">
+ <div class="span8">
+ <?php echo $this->form->nomelancamento ?>
+ </div>
+ <div class="span4">
+ <br> Parcela <?php echo $this->dados['numeroparcela'] ?>/<?php echo $this->dados['quantidadeparcelas'] ?>
+ </div>
+ </div>
+ <div class="row-fluid">
+  <div class="span8">
+  <?php echo $this->form->pessoapagamento ?>
+ </div>
+
+   <div class="span4">
+  <?php echo $this->form->contapagamento ?>
+ </div>
+ </div>
+ <div class="row-fluid">
+ <div class="span4">
+ <?php echo $this->form->categoria?>
+ </div>
+ <div class="span4">
+ <?php echo $this->form->tipopagamento?>
+ </div>
+  <div class="span4">
+ <?php echo $this->form->numerodocumento?>
+ </div>
+ </div>
+ <div class="row-fluid">
+ <div class="span12">
+ <?php echo $this->form->linhadigitavel ?>
+ </div>
+ </div>
+ <div class="row-fluid">
+  <div class="span4 well">
+ <?php echo $this->form->valorbaixa?>
+ </div>
+ 
+  <div class="span4 well">
+ <?php echo $this->form->valorjuros?>
+ </div>
+ 
+  <div class="span4 well">
+ <?php echo $this->form->valormultas?>
+ </div>
+ </div>
+  <div class="row-fluid"> 
+  <div class="span4 well">
+ <?php echo $this->form->valordescontos ?>
+ </div>
+ 
+   <div class="span4 well">
+ <?php echo $this->form->valorpago ?>
+ </div>
+ 
+ <div class="span4 well">
+ <?php echo $this->form->datapagamento ?>
+ </div>
+ 
+ </div>
+ 
+ <script>
+ $().ready(function(){
+   $(".datepicker").datepicker({language:"br", format: "dd/mm/yyyy"});
+ });
+ </script>

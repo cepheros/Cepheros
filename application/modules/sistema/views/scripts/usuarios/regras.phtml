@@ -1,0 +1,131 @@
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Lista de Regras <span class="pull-right"><i class="splashy-document_letter_new novorecurso"></i></span><div id="ajaxrequest"></div></h3>
+<table id="listaclientes" class="table table-striped table-bordered">
+<thead>
+<tr>
+<th width="5%">ID</th>
+<th width="55%">Regra</th>
+<th width="30%">Herda de:</th>
+<th width="10%">Opções</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="dataTables_empty" colspan="9">Não existem dados nessa consulta!</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+ <div class="modal hide fade" id="NovoRecurso">
+ <form id="Fnovorecurso" name="novorecurso" method="post" action="/sistema/usuarios/salva-regra">
+ <input type="hidden" name="id" id="id" value='' class="span12" >
+ <div class="modal-header">
+   <button class="close" data-dismiss="modal">×</button>
+   <h3>Novo Recurso:</h3>
+   </div>
+ <div class="modal-body">
+ <div class="row-fluid formSep">
+ <div class="span6">
+ <label for="resource" class="optional">Regra:</label>
+<input type="text" name="role" id="role" class="span12" >
+ </div>
+ <div class="span6">
+  <label for="description" class="optional">Herda de:</label>
+<input type="text" name="id_parent" id="id_parent" class="span12" >
+ </div>
+ </div>
+ 
+ </div>
+  <div class="modal-footer">
+<input type="submit" name="submit" id="submiteditnote" value="Salvar" class="btn btn-large btn-primary">
+</div>
+</form>
+ </div> 
+<script>
+$().ready(function(){
+
+	$('#listaclientes').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+		"sPaginationType": "bootstrap",
+        "bProcessing": true,
+		"bServerSide": true,
+		 "sAjaxSource": "/system/datatables-sistema/regras"
+               	
+                    
+    });
+
+	$(".novorecurso").click(function(){
+
+		$("#NovoRecurso").modal('show');
+
+	});
+
+	$('#Fnovorecurso').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+  errorPlacement: function(error, element) {
+      $(element).closest('div').append(error);
+  },
+
+  invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		},
+		submitHandler: function(form) {
+			jQuery(form).ajaxSubmit({
+				target: "#ajaxrequest",
+				beforeSubmit:   function(){ 
+					$.sticky("Salvando informações.", {autoclose : 5000, position: "top-right", type: "st-info" });
+					
+				}, 
+			error: function(txt) { 
+				$.sticky("Ocorreu um erro com sua solicitação: "+ txt, {autoclose : 5000, position: "top-right", type: "st-error" });
+				$("#ajaxrequest").html("Erro" + txt);
+				//reloadtable();
+				
+			},
+			success: function(txt){
+				$.sticky("Regra Cadastrada.", {autoclose : 5000, position: "top-right", type: "st-success" });
+				$("#id").val('');
+				$("#NovoRecurso").modal('hide');  
+				reloadtable();
+				
+				
+		
+			},
+		        clearForm: true
+				
+			});
+		}
+});
+
+	$(".editar").live('click',function(){
+		 idr = $(this).attr('idr');
+		 role = $(this).attr('regra');
+		 id_parent = $(this).attr('id_parent');
+		 $("#id").val(idr);
+		 $("#role").val(role);
+		 $("#id_parent").val(id_parent);
+		 $("#NovoRecurso").modal('show');  
+
+	});
+
+	
+});
+
+function reloadtable(){
+	$("#listaclientes").dataTable().fnDraw(); 
+}
+
+	</script>

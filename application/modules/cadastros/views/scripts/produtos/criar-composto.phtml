@@ -1,0 +1,155 @@
+ <script src="/js/forms/jquery.spinners.min.js"></script>
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Cadastrar composto para o produto: <?php echo $this->dadosdoproduto['nomeproduto'] ?> </h3>
+</div>
+</div>
+<form>
+<input type="hidden" id="idproduto" value="">
+<input type="hidden" id="nomeproduto" value="">
+<input type="hidden" id="categoriaproduto" value="">
+<input type="hidden" id="subcategoriaproduto" value="">
+<input type="hidden" id="codigointerno" value="">
+<input type="hidden" id="referenciaproduto" value="">
+<input type="hidden" id="unidadedemedida" value="">
+<div class="row-fluid formSep">
+<div class="span6">
+<label for="produto" class="required">Produto:</label>
+<input type="text" name="produto" id="produto" value="" title="Procure o Produto por nome, código ou referencia" class="span12">
+</div>
+<div class="span4">
+<label for="sp_basic">Quantidade:</label>
+<input autocomplete="off" id="sp_basic" name="sp_basic" class="span12 ui-spinner-box" value="0" type="text">
+</div>
+<div class="span2">
+<label for="salvar">&nbsp;</label>
+<input type="button" name="salvar" id="salvar" class="btn btn-success" value="Incluir >>">
+</div>
+</div>
+</form>
+<div class="row-fluid formSep">
+<table id="produtos-compostos"  class="table table-striped table-bordered table-condensed">
+<thead>
+<tr>
+<th>ID:</th>
+<th>Código:</th>
+<th>Produto:</th>
+<th>Qtd:</th>
+<th>Un:</th>
+<th>Op:</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+</div>
+<script>
+$().ready(function(){
+
+
+	$("#salvar").click(function(){
+		var nomeproduto = $("#nomeproduto").val();
+		if(confirm("Deseja Adicionar o produto "+nomeproduto+" ao composto?")){
+
+			 $.ajax({ 
+					type: "GET", 
+					url: "/cadastros/produtos/salva-composto/id/<?php echo $this->dadosdoproduto['id_registro'] ?>", 
+					data: "idcomposto="+ $('#idproduto').val() +"&quantidade="+ $('#sp_basic').val(),
+					beforeSend: function() {
+						$.sticky('Salvando Composto', { type: 'st-info' });	
+			 		}, 
+					success: function(txt) { 
+					//	$("#produtos-compostos").dataTable().fnAddData([ 
+					//	                								$("#idproduto").val() ,
+					//	                								$("#codigointerno").val() ,
+					//	                								$("#nomeproduto").val() ,
+					//	                								$("#sp_basic").val() ,
+					//	                								$("#unidadedemedida").val() ,
+					//	                				                '<i class="splashy-map openaddmap" style="cursor:pointer" idend=""></i>'
+					//	                				                ]);
+						$("#produtos-compostos").dataTable().fnReloadAjax();
+						                			
+						                			$("#idproduto").val("");
+						                			$("#codigointerno").val("");
+						                			$("#nomeproduto").val("");
+						                			$("#sp_basic").val("0");
+						                			$("#unidadedemedida").val("");
+						                			$("#produto").val(""); 							
+						$.sticky('Composto Adicionado', { type: 'st-success' });	
+						 								}, 
+					error: function(txt) { 
+						$.sticky('Erro na solicitação', { type: 'st-error' });	
+					} 
+				}); 			
+
+			
+		}
+	});
+
+	$('#produtos-compostos').dataTable({
+	       "sPaginationType": "bootstrap_alt",
+	       "oLanguage": {
+				"sUrl": "/js/datatable_ptbr.txt"
+			},
+
+			"sPaginationType": "bootstrap",
+	        "bProcessing": true,
+			"bServerSide": true,
+	        "sAjaxSource": "/system/datatables/produto-composto/id/<?php echo $this->dadosdoproduto['id_registro'] ?>"
+	    });
+	//$("#sp_basic").spinner();
+	
+});
+$("#produto").autocomplete({
+	 
+    source: "/system/auto-complete/produtos/id/<?php echo $this->dadosdoproduto['id_registro'] ?>",
+		minLength: 0,
+		focus: function( event, ui ) {
+	//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+		return false;
+	},
+
+    select: function(event, ui) {
+        $('#idproduto').val(ui.item.id_registro);
+        $( "#nomeproduto" ).val( ui.item.nomeproduto );
+        $( "#produto" ).val( ui.item.value );
+        $( "#categoriaproduto" ).val( ui.item.categoriaproduto );
+        $( "#subcategoriaproduto" ).val( ui.item.subcategoriaproduto );
+        $( "#codigointerno" ).val( ui.item.codigointerno );
+        $( "#referenciaproduto" ).val( ui.item.referenciproduto );
+        $( "#unidadedemedida" ).val( ui.item.unidadedemedida );
+                  
+        return false;
+
+    }
+
+    
+});
+function removecomposto(id){
+	var row = $(this).closest("tr").get(0);
+	if(confirm("Deseja remover este produto do composto?")){
+
+		  $.ajax({ 
+				type: "GET", 
+				url: "/cadastros/produtos/remove-composto", 
+				data: "id="+ id,
+				beforeSend: function() {
+					$.sticky('Removendo Composto', { type: 'st-info' });			
+		 		}, 
+				success: function(txt) {
+					
+					$("#produtos-compostos").dataTable().fnReloadAjax(); 
+					$.sticky('Composto Removido', { type: 'st-success' });					
+
+															
+				}, 
+				error: function(txt) { 
+					$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+				} 
+			}); 
+			
+		
+	}
+}
+</script>

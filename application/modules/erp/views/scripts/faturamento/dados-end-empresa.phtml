@@ -1,0 +1,62 @@
+<div class="row-fluid">
+										<div class="span12">
+										<h4 class="heading">Endereços:</h4>
+										<table class="table">
+										<thead>
+										<tr>
+										<th>Logradouro</th>
+										<th>Num</th>
+										<th>Comp</th>
+										<th>Bairro</th>
+										<th>Cidade</th>
+										<th>UF</th>
+										<th>CEP</th>
+										<th>IBGE</th>
+										<th>Uso</th>
+										</tr>
+										</thead>
+										<tbody>
+										<?php foreach($this->pessoaEnderecos as $end){ ?>
+										<tr>
+										<td><?php echo $end->logradouro ?> </td>
+										<td><?php echo $end->numero ?> </td>
+										<td><?php echo $end->complemento ?> </td>
+										<td><?php echo $end->bairro ?> </td>
+										<td><?php echo $end->cidade ?> </td>
+										<td><?php echo $end->estado ?> </td>
+										<td><?php echo $end->cep ?> </td>
+										<td><?php echo $end->codibge ?> </td>
+										<td><label for="endFaturamento"><input type="radio" name="endFaturamento" value="<?php echo $end->id_registro ?>" <?php if($end->isdefault == '1'){ echo "checked=\"checked\""; }; ?> >Faturamento</label> <label for="endCobranca"><input type="radio" name="endCobranca" value="<?php echo $end->id_registro ?>">Cobrança </label></td>
+										</tr>
+										<?php } ?>
+										</tbody>
+										</table>
+										</div>
+										</div>
+										
+										
+										<div class="row-fluid">
+										<div class="span12">
+										<h4 class="heading">Contatos:</h4>
+										<table class="table">
+										<thead>
+										<tr>
+										<th>Nome</th>
+										<th>Tel Comercial</th>
+										<th>Email</th>
+										<th>Uso:</th>
+										</tr>
+										</thead>
+										<tbody>
+										<?php foreach($this->pessoaContatos as $cont){ ?>
+										<tr>
+										<td><?php echo $cont->nomecontato ?> </td>
+										<td><?php echo $cont->telcomercial ?> </td>
+										<td><?php echo $cont->email ?> </td>
+										<td><label for="enviarEmail"><input type="radio" name="envviarEmail" value="<?php echo $cont->id_registro ?>" <?php if($cont->isdefault == '1'){ echo "checked=\"checked\""; }; ?>>Enviar Email</label></td>
+										</tr>
+										<?php } ?>
+										</tbody>
+										</table>
+										</div>
+										</div>

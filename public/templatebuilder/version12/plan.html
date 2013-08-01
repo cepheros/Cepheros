@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Market - responsive Newsletter with Template Builder</title>
+</head>
+<body>
+
+<style type="text/css">
+
+	#outlook a{padding:0;}
+	body{width:100% !important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;margin:0;padding:0;}
+	.ExternalClass{width:100%;}
+	.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{line-height:100%;}
+	.bodytbl{margin:0;padding:0;width:100% !important;}
+	img{outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;display:block;}
+	a img{border:none;}
+	p{margin:1em 0;}
+	
+	table{border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;}
+	table td{border-collapse:collapse;}
+	.o-fix table,.o-fix td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
+	
+	body,.bodytbl{background-color:#151515;}
+	
+	table{color:#ECECEC;}
+	div{color:#ECECEC;}
+	.h1 div{color:#FBFBFB;}
+	.h2 div{color:#FBFBFB;}
+	.h div{color:#FBFBFB;}
+	.quote div{color:#555555;}
+	.invert div,.promo div{background-color:#FBFBFB;color:#151515;}
+	
+	.wrap.header{}
+	.wrap.body{}
+	.wrap.body-i{background-color:#FBFBFB;}
+	.wrap.footer{}
+	.padd{width:20px;}
+	
+	a{color:#A501E0;}
+	a:link,a:visited,a:hover{color:#A501E0;}
+	.btn,.btn div,.btn a{color:#FFFFFF;}
+	a.btn a,a.btn a img{background:#A500E0;}
+	
+	body{margin:0;padding:0;}
+	.bodytbl{margin:0;padding:0;-webkit-text-size-adjust:none;}
+	.line{border-bottom:1px solid #555555;}
+	table{font-family:Helvetica,Arial,sans-serif;font-size:12px;}
+	div{line-height:20px;}
+	ul{margin-top:20px;margin-bottom:20px;}
+	li{list-style:disc;line-height:20px;} 
+	td,tr{padding:0;}
+	.h1 div{font-family:Helvetica,Arial,sans-serif;height:50px;font-size:55px;font-weight:bold;letter-spacing:-2px;line-height:90%;}
+	.h2 div{font-family:Helvetica,Arial,sans-serif;font-size:19px;font-weight:bold;letter-spacing:-1px;line-height:24px;}
+	.h3 div{font-family:Helvetica,Arial,sans-serif;font-size:17px;letter-spacing:-1px;line-height:24px;}
+	.h div{font-family:Helvetica,Arial,sans-serif;font-size:24px;font-weight:bold;letter-spacing:-2px;margin-bottom:6px;margin-top:10px;line-height:24px;}
+	.quote div{font-family:Helvetica,Arial,sans-serif;font-size:24px;letter-spacing:0;margin-bottom:6px;margin-top:6px;line-height:24px;font-style:italic;}
+	.small div{font-size:10px;color:#ECECEC;line-height:15px;text-transform:uppercase;word-spacing:-1px;margin-bottom:4px;margin-top:6px;}
+	.invert div{line-height:1;margin:0;height:20px;}
+	.plan td{border-right:1px solid #333333;border-bottom:1px solid #333333;text-align:center;}
+	.plan td.last{border-right:0;}
+	.plan th{text-align:center;border-bottom:1px solid #333333;}
+	a{text-decoration:none;padding:2px 0px;}
+	td.btn a{margin:2px 4px;line-height:1em;text-decoration:none;display:block;mso-padding-alt:4pt 4pt 4pt 4pt;}
+	td.btn{mso-padding-alt:0 4px 4px 4px;}
+	div.btn{margin-top:10px;display:block;}
+	div.btn a{display:inline-block;padding:0;line-height:0.5em;}
+	div.btn img,.social img{display:inline;margin:0;}
+	.right{text-align:right;}
+	div.preheader{line-height:0px;font-size:0px;height:0px;display:none !important;visibility:hidden;text-indent:-9999px;}
+	
+	@media only screen and (max-device-width: 480px) {
+		body{-webkit-text-size-adjust:120% !important;-ms-text-size-adjust:120% !important;}
+		table[class=bodytbl] .wrap{width:460px !important;}
+		table[class=bodytbl] .wrap .padd{width:10px !important;}
+		table[class=bodytbl] .wrap table{width:100% !important;}
+		table[class=bodytbl] .wrap img {max-width:100% !important;height:auto !important;}
+		table[class=bodytbl] .wrap .m-padd {padding:0 20px !important;}
+		table[class=bodytbl] .wrap .m-w-auto{;width:auto !important;}
+		table[class=bodytbl] .wrap .m-100{width:100% !important;max-width:460px !important;}
+		table[class=bodytbl] .wrap .m-l{text-align:left !important;}
+		table[class=bodytbl] .wrap .h div{letter-spacing:-1px !important;font-size:18px !important;}
+		table[class=bodytbl] .m-0{width:0;display:none;}
+		table[class=bodytbl] .m-b{display:block;width:100% !important;margin-bottom:20px !important;}
+		table[class=bodytbl] .m-1-2{max-width:264px !important;}
+		table[class=bodytbl] .m-1-3{max-width:168px !important;}
+		table[class=bodytbl] .m-1-4{max-width:120px !important;}
+		table[class=bodytbl] .wrap .m-mac{width:340px !important;max-width:340px !important;margin-left:38px;}
+		table[class=bodytbl] .wrap .m-mac-t img{width:339px !important;}
+		table[class=bodytbl] .wrap .m-mac-h img{height:192px !important;width:15px !important;}
+		table[class=bodytbl] .wrap .m-mac-i img{width:309px !important;}
+		table[class=bodytbl] .wrap .m-mac-b img{max-width:406px !important;margin-left:4px;}
+	}
+	
+	@media only screen and (max-device-width: 320px) {
+		table[class=bodytbl] .wrap{width:310px !important;}
+		table[class=bodytbl] .wrap .m-100{max-width:310px !important;}
+		table[class=bodytbl] .wrap .m-mac{width:239px !important;max-width:239px !important;margin-left:23px;}
+		table[class=bodytbl] .wrap .m-mac-t img{width:238px !important;}
+		table[class=bodytbl] .wrap .m-mac-h img{height:134px !important;width:11px !important;}
+		table[class=bodytbl] .wrap .m-mac-i img{width:216px !important;}
+		table[class=bodytbl] .wrap .m-mac-b img{max-width:285px !important;margin-left:-1px;}
+	}
+	
+</style>
+
+<table class="bodytbl" width="100%" cellspacing="0" cellpadding="0">
+
+<tr>
+	<td align="center">
+	
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap">
+		<tr height="20">
+			<td align="left" valign="bottom">
+				<div class="preheader"><!-- PREHEADER --></div> <div class="small"><div>This line will show up in the preview email clients</div><a name="top"></a></div> <div class="small"><div>Trouble seeing something? <a href="#">view it online</a> or <a href="#">unsubscribe</a></div></div>
+			</td>
+		</tr>
+		</table>
+		
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap line"><tr><td height="19">&nbsp;</td></tr></table>
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap"><tr><td>
+			<table cellspacing="0" cellpadding="0" align="right" class="m-w-auto">
+			<tr>
+				<td height="20" valign="middle" bgcolor="#A500E0" class="btn">
+				<div> <a href="#">Issue #01 03/2013</a> </div>
+				</td>
+			</tr>
+			</table>
+		</td></tr></table>	
+		
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap">
+		<tr height="80">
+			<td align="left" valign="bottom">
+				<table width="100%" cellspacing="0" cellpadding="0">
+				<tr>
+					<td rowspan="1" align="left" valign="bottom" class="h1">
+					<div>Market</div>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" valign="top" class="h2">
+					<div>responsive Newsletter with Template Builder</div>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+		
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap line"><tr><td height="19">&nbsp;</td></tr></table>
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap"><tr><td height="40">&nbsp;</td></tr></table>
+		
+
+<!-- ☺ header block ends here -->
+<!-- 1/2 Image Features right start  -->
+	
+		<table width="600" cellpadding="0" cellspacing="0" class="wrap">
+		<tr>
+			<td valign="top" align="center">
+				<table width="100%" cellpadding="0" cellspacing="0" class="o-fix">
+				<tr>
+					<td valign="top">
+		<!-- CONTENT start -->
+					<table width="290" cellspacing="0" cellpadding="0" align="right" class="m-b">
+					<tr>
+						<td valign="top" align="left">
+							<img src="img/box_290.png" alt="" title="" width="290" height="280" border="0" style="max-width:290px;"  />
+						</td>
+					</tr>
+					</table>
+					<table width="290" cellspacing="0" cellpadding="0" align="left">
+					<tr>
+						<td valign="top" align="left">
+							<div class="h"><div>Headline goes here</div></div>
+							<div>
+								 Li Europan lingu es es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam <a href="#">vocabular</a>.
+							</div>
+							<div>
+								<ul>
+									<li>Feature</li>
+									<li>Feature</li>
+									<li>Feature</li>
+								</ul>
+							</div>
+							<div class="btn">
+								<a href="#"><img src="img/more.png" width="94" height="24" alt="read more" title="read more" style="background-color:#A500E0" border="0"  /></a>
+							</div>
+						</td>
+					</tr>
+					</table>
+					</td>
+		<!-- CONTENT end -->
+				</tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+	
+<!--  1/2 Image Features right end   -->
+
+
+		<!-- Seperator start  -->
+	
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap line"><tr><td height="39">&nbsp;</td></tr></table>
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap"><tr><td>
+			<table cellspacing="0" cellpadding="0" align="right" class="m-w-auto">
+			<tr>
+				<td valign="top" class="small"><div>//</div></td>
+			</tr>
+			</table>
+		</td></tr></table>	
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap"><tr><td height="20">&nbsp;</td></tr></table>
+	
+<!--  Seperator end   -->
+
+
+
+
+<!-- Plans start  -->
+	
+		<table width="600" cellpadding="0" cellspacing="0" class="wrap">
+		<tr>
+			<td valign="top">
+				<table width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+		<!-- CONTENT start -->
+					<td valign="top" align="left">
+						<div class="h"><div>Headline goes here</div></div>
+						<table width="600" cellpadding="0" cellspacing="0" class="plan">
+						
+						<tr valign="middle"><th height="40">&nbsp;</th><th><div>Basic</div></th><th><div>Plus</div></th><th><div>Pro</div></th></tr>
+						
+						<tr valign="middle"><td height="40" align="left"><div>Email Accounts</div></td><td><div>2</div></td><td><div>15</div></td><td class="last"><div>50</div></td></tr>
+						
+						<tr valign="middle"><td height="40" align="left"><div>Disk Space</div></td><td><div>10 MB</div></td><td><div>100 MB</div></td><td class="last"><div>500 MB</div></td></tr>
+						
+						<tr valign="middle"><td height="40" align="left"><div>Love</div></td><td><div>10%</div></td><td><div>50%</div></td><td class="last"><div>100%</div></td></tr>
+						
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="right">
+						<div class="btn">
+							<a href="#"><img src="img/more.png" width="94" height="24" alt="read more" title="read more" style="background-color:#A500E0" border="0"  /></a>
+						</div>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+	
+<!--  Plans end   -->
+
+
+		<!-- Footer start -->
+
+
+		<table width="600" cellspacing="0" cellpadding="0" class="wrap line"><tr><td height="39">&nbsp;</td></tr></table>
+		<table width="600" cellpadding="0" cellspacing="0" class="wrap">
+		<tr>
+			<td valign="top" align="center">
+				<table width="100%" cellpadding="0" cellspacing="0" class="o-fix">
+				<tr>
+		<!-- CONTENT start -->
+					<td valign="top" align="left">
+						<table width="390" cellpadding="0" cellspacing="0" align="left">
+						<tr>
+							<td class="small" align="left" valign="top">
+							<div>You have received this email because you have subscribed to <a href="http://rxa.li/market">Market Media</a> as <a href="#">some@example.com</a>.<br />If you no longer wish to receive emails please <a href="#">unsubscribe</a></div>
+							<div>&copy; 2013 Your Company here, All rights reserved</div>
+							</td>
+						</tr>
+						</table>
+						<table width="190" cellpadding="0" cellspacing="0" align="right">
+						<tr>
+							<td class="small social" align="right" valign="top">
+								<div>
+									<a href="https://twitter.com"><img src="img/twitter.png" alt="" title="" width="32" height="32" border="0" style="max-width:32px;max-height:32px;" /></a>
+									<a href="https://facebook.com"><img src="img/facebook.png" alt="" title="" width="32" height="32" border="0" style="max-width:32px;max-height:32px;" /></a>
+									<a href="https://linkedin.com"><img src="img/linkedin.png" alt="" title="" width="32" height="32" border="0" style="max-width:32px;max-height:32px;" /></a>
+								</div>
+							</td>
+						</tr>
+						</table>
+					</td>
+		<!-- CONTENT end -->
+				</tr>
+				<tr class="m-0"><td height="24">&nbsp;</td></tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+<!--  Footer end -->
+
+
+	</td>
+</tr>
+</table>
+</body>
+</html>

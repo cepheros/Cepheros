@@ -1,0 +1,405 @@
+
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Editar Perfil de Faturamento NFe</h3>
+</div>
+</div>
+<form class="form-horizontal well" method="post" action="/system/faturamento/editar-perfil/" >
+ <?php echo $this->formBasicos->id_registro ?>
+<div class="row-fluid">
+ <div class="span12">
+                   
+                            <div class="tabbable tabs-right">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#tab_r1" data-toggle="tab">Básicos</a></li>
+                                    <li><a href="#tab_r2" data-toggle="tab">ICMS</a></li>
+                                    <li><a href="#tab_r3" data-toggle="tab">IPI</a></li>
+                                    <li><a href="#tab_r4" data-toggle="tab">PIS</a></li>
+                                    <li><a href="#tab_r5" data-toggle="tab">COFINS</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_r1">
+                                    
+                                    <div class="row-fluid">
+                                    <div class="span4">
+                                    <?php echo $this->formBasicos->nomedoperfil ?>
+                                    </div>
+                                    <div class="span3">
+                                    <?php echo $this->formBasicos->cfop ?>
+                                    </div>
+                                    <div class="span5">
+                                    <?php echo $this->formBasicos->naturezaoperacao?>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="row-fluid">
+                                    <div class="span3">
+                                     <?php echo $this->formBasicos->tipoperfil?>
+                                    </div>
+                                    <div class="span3">
+                                     <?php echo $this->formBasicos->finalidadeemissao ?>
+                                    </div>
+                                    <div class="span2">
+                                     
+                                    <?php echo $this->formBasicos->valorprodcompetotal->renderLabel();
+                                    ?>
+                                    <div id="valorprodcompetotal-div">
+                                   <?php  echo $this->formBasicos->valorprodcompetotal->renderViewHelper() ?>
+                                   </div>
+                                      </div>
+                                      
+                                   <div class="span2">
+                                     
+                                    <?php echo $this->formBasicos->incluirpedvenda->renderLabel();
+                                    ?>
+                                    <div id="incluirpedvenda-div">
+                                   <?php  echo $this->formBasicos->incluirpedvenda->renderViewHelper() ?>
+                                   </div>
+                                   
+                                    </div>
+                                    
+                                    <div class="span2">
+                                     
+                                    <?php echo $this->formBasicos->incluirpedcompra->renderLabel();
+                                    ?>
+                                    <div id="incluirpedcompra-div">
+                                   <?php  echo $this->formBasicos->incluirpedcompra->renderViewHelper() ?>
+                                   </div>
+                                   
+                                    </div>
+                                    </div>
+                                    
+                                     <div class="row-fluid">
+                                    <div class="span11">
+                                    <?php  echo $this->formBasicos->observacoesfisco ?>
+                                    </div>
+                                    </div>
+                                     
+                                       
+                                    </div>
+                                    <div class="tab-pane" id="tab_r2">
+                                      
+                                       <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->sittributaria->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->sittributaria->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->moddeterbcicms->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->moddeterbcicms->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->moddeterbcicmsst->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->moddeterbcicmsst->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->aliqicms->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->aliqicms->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->aliqaplicavelcalculocredito->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->aliqaplicavelcalculocredito->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->aliqicmsst->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->aliqicmsst->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->redutorbcicms->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->redutorbcicms->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->redutorbcicmsst->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->redutorbcicmsst->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                           <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->bcicmsstretironaufremetente->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->bcicmsstretironaufremetente->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->bcicmsstufdestino->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->bcicmsstufdestino->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                       <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->bcoperacaopropria->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->bcoperacaopropria->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->uficmsstdevop->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->uficmsstdevop->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                          <div class="row-fluid">
+                                      
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->margemvladicicmsst->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formICMS->margemvladicicmsst->renderViewHelper() ?>
+                                       </div>
+                                        <div class="span3">
+                                       <?php echo $this->formICMS->motivodadesoneracao->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formICMS->motivodadesoneracao->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                       
+                                    </div>
+                                    <div class="tab-pane" id="tab_r3">
+                                       <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->sittributaria_ipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->sittributaria_ipi->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->cnpjprodutor_ipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->cnpjprodutor_ipi->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->classedeenquadramento_ipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->classedeenquadramento_ipi->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->codenquadramento_ipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->codenquadramento_ipi->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                       
+                                         
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->codselocontrole_ipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->codselocontrole_ipi->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->tipocalculo_ipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->tipocalculo_ipi->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                         <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->alipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formIPI->alipi->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->vlfixo_ipi->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formIPI->vlfixo_ipi->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                    </div>
+                                     <div class="tab-pane" id="tab_r4">
+                                     
+                                       <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->sittrib_pis->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->sittrib_pis->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formPIS->tipocalculo_pis->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formPIS->tipocalculo_pis->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->aliqpis_pis->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->aliqpis_pis->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formPIS->aliqreal__pis->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formPIS->aliqreal__pis->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                          <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->tipocalculost_pis->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->tipocalculost_pis->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formPIS->aliqpis_st_pis->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formPIS->aliqpis_st_pis->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->aliqrealst__pis->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formPIS->aliqrealst__pis->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        
+                                       </div>
+                                       <div class="span3">
+                                        
+                                       </div>
+                                       </div>
+                                       
+                                       
+                                     
+                                     </div>
+                                      <div class="tab-pane" id="tab_r5">
+                                      
+                                       <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->sittrib_cofins->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->sittrib_cofins->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formCOFINS->tipocalculo_cofins->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formCOFINS->tipocalculo_cofins->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->aliqcofins_cofins->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->aliqcofins_cofins->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formCOFINS->aliqreal__cofins->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formCOFINS->aliqreal__cofins->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                          <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->tipocalculost_cofins->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->tipocalculost_cofins->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formCOFINS->aliqcofins_st_cofins->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                        <?php echo $this->formCOFINS->aliqcofins_st_cofins->renderViewHelper() ?>
+                                       </div>
+                                       </div>
+                                       
+                                        <div class="row-fluid">
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->aliqrealst__cofins->renderLabel() ?>
+                                       </div>
+                                       <div class="span3">
+                                       <?php echo $this->formCOFINS->aliqrealst__cofins->renderViewHelper() ?>
+                                       </div>
+                                       <div class="span3">
+                                        
+                                       </div>
+                                       <div class="span3">
+                                        
+                                       </div>
+                                       </div>
+                                      
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+<div class="row-fluid">
+ <div class="span12">
+ <span class=" pull-right"><button class="btn btn-gebo" type="submit">Editar</button></span>
+ </div>
+ </div>
+
+</form>
+<script src="/sys_js/novo-perfil-faturamento.min.js"></script>
+<script>
+$().ready(function(){
+	desbloqueiaICMS('<?php echo $this->dicms['sittributaria']?>');
+	desbloqueiaIPI('<?php echo $this->dipi['sittributaria_ipi']?>');
+	desbloqueiaPIS('<?php echo $this->dpis['sittrib_pis']?>');
+	desbloqueiaCOFINS('<?php echo $this->dcofins['sittrib_cofins']?>');
+	
+})
+
+</script>                          		 

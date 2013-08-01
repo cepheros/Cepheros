@@ -1,0 +1,565 @@
+<?php ?>
+
+<h3 class="heading">OS: <?php echo $this->dados->cod_os ?> <span class="pull-right"> <a href="/crm/ordem-servico/print/id/<?php echo $this->dados->id_registro?>" target="_blank"><i class="splashy-printer" title="Imprimir"></i></a></span></h3>
+<div class="tabbable tabs-left">
+	 	<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_l1" data-toggle="tab">OS </a></li>
+			<li><a href="#tab_l2" data-toggle="tab">Itens <span class="pull-right label label-success"><?php echo $this->anotacoes ?></span></a></li>
+			<li><a href="#tab_l3" data-toggle="tab">Notas <span class="pull-right label label-success"><?php echo $this->anotacoes ?></span></a></li>
+			<li><a href="#tab_l4" data-toggle="tab">Fechamento:</a></li>
+		</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab_l1">
+
+<form id="ordem_servico" name="ordem_servico" enctype="application/x-www-form-urlencoded" class="form-horizontal" method="post" action="">
+<div class="span10">
+<fieldset id="fieldset-clientes" class="form-horizontal">
+<?php echo $this->formulario->id_registro; ?>
+<div class="row-fluid">
+<div class="span2">
+
+<?php echo $this->formulario->cod_os; ?>
+</div>
+<div class="span6">
+<?php echo $this->formulario->id_cliente; ?>
+<?php echo $this->formulario->nome_cliente; ?>
+</div>
+<div class="span4">
+<?php echo $this->formulario->contato_cliente ; ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span3">
+<?php echo $this->formulario->id_empresa ; ?>
+</div>
+<div class="span3">
+<?php echo $this->formulario->tipo_os ; ?>
+</div>
+<div class="span3">
+<?php echo $this->formulario->status_os ; ?>
+</div>
+<div class="span3">
+Total: <?php print_r( Crm_Model_Os_Basicos::totalOs($this->dados->id_registro ) )?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->formulario->relato_cliente; ?>
+</div>
+</div>
+<div class="row-fluid formSep">
+<div class="span12">
+<?php echo $this->formulario->relato_tecnico; ?>
+</div>
+</div>
+</fieldset>
+<div class="row-fluid">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Atualizar OS" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+</div>
+</form>
+</div>
+		<div class="tab-pane " id="tab_l2">
+<div class="row-fluid">
+<div class="span6">
+<h3 class="heading">Serviços</h3>
+	<form id="servicos-form" class="form-horizontal well" method="post" action="/crm/ordem-servico/incluir-servico/id/<?php echo $this->dados->id_registro?>">
+										<fieldset>
+											<div class="control-group">
+												<label class="control-label">Serviço:</label>
+												<div class="controls">
+												<input type="hidden" name="id_servico" id="id_servico">
+													<input type="text" name="nomeservico" id="nomeservico" class="span10" />
+													<span class="help-block">Digite o nome do serviço para localizar:</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label">Valor Un:</label>
+												<div class="controls">
+													<input type="text" name="vlunitario" id="vlunitario_servico" class="span4" />
+													<span class="help-block">Valor Unitário do Serviço</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label">Quantidade:</label>
+												<div class="controls">
+													<input type="text" name="quantidade" id="quantidade_servico" class="span4" />
+													<span class="help-block">Quantidade utilizada na OS</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label">Observações</label>
+												<div class="controls">
+													<input type="text" name="obstecnica" id="obstecnica_servico" class="span12" /> 
+													<span class="help-block">Obervações da Equipe Técnica</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<div class="controls pull-right">
+													<button class="btn" type="button" id="salvar_servico">Incluir >></button>
+												</div>
+											</div>
+											</fieldset>
+											
+											</form>
+<table id="servicos-table" class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th>Serviço</th>
+			<th>Qtd</th>
+			<th>Vl Un.</th>
+			<th>Total</th>
+			<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+</table>
+</div>
+<div class="span6">
+<h3 class="heading">Produtos</h3>
+<form id="produtos-form" class="form-horizontal well" >
+										<fieldset>
+											<div class="control-group">
+												<label class="control-label">Produto:</label>
+												<div class="controls">
+												<input type="hidden" name="id_produto" id="id_produto">
+													<input type="text" name="nomeproduto" id="nomeproduto" class="span10" />
+													<span class="help-block">Digite o nome do produto para localizar:</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label">Valor Un:</label>
+												<div class="controls">
+													<input type="text" name="vlunitatio" id="vlunitario_produto" class="span4" />
+													<span class="help-block">Valor Unitário do Produto</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label">Quantidade:</label>
+												<div class="controls">
+													<input type="text" name="quantidade" id="quantidade_produto" class="span4" />
+													<span class="help-block">Quantidade utilizada na OS</span>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label">Observações</label>
+												<div class="controls">
+													<input type="text" name="obstecnica" id="obstecnica_produto" class="span12" /> 
+													<span class="help-block">Obervações da Equipe Técnica</span>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<div class="controls pull-right">
+													<button class="btn" type="button" id="salvar-produto">Incluir >></button>
+												</div>
+											</div>
+											</fieldset>
+											
+											</form>
+<table id="produtos-table" class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th>Produto</th>
+			<th>Qtd</th>
+			<th>Vl Un.</th>
+			<th>Total</th>
+			<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+</table>
+</div>
+</div>
+</div>
+		<div class="tab-pane" id="tab_l3">
+		<div class="span10">
+		<h3>Anotações</h3>
+		<form id="anotacoes_os_form" name="anotacoes_os" method="POST" action="/crm/ordem-servico/salva-anotacao/id/<?php echo $this->dados->id_registro ?>">
+		<div class="row-fluid">
+		<div class="span12">
+		<textarea class="span12 required" rows='10' name="anotacoes_os" id="anotacoes_os" title="Informe sua Anotação" ></textarea>
+		</div>
+		</div>
+		<div class="row-fluid formSep">
+<fieldset id="fieldset-botoes">
+<div style="text-align:right">
+<input type="reset" name="limpar" id="limpar" value="Limpar" class="btn btn-large btn-warning">
+<input type="submit" name="submit" id="submit" value="Salvar Anotação >>" class="btn btn-large btn-primary">
+</div>
+</fieldset>
+</div>
+		</form>
+		
+		<div id="Anotacoes_Info" class="span10">
+	<?php foreach($this->datanotes as $note){?>
+	
+		<div id="data_anotacao_<?php echo $note->id_registro ?>" class="row-fluid formSep">
+		<div class="span12">
+		<div class="w-box" id="w_sort02">
+									<div class="w-box-header">
+									<?php if($note->usuario_note == 0){ ?>
+									<i class="splashy-group_grey" title="Cliente OS"></i>
+									<?php }else{ ?>
+									<i class="splashy-group_blue" title="Usuário do Sistema"></i>
+									<?php } ?>
+										<?php echo $note->nome_usuario ?> em <?php echo Functions_Datas::MyDateTime($note->data_note,true) ?>
+										<div class="pull-right">
+											<div class="btn-group">
+												<a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
+													<i class="icon-cog"></i> <span class="caret"></span>
+												</a>
+												<ul class="dropdown-menu">
+													<li><a href="#" onclick="removeanotacao(<?php echo $note->id_registro?>)">Excluir</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="w-box-content">
+									<?php echo nl2br($note->anotacao)?>
+									</div>
+								</div>
+							</div>
+							</div>
+						
+						<?php } ?>
+						</div>
+		</div>
+		</div>
+		<div class="tab-pane" id="tab_l4">
+		<h3>Fechamento</h3>
+		
+		</div>
+		
+</div>
+</div>
+
+
+
+<div id="ajaxforms"></div>
+
+<script>
+$.fn.chosenDestroy = function () {
+	$(this).show().removeClass('chzn-done')
+	$(this).next().remove()
+
+	  return $(this);
+	}
+
+	
+$().ready(function(){
+	$('#ordem_servico').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+        errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+        },
+      
+        invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		}
+    });
+
+   
+    $("#status_os").chosen();
+    $("#tipo_os").chosen();
+
+	$("#nome_cliente").autocomplete({
+		 
+	    source: "/system/auto-complete/pessoas",
+			minLength: 0,
+			focus: function( event, ui ) {
+		//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+			return false;
+		},
+
+	    select: function(event, ui) {
+	        $('#id_cliente').val(ui.item.id_registro);
+	        $( "#nome_cliente" ).val( ui.item.razaosocial );
+	        $("#contato_cliente").chosenDestroy();
+
+	        $('#contato_cliente')
+		    .find('option')
+		    .remove()
+		    .end()
+		    .append('<option value="whatever">Carregando ... </option>')
+		    .val('0');
+	    	
+		    	
+	    	y = 1;
+	    	$.getJSON("/cadastros/pessoas/getcontatos/id/"+ $('#id_cliente').val(), function(data) {
+		    	
+	    		 $('#contato_cliente')
+		     	    .find('option')
+		     	    .remove()
+		     	    .end()
+		     	    .append('<option value="0">- Selecione -</option>')
+		     	    .val('0')
+		     	;
+	    	
+	    		$.each(data, function(i,item){
+	    			document.getElementById('contato_cliente').options[y] = new Option( item.nomecontato , item.id_registro );
+	    			y++;
+	    		});
+	    		
+	    		$("#contato_cliente").chosen();  
+	    	});
+	        	              
+	        return false;
+
+	    }
+	});
+
+
+	$('#servicos-table').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+	"sPaginationType": "bootstrap",
+    "bProcessing": true,
+	"bServerSide": true,
+    "sAjaxSource": "/system/datatables/servicos-os/id/<?php echo $this->dados->id_registro ?>"             	
+                    
+    });
+
+	$('#produtos-table').dataTable({
+		"oLanguage": {
+			"sUrl": "/js/datatable_ptbr.txt"
+		},
+	"sPaginationType": "bootstrap",
+    "bProcessing": true,
+	"bServerSide": true,
+	  "sAjaxSource": "/system/datatables/produtos-os/id/<?php echo $this->dados->id_registro ?>"           	
+                    
+    });
+
+
+	$("#nomeproduto").autocomplete({
+		 
+	    source: "/system/auto-complete/produtos/id/0",
+			minLength: 0,
+			focus: function( event, ui ) {
+		//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+			return false;
+		},
+
+	    select: function(event, ui) {
+	        $('#id_produto').val(ui.item.id_registro);
+	        $( "#nomeproduto" ).val( ui.item.nomeproduto );
+	        $( "#vlunitario_produto" ).val( ui.item.precovenda );
+	        <?php if(System_Model_SysConfigs::getConfig("TravaPrecoVendaProduto") == 1){?>
+	        $( "#vlunitario_produto" ).attr("readonly",true);
+	        <?php } ?>
+	                  
+	        return false;
+
+	    }
+
+	    
+	});
+
+
+
+	$("#nomeservico").autocomplete({
+		 
+	    source: "/system/auto-complete/servicos",
+			minLength: 0,
+			focus: function( event, ui ) {
+		//	$( "#nomerepresentante" ).val( ui.item.razaosocial );
+			return false;
+		},
+
+	    select: function(event, ui) {
+	        $('#id_servico').val(ui.item.id_registro);
+	        $( "#nomeservico" ).val( ui.item.nomeservico );
+	        $( "#vlunitario_servico" ).val( ui.item.valorservico );
+	        <?php if(System_Model_SysConfigs::getConfig("TravaPrecoVendaServico") == 1){?>
+	        $( "#vlunitario_servico" ).attr("readonly",true);
+	        <?php } ?>
+	                  
+	        return false;
+
+	    }
+
+	    
+	});
+
+
+	$("#salvar-produto").click(function(){
+		var nomeproduto = $("#nomeproduto").val();
+		if(confirm("Deseja Adicionar o produto "+nomeproduto+" a OS?")){
+
+			 $.ajax({ 
+					type: "GET", 
+					url: "/crm/ordem-servico/incluir-produto/id/<?php echo $this->dados->id_registro?>", 
+					data: "id_produto="+ $('#id_produto').val() +"&quantidade="+ $('#quantidade_produto').val() + "&vlunitario=" + $('#vlunitario_produto').val() +"&obstecnica="+$("#obstecnica_produto").val(),
+					beforeSend: function() {
+						$.sticky('Salvando Informações', { type: 'st-info' });	
+			 		}, 
+					success: function(txt) { 
+
+						$("#produtos-table").dataTable().fnDraw();
+						                			
+						                			$("#nomeproduto").val("");
+						                			$("#id_produto").val("");
+						                			$("#nomeproduto").val("");
+						                			$("#obstecnica_produto").val("");
+						                			$("#vlunitario_produto").val("0");
+						                			$("#quantidade_produto").val("");
+						                			$("#vlunitario_produto").removeAttr("readonly");							
+						$.sticky('Produto Adicionado', { type: 'st-success' });	
+						 								}, 
+					error: function(txt) { 
+						$.sticky('Erro na solicitação', { type: 'st-error' });	
+					} 
+				}); 			
+
+			
+		}
+	});
+
+
+	$("#salvar_servico").click(function(){
+		var nomeproduto = $("#nomeservico").val();
+		if(confirm("Deseja Adicionar o Serviço "+nomeproduto+" a OS?")){
+
+			 $.ajax({ 
+					type: "GET", 
+					url: "/crm/ordem-servico/incluir-servico/id/<?php echo $this->dados->id_registro?>", 
+					data: "id_servico="+ $('#id_servico').val() +"&quantidade="+ $('#quantidade_servico').val() + "&vlunitario=" + $('#vlunitario_servico').val() +"&obstecnica="+$("#obstecnica_servico").val(),
+					beforeSend: function() {
+						$.sticky('Salvando Informações', { type: 'st-info' });	
+			 		}, 
+					success: function(txt) { 
+
+						$("#servicos-table").dataTable().fnDraw();
+						                			
+						                			$("#nomeservico").val("");
+						                			$("#id_servico").val("");
+						                			$("#obstecnica_servico").val("");
+						                			$("#vlunitario_servico").val("0");
+						                			$("#quantidade_servico").val("");
+						                			$("#vlunitario_servico").removeAttr("readonly");							
+						$.sticky('Serviço Adicionado', { type: 'st-success' });	
+						 								}, 
+					error: function(txt) { 
+						$.sticky('Erro na solicitação', { type: 'st-error' });	
+					} 
+				}); 			
+
+			
+		}
+	});
+
+
+	$('#anotacoes_os_form').validate({
+		onkeyup: false,
+		errorClass: 'error',
+		validClass: 'valid',
+		highlight: function(element) {
+			$(element).closest('div').addClass("f_error");
+		},
+		unhighlight: function(element) {
+			$(element).closest('div').removeClass("f_error");
+		},
+	    errorPlacement: function(error, element) {
+	        $(element).closest('div').append(error);
+	    },
+	  
+	    invalidHandler: function(form, validator) {
+			$.sticky("Existem campos obrigatórios não preenchidos no formulário, corrija estes erros e tente novamente.", {autoclose : 5000, position: "top-right", type: "st-error" });
+		},
+		submitHandler: function(form) {
+			jQuery(form).ajaxSubmit({
+				target: "#ajaxforms",
+				beforeSubmit:   function(){ 
+					$.sticky("Salvando outros dados.", {autoclose : 5000, position: "top-right", type: "st-info" });
+					
+				}, 
+			error: function(txt) { 
+				$.sticky("Erro: "+ txt, {autoclose : 5000, position: "top-right", type: "st-error" });
+				$("#ajaxforms").html('');
+
+				},
+			success: function(txt){
+				$.sticky("Anotação Salva com Sucesso", {autoclose : 5000, position: "top-right", type: "st-success" });
+				$("#Anotacoes_Info").append(txt);
+				$("#ajaxforms").html('');	
+		
+			},
+		        clearForm: true
+				
+			});
+		}
+	});
+		
+	    
+
+});
+
+function removeanotacao(id){
+	if(confirm("Deseja realmente remover essa anotação?")){
+
+
+		 $.ajax({ 
+				type: "GET", 
+				url: "/crm/ordem-servico/remover-nota/id/"+id, 
+				data: "query=1",
+				beforeSend: function() {
+					$.sticky('Removendo Anotação', { type: 'st-info' });	
+		 		}, 
+				success: function(txt) { 
+
+					$.sticky('Anotação Removida', { type: 'st-success' });	
+					 $("#data_anotacao_"+id).hide();								}, 
+				error: function(txt) { 
+					$.sticky('Erro: '+txt, { type: 'st-error' });	
+				} 
+			}); 			
+		
+
+	}
+}
+
+    </script>
+
+<style>
+input[type=checkbox], input.checkbox { 
+ float:left;
+ clear:none; 
+ margin: 2px 0 0 2px; 
+}
+label[for=opcoes_os-SendMail] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+label[for=opcoes_os-SendSMS] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+label[for=opcoes_os-ClientCheck] { 
+ float:left; 
+ clear:none; 
+ display:block; 
+ padding: 2px 1em 0 0; 
+}
+</style>
