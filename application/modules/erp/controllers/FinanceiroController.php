@@ -1006,9 +1006,29 @@ class Erp_FinanceiroController extends Zend_Controller_Action{
 	}
 	
 	public function novoLancamentoCaixaAction(){
+		$db = new Erp_Model_Financeiro_FluxoCaixa();
 		if ($this->_request->isPost()) {
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
+			print_r($_POST);
+			if($_POST['id_registro'] <> '' ||$_POST['id_registro'] <> '' ){
+				$dados = array('id_conta'=>$_POST['id_conta'],
+						'datalancameto'=> Functions_Datas::inverteData($_POST['datalancamento']),
+						'valorregistro'=> str_replace(',','.',$_POST['valorregistro']),
+						'categoria'=>$_POST['categoria'],
+						'tipolancamento'=>$_POST['tipolancamento'],
+						'observacoes'=>$_POST['observacoes'],
+						'nomelancamento'=>$_POST['nomelancamento'],
+						'dataregistro'=> date('Y-m-d H:i:s') ,
+						'id_user'=>$ $this->userInfo->id_registro	
+						
+				);
+				
+				$db->update("","id_registro = '{$_POST['id_registro']}'");
+			}else{
+				$db->insert("data");
+			}
+			
 			
 		}else{
 		$this->_helper->layout()->setLayout('modal');
@@ -1016,7 +1036,8 @@ class Erp_FinanceiroController extends Zend_Controller_Action{
 		$form = new Erp_Form_Financeiro();
 		$form->fluxoCaixa();
 		if($id <> ''){
-			$db = new Erp_Model_Financeiro_FluxoCaixa();
+			$this->view->tipo = 'Edit';
+			
 			$dados  = $db->fetchRow("id_registro = '$id'")->toArray();
 			$this->view->tipo = 'Edit';
 			$dados['valorregistro'] = number_format($dados['valorregistro'],2,',','');
@@ -1029,6 +1050,8 @@ class Erp_FinanceiroController extends Zend_Controller_Action{
 		$this->view->form = $form;
 		
 		}
+		
+		
 		
 		
 		

@@ -29,7 +29,7 @@
 <select name="conta" id="conta"><?php 
 $empresas = Erp_Model_Financeiro_ContaCorrente::getCombo();
 	foreach($empresas as $key=>$value){
-		echo "<option value=\"$key\" $selected> $value </otion>";
+		echo "<option value=\"$key\"> $value </otion>";
 	} ?>
 </select>
 </div>
