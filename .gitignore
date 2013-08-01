@@ -1,3 +1,6 @@
-application/data/*
-*.pfx
-docs/*
+application/data/cache/*
+application/data/certs/*
+application/data/files/*
+application/data/logs/*
+application/data/temp/*
+docs/InternalDocs/*
