@@ -1,8 +1,13 @@
 <?php 
 $configs = Zend_Registry::get('configs');
+
+
 $userData = Zend_Auth::getInstance()->getStorage()->read();
+
 $menus = new System_Model_Menus();
+
 $fav = new System_Model_UsersFavoritos;
+
 $favoritos = $fav->getFavoritos($userData->id_registro);
 	   
 ?>
@@ -491,6 +496,10 @@ $favoritos = $fav->getFavoritos($userData->id_registro);
                                     </div>
                                 </div>
                             </div>
+                            <?php 
+                            $estemenu = $menus->fetchAll("module = '{$module}' and controller = '{$controller}-relatorios'","position ASC");
+                            if(count($estemenu) > 0){
+                            ?>
                             <div class="accordion-group">
                                 <div class="accordion-heading">
                                     <a href="#collapseThree" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
@@ -520,6 +529,13 @@ $favoritos = $fav->getFavoritos($userData->id_registro);
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
+                            
+                            <?php 
+                            $estemenu = $menus->fetchAll("module = 'system' and controller = '{$this->parameters['controller']}'","position ASC");
+                             if(count($estemenu) > 0){
+                            ?>
+                            
                             <div class="accordion-group">
                                 <div class="accordion-heading">
                                     <a href="#collapseFour" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
@@ -538,6 +554,7 @@ $favoritos = $fav->getFavoritos($userData->id_registro);
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
 									
 								</div>
 								

@@ -60,7 +60,7 @@ class Cadastros_TransportadorasController extends Zend_Controller_Action{
 					$data2['id_pessoa'] = $id;
 					$db2->insert($data2);
 					
-					$this->_redirect("cadastros/clientes/cadastro/id/$id");
+					$this->_redirect("cadastros/pessoas/cadastro/id/$id");
 					
 					
 				}

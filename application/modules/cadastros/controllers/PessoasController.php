@@ -60,7 +60,7 @@ class Cadastros_PessoasController extends Zend_Controller_Action{
 					$data2['id_pessoa'] = $id;
 					$db2->insert($data2);
 					
-					$this->_redirect("cadastros/clientes/cadastro/id/$id");
+					$this->_redirect("cadastros/pessoas/cadastro/id/$id");
 					
 					
 				}
@@ -185,7 +185,6 @@ class Cadastros_PessoasController extends Zend_Controller_Action{
 					$db = new Cadastros_Model_Pessoas();
 					$save = $db->update($formData,"id_registro = '$id'");
 					$this->log->log("Cadastro do Cliente {$formData['razaosocial']} Efetuado por: {$userInfo->nomecompleto}",Zend_Log::INFO);
-					$this->_redirect("cadastros/clientes/cadastro/id/$id");
 				}
 				catch (Exception $e){
 					$this->log->log("Erro na alteração do cadastro do cliente {$formData['razaosocial']}, usuário: {$userInfo->nomecompleto} ERRO: {$e->getMessage()} ",Zend_Log::ERR);
@@ -442,7 +441,7 @@ class Cadastros_PessoasController extends Zend_Controller_Action{
 			$this->log->log("ERRO UPLOAD: {$e->getMessage()} ",Zend_Log::ERR);
 		}
 		
-		$this->_redirect("/cadastros/clientes/cadastro/id/{$data['idreg']}/action/upload");
+		$this->_redirect("/cadastros/pessoas/cadastro/id/{$data['idreg']}/action/upload");
 	
 	
 	}

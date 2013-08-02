@@ -68,7 +68,7 @@ class Cadastros_ClientesController extends Zend_Controller_Action{
 
 					$db->getAdapter()->commit();
 				//	$db2->getAdapter()->commit();
-					$this->_redirect("cadastros/clientes/cadastro/id/$id");
+					$this->_redirect("cadastros/pessoas/cadastro/id/$id");
 					
 					
 				}

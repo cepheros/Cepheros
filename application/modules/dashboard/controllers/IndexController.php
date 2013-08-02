@@ -72,25 +72,29 @@ class Dashboard_IndexController extends Zend_Controller_Action{
 		
 		$this->view->AlertSysMessage = $message;
 		
+		if(!$results = $this->cache->load("GraficoRealizadoPrevisto")){
+			$meses = Functions_Datas::getMonthsForData();
+			foreach($meses as $mes){
+				$mesano = explode('/',$mes);
+				$recebimentoprevisto[] = Erp_Model_Financeiro_LancamentosRecebimentos::getValoresRecebimentoMes($mesano[0],$mesano[1],"1,2");
+				$recebimentorealizado[] = Erp_Model_Financeiro_LancamentosRecebimentos::getValoresRecebimentoMes($mesano[0],$mesano[1],"3");
+				$pagamentoprevisto[] = Erp_Model_Financeiro_LancamentosPagamentos::getValoresPagamentoMes($mesano[0],$mesano[1],"1,2");
+				$pagamentorealizado[] = Erp_Model_Financeiro_LancamentosPagamentos::getValoresPagamentoMes($mesano[0],$mesano[1],"3");
+			}	
 		
-		$meses = Functions_Datas::getMonthsForData();
+			$mesano = null;
+			$results['recebimentoprevisto'] = $recebimentoprevisto;
+			$results['recebimentorealizado'] = $recebimentorealizado;
+			$results['pagamentoprevisto'] = $pagamentoprevisto;
+			$results['pagamentorealizado'] = $pagamentorealizado;
+			$this->cache->save($results,"GraficoRealizadoPrevisto");
+		}
 		
-		//print_r($meses);
 		
-		foreach($meses as $mes){
-			$mesano = explode('/',$mes);
-			$recebimentoprecisto[] = Erp_Model_Financeiro_LancamentosRecebimentos::getValoresRecebimentoMes($mesano[0],$mesano[1],"1,2");
-			$recebimentorealizado[] = Erp_Model_Financeiro_LancamentosRecebimentos::getValoresRecebimentoMes($mesano[0],$mesano[1],"3");
-			$pagamentoprevisto[] = Erp_Model_Financeiro_LancamentosPagamentos::getValoresPagamentoMes($mesano[0],$mesano[1],"1,2");
-			$pagamentorealizado[] = Erp_Model_Financeiro_LancamentosPagamentos::getValoresPagamentoMes($mesano[0],$mesano[1],"3");
-			
-		}	$mesano = null;
-		
-		$this->view->recPrevistoGrafico = implode(',',$recebimentoprecisto);
-		$this->view->recRealizadoGrafico = implode(',',$recebimentorealizado);
-		
-		$this->view->pagPrevistoGrafico = implode(',',$pagamentoprevisto);
-		$this->view->pagRealizadoGrafico = implode(',',$pagamentorealizado);
+		$this->view->recPrevistoGrafico = implode(',',$results['recebimentoprevisto']);
+		$this->view->recRealizadoGrafico = implode(',',$results['recebimentorealizado']);
+		$this->view->pagPrevistoGrafico = implode(',',$results['pagamentoprevisto']);
+		$this->view->pagRealizadoGrafico = implode(',',$results['pagamentorealizado']);
 		
 	}
 	

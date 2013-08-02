@@ -84,8 +84,8 @@ class Erp_Model_Financeiro_LancamentosRecebimentos extends Zend_Db_Table_Abstrac
 		
 		$rs = $return->fetchAll();
 		}
-		if($rs[0][total]){
-			return $rs[0][total];
+		if($rs[0]['total']){
+			return $rs[0]['total'];
 		}else{
 			return 0;
 		}
@@ -117,8 +117,8 @@ class Erp_Model_Financeiro_LancamentosRecebimentos extends Zend_Db_Table_Abstrac
 	
 					$rs = $return->fetchAll();
 	}
-			if($rs[0][total]){
-			return $rs[0][total];
+			if($rs[0]['total']){
+			return $rs[0]['total'];
 			}else{
 			return 0;
 	}
