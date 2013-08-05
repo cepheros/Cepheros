@@ -139,9 +139,44 @@
 	</select>
 	</div>
 	</div>					
+	<p class="f_legend">Configurações Comissões:</p>
+	<div class="control-group">
+	<label class="control-label">Qual categoria de lancamento de comissoes ?</label>
+	<div class="controls">
+	<select name="CategoriaLancComissoes" id="CategoriaLancComissoes" >
+	<?php
+	$empresas = Erp_Model_Financeiro_TiposLancamentos::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("CategoriaLancComissoes")))){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>					
+	
+	<label class="control-label">Qual tipo de documento para pagamento de comissao?</label>
+	<div class="controls">
+	<select name="TipoDocComissoes" id="TipoDocComissoes">
+	<?php
+	$empresas = Erp_Model_Financeiro_TiposDocumentos::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("TipoDocComissoes")))){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>					
 	
  </div>
- </div>
+
   <div class="row-fluid">
    <div class="span12">
  	<div class="control-group">
@@ -178,6 +213,9 @@
                                 	$("#StatusLancamentoLiberado").chosen();
                                 	$("#StatusLancamentoCancelado").chosen();
                                 	$("#FinanTypeUserCanLib").chosen();
+                                	$("#CategoriaLancComissoes").chosen();
+                                	$("#TipoDocComissoes").chosen();
+                                	
 
                                 	$("#FinanEmailResumoUsers").chosen();
 

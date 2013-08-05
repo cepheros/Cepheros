@@ -160,5 +160,13 @@ class Functions_Verificadores{
 		
 	}
 	
+	public function ValidSystemUsePermission(){
+		$dados = array('StatusSistema'=>'Ativo',
+				'datalimite'=>'2013-12-30'
+		);
+		
+		return $dados;
+	}
+	
 
 }

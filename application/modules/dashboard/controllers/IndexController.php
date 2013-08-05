@@ -4,6 +4,7 @@ class Dashboard_IndexController extends Zend_Controller_Action{
 	public $log;
 	public $configs;
 	public $cache;
+	private $SystemStatus;
 	
 	
 	public function init(){
@@ -15,12 +16,16 @@ class Dashboard_IndexController extends Zend_Controller_Action{
 		$this->log = Zend_Registry::get('log');
 		$this->configs = Zend_Registry::get('configs');
 		$this->cache = Zend_Registry::get('cache');
+		$this->SystemStatus = Zend_Registry::get('StatusSistema');
 		
 		if($this->configs->phpSettings->display_errors == 1){
 			$this->view->DebugEnable = true;
 		}
 		$this->view->parameters = $this->_request->getParams();
 		$this->_helper->layout()->setLayout('dashboard');
+		
+		
+		
 		
 	}
 	
@@ -32,7 +37,7 @@ class Dashboard_IndexController extends Zend_Controller_Action{
 		$message = '';
 		if(is_file(UPDATES_PATH . '/sql/update.sql')){
 			$this->view->sqlUpdate = true;
-			$message[] = Functions_Messages::renderAlert("<strong><a href=\"/sistema/update/sql\">Existe uma nova atualização para o sistema clique aqui para iniciar!</a></strong>",'info');
+			$message[] = Functions_Messages::renderAlert("<strong><a href=\"/sistema/updates\">Existe uma nova atualização para o sistema clique aqui para iniciar!</a></strong>",'info');
 		}
 		
 		

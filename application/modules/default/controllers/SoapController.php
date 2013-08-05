@@ -63,6 +63,16 @@ class SoapController extends Zend_Controller_Action{
 	}
 	
 	public function produtosAction(){
+		$this->_helper->viewRenderer->setNoRender();
+		if(isset($_GET['wsdl'])) {
+			$autodiscover = new Zend_Soap_AutoDiscover();
+			$autodiscover->setClass('Soap_Produtos');
+			$autodiscover->handle();
+		} else {
+			$soap = new Zend_Soap_Server($this->configs->Leader->SoapServer . "/produtos?wsdl");
+			$soap->setClass('Soap_Produtos');
+			$soap->handle();
+		}
 		
 	}
 	

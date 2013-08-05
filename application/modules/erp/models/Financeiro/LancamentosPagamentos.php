@@ -41,7 +41,7 @@ class Erp_Model_Financeiro_LancamentosPagamentos extends Zend_Db_Table_Abstract{
 		$dados = new Erp_Model_Financeiro_LancamentosPagamentos();
 		$return = $dados->getAdapter()->select()
 		->from(array('a'=>'tblpagamentos_lancamentos'),array('a.id_registro','a.id_lancamento','a.datavencimento','a.valororiginal','a.numeroparcela','a.quantidadeparcelas','a.tipodocumento','a.data_sysbaixa','a.user_sysbaixa','a.databaixa',
-				'a.valorbaixa','a.valorjuros','a.valormultas','a.valordescontos','a.valorpago','a.tipopagamento','a.contapagamento','a.id_registro_fluxo','a.id_banco',
+				'a.valorbaixa','a.valorjuros','a.valormultas','a.valordescontos','a.valorpago','a.tipopagamento','a.contapagamento','a.id_registro_fluxo','a.id_banco','a.id_processo_comissao',
 				'a.numerodocumento','a.statuslancamento','a.user_liberacao','a.datalibera','b.tiporegistro','b.categorialanc','b.datacadastro','b.totalgeral',
 				'b.id_pessoa','b.id_empresa','b.nomelancamento','b.numerodocumento','b.categorialanc','c.nomefantasia as empresa','d.razaosocial','e.nomedocumento','f.nomebanco','g.nomesubcategoria'))
 				->join(array('b'=>'tblpagamentos_dados'),'b.id_registro = a.id_lancamento',array())

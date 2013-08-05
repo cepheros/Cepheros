@@ -1595,7 +1595,8 @@ class Functions_NFe{
 						'statuslancamento'=>'1',
 						'id_banco'=>Erp_Model_Financeiro_ContaCorrente::getContaPadrao(),
 						'user_liberacao'=>'0',
-						'id_ped_venda_produto'=> implode(',', Erp_Model_Faturamento_NFe_Produtos::getIDProdVenda($id))
+						'id_ped_venda_produto'=> implode(',', Erp_Model_Faturamento_NFe_Produtos::getIDProdVenda($id)),
+						'id_nfe'=>$id
 				);
 				$id_destelanc = $Lanc->insert($data2);
 				$Par + 1;

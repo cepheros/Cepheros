@@ -419,6 +419,26 @@ class Erp_FinanceiroController extends Zend_Controller_Action{
 				);
 	
 				$db3->update($dataupreg, "id_registro = '{$formdata['id_registro']}'");
+				
+				if($dados['id_processo_comissao'] <> '' || $dados['id_processo_comissao'] <> 0){
+
+					$dadosLancComissao = array('id_vendedor'=>$dataLanc->id_pessoa,
+							'datapagamento'=>Functions_Datas::inverteData($formdata['datapagamento']),
+							'id_ped_venda'=>'0',
+							'id_ped_venda_prod'=>'0',
+							'id_recebimento'=>'0',
+							'id_pagamento'=>$formdata['id_registro'],
+							'dataprocessamento'=> date('Y-m-d H:i:s'),
+							'usuarioprocessamento'=>$this->userInfo->id_registro,
+							'observacoes'=>"Baixa de Comissao Paga no Lancamento {$dados['id_lancamento']}",
+							'valorregistro'=>'-'.str_replace(",", ".",$formdata['valorpago'])
+					);
+						
+					$dbComissoes = new Erp_Model_Financeiro_FluxoComissoes();
+					$dbComissoes->insert($dadosLancComissao);
+					
+					
+				}
 			}catch(Exception $e){
 				echo $e->getMessage();
 			}
@@ -1143,6 +1163,154 @@ class Erp_FinanceiroController extends Zend_Controller_Action{
 		
 		
 		
+	}
+	
+	
+	public function comissoesAction(){
+		
+	}
+	
+	public function processaComissoesAction(){
+		if ($this->_request->isPost()) {
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+			
+			$formData =  $this->_request->getPost();
+			print_r($formData);
+			
+			$datainicial = Functions_Datas::inverteData($formData['datainicial']);
+			$datafinal = Functions_Datas::inverteData($formData['datafinal']);
+			$datapagamento = Functions_Datas::inverteData($formData['datapagamento']);
+			
+			if($formData['somenterecebidos'] == 1){
+				$lancamentos = System_Model_SysConfigs::getConfig("StatusLancamentoEncerrado");
+			}else{
+				$lancamentos = System_Model_SysConfigs::getConfig("StatusLancamentoEncerrado") . System_Model_SysConfigs::getConfig("StatusLancamentoAberto");
+			}
+			
+			$dbLan = new Erp_Model_Financeiro_LancamentosRecebimentos();
+			$query = $dbLan->select()->where("statuslancamento in ($lancamentos)")
+					->where("comissaoprocessada = '0'")
+					->where("comissaoprocessada = ''")
+					->where("id_ped_venda_produto <> ''");
+			
+			if($datainicial <> '' && $formData['somenterecebidos'] == 1){
+				$query->where("databaixa >= '$datainicial 00:00:00'");
+			}elseif($datainicial <> '' && $formData['somenterecebidos'] == 0) {
+				$query->where("datavencimento >= '$datainicial'");
+			}
+			
+			if($datafinal <> '' && $formData['somenterecebidos'] == 1){
+				$query->where("databaixa <= '$datafinal 23:59:59'");
+			}elseif($datafinal <> '' && $formData['somenterecebidos'] == 0) {
+				$query->where("datavencimento <= '$datafinal'");
+			}
+			
+			
+			$dadosLan = $dbLan->fetchAll($query);
+			$dbvendaProd = new Erp_Model_Vendas_Produtos();
+			$dbvenda = new Erp_Model_Vendas_Basicos();
+
+			if(count($dadosLan) > 0){
+				
+			
+			foreach($dadosLan as $lancamento){
+				$vendprod = explode(',',$lancamento->id_ped_venda_produto);
+				foreach($vendprod as $prodV){
+					$valorRegistro = $lancamento->valororiginal;
+					echo $lancamento->valororiginal;
+							
+					$VendaProd = $dbvendaProd->fetchRow("id_registro = '$prodV'");
+					$Venda = $dbvenda->fetchRow("id_registro = '{$VendaProd->id_venda}'");
+					
+					$comissao = (($valorRegistro / 100) * $VendaProd->comissao);
+					
+					$dadosLancComissao = array('id_vendedor'=>$Venda->id_vendedor,
+							'datapagamento'=>$datapagamento,
+							'id_ped_venda'=>$VendaProd->id_venda,
+							'id_ped_venda_prod'=>$VendaProd->id_registro,
+							'id_recebimento'=>$lancamento->id_registro,
+							'id_pagamento'=>0,
+							'dataprocessamento'=> date('Y-m-d H:i:s'),
+							'usuarioprocessamento'=>$this->userInfo->id_registro,
+							'observacoes'=>'',
+							'valorregistro'=>$comissao
+					);
+					
+					$dbComissoes = new Erp_Model_Financeiro_FluxoComissoes();
+					$dadosComisao['vendedor'] = $Venda->id_vendedor;
+					$dadosComisao['registros'][] = $dbComissoes->insert($dadosLancComissao);
+					
+					$DadosTodos[] = $dadosComisao;
+					
+					
+				}
+				$dbLan->update(array('comissaoprocessada'=>1), "id_registro = '{$lancamento->id_registro}'");
+			}
+			
+			
+			
+			print_r($formData);
+				
+				
+			if($formData['lancarpagamentos'] == 1){
+				
+				foreach ($DadosTodos as $dataA){
+					$valor = Erp_Model_Financeiro_FluxoComissoes::saldoAtual($dataA['vendedor'],0);
+					$Finan = new Erp_Model_Financeiro_DadosPagamentos();
+					$Lanc = new Erp_Model_Financeiro_LancamentosPagamentos();
+					$data1 = array("id_pessoa"=>$dataA['vendedor'],
+							'id_empresa'=> System_Model_Empresas::getEmpresaPadrao(),
+							'tiporegistro'=>'Comissao',
+							'id_registro_vinculado'=>'0',
+							'id_pessoa'=>$dataA['vendedor'],
+							'datacadastro'=>date('Y-m-d'),
+							'user_id'=>$this->userInfo->id_registro,
+							'totalgeral'=>$valor,
+							'primeirovencimento'=>$datapagamento,
+							'ultimovencimento'=>$datapagamento,
+							'totalparcelas'=>1,
+							'parcelaspagas'=>0,
+							'parcelasavencer'=>1,
+							'totalpago'=>0,
+							'nomelancamento'=>"(Comissao)",
+							'totalapagar'=> $valor,
+							'statuslancamento'=>'1',
+							'contapadrao'=>Erp_Model_Financeiro_ContaCorrente::getContaPadrao(),
+							'categorialanc'=>System_Model_SysConfigs::getConfig("CategoriaLancComissoes"),
+							'tipodocumento'=>System_Model_SysConfigs::getConfig("TipoDocComissoes"),
+							'numerodocumento'=>"0",
+					);
+					$id_lancamento = $Finan->insert($data1);
+					
+					$data2 = array('id_lancamento'=>$id_lancamento,
+							'datavencimento'=>date('Y-m-d'),
+							'valororiginal'=>$valor,
+							'numeroparcela'=>1,
+							'quantidadeparcelas'=>1,
+							'tipodocumento'=>System_Model_SysConfigs::getConfig("TipoDocComissoes"),
+							'numerodocumento'=>'0',
+							'statuslancamento'=>'1',
+							'id_banco'=>Erp_Model_Financeiro_ContaCorrente::getContaPadrao(),
+							'user_liberacao'=>'0',
+							'id_processo_comissao'=> implode(',',$dataA['registros'])
+					);
+					$id_destelanc = $Lanc->insert($data2);
+					
+					
+					
+				}
+				$registros = implode(',',$dataA['registros']);
+				$dbComissoes->update(array("id_pagamento" => $id_lancamento), "id_registro in ($registros)");
+					
+			}
+			echo "Comissões Lancadas com Sucesso";
+		}else{
+			echo "Sem comissões a processar no momento";
+		}
+		
+		
+		}
 	}
 	
 

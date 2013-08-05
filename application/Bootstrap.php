@@ -155,6 +155,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	public function _initHuman(){
 		require_once(LIBRARY_PATH.DIRECTORY_SEPARATOR.'Vendor'.DIRECTORY_SEPARATOR.'Human'.DIRECTORY_SEPARATOR.'HumanClientMain.php');
 	}
+	
+	public function _initUsePermission(){
+		$configs = Zend_Registry::get("configs");
+		$cache = Zend_Registry::get('cache');
+		if(!$UsePermission = $cache->load('UsePermission')){
+			$UsePermission = Functions_Verificadores::ValidSystemUsePermission();
+			$cache->save($UsePermission);
+		}
+			Zend_Registry::set('StatusSistema',$UsePermission);		
+		
+	}
 
 
 }

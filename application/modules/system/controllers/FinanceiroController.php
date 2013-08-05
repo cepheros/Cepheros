@@ -178,6 +178,18 @@ class System_FinanceiroController extends Zend_Controller_Action{
 				System_Model_SysConfigs::updateConfig("FinanMustValidade", '0');
 			}
 			
+			if($_POST['CategoriaLancComissoes'] <> ''){
+				System_Model_SysConfigs::updateConfig("CategoriaLancComissoes", $_POST['CategoriaLancComissoes']);
+			}else{
+				System_Model_SysConfigs::updateConfig("CategoriaLancComissoes", '0');
+			}
+			
+			if($_POST['TipoDocComissoes'] <> ''){
+				System_Model_SysConfigs::updateConfig("TipoDocComissoes", $_POST['TipoDocComissoes']);
+			}else{
+				System_Model_SysConfigs::updateConfig("TipoDocComissoes", '0');
+			}
+			
 			if($_POST['StatusLancamentoEncerrado'] <> ''){
 				System_Model_SysConfigs::updateConfig("StatusLancamentoEncerrado", implode(',', $_POST['StatusLancamentoEncerrado']));
 			}
@@ -201,6 +213,8 @@ class System_FinanceiroController extends Zend_Controller_Action{
 			if($_POST['FinanEmailResumoUsers'] <> ''){
 				System_Model_SysConfigs::updateConfig("FinanEmailResumoUsers", implode(',', $_POST['FinanEmailResumoUsers']));
 			}
+			
+			
 			
 			if($_POST['FinanEmailResumo'] <> ''){
 				System_Model_SysConfigs::updateConfig("FinanEmailResumo", $_POST['FinanEmailResumo']);

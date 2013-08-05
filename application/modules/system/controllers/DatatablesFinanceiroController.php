@@ -629,7 +629,171 @@ class System_DatatablesFinanceiroController extends Zend_Controller_Action{
 		
 		
 		
-	}				
+	}
+
+	
+	public function fluxoComissoesAction(){
+		
+		$aColumns = array("a.id_registro","b.razaosocial","a.datapagamento",'a.id_ped_venda','a.observacoes','a,valorregistro');
+			
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+			
+		$db = new Erp_Model_Financeiro_FluxoComissoes();
+			
+		$iTotal = count($db->fetchAll());
+			
+		$dados = new Erp_Model_Financeiro_FluxoComissoes();
+		$return = $dados->getAdapter()->select()
+		->from(array('a'=>'tblcomissoes_fluxo'),array('a.id_registro',
+				'a.id_vendedor',
+				'a.datapagamento',
+				'a.id_ped_venda',
+				'a.id_ped_venda_prod',
+				'a.id_recebimento',
+				'a.id_pagamento',
+				'a.valorregistro',
+				'a.dataprocessamento',
+				'a.usuarioprocessamento',
+				'a.observacoes',
+				'b.razaosocial'
+				
+		))
+		->join(array('b'=>'tblpessoas_basicos'),'b.id_registro = a.id_vendedor',array());
+			
+			
+		if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" )
+		{
+			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			{
+				$sWhere= $aColumns[$i]." LIKE '%". $_GET['sSearch'] ."%'";
+		
+				if($i==0){
+					$return->where($sWhere);
+				}else{
+					$return->orWhere($sWhere);
+				}
+			}
+		
+		}
+		
+		if(isset($_GET['datainicial']) && $_GET['datainicial'] != '' ){
+			$datainicial = Functions_Datas::inverteData($_GET['datainicial']);
+			$return->where("a.datapagamento >= '$datainicial'");
+		}
+		
+		if(isset($_GET['datafinal'])&& $_GET['datafinal'] != '' ){
+			$datafinal = Functions_Datas::inverteData($_GET['datafinal']);
+			$return->where("a.datapagamento <='$datafinal'");
+		}
+		
+		if(isset($_GET['conta'])&& $_GET['conta'] != ''){
+			$banco = $_GET['conta'];
+			$return->where("a.id_vendedor = '$banco'");
+		}
+		
+
+		if ( isset( $_GET['iSortCol_0'] ) )
+		{
+		
+			for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
+			{
+				if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
+				{
+					$collum = $aColumns[ intval( $_GET['iSortCol_'.$i] ) ];
+					$type =  $_GET['sSortDir_'.$i];
+					$return->order("$collum $type");
+		
+		
+				}
+			}
+		
+		
+		
+		
+		}else{
+			$return->order("id_registro ASC");
+		}
+			
+		if($_GET['iDisplayLength']){
+			$tamanho = $_GET['iDisplayLength'];
+		}else{
+			$tamanho = 10;
+		}
+		if($_GET['iDisplayStart']){
+			$inicio = $_GET['iDisplayStart'];
+		}else{
+			$inicio = 0;
+		}
+			
+		$return->limit($tamanho,$inicio);
+			
+			
+			
+		//	echo $return;
+			
+		$rs = $return->query();
+		$dados = $rs->fetchAll();
+			
+		$iFilteredTotal = count($dados);
+			
+			
+		$output = array(
+				"sEcho" => $_GET['sEcho'],
+				"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iTotal,
+				"aaData" => array()
+		);
+		//echo $return;
+			
+		foreach($dados as $data){
+		
+			if($data['valorregistro'] < 0){
+				$valor = number_format($data['valorregistro'],2,',','');
+				$valorregistro = "<span class=\"label label label-important\">$valor</span>";
+			}else{
+				$valor = number_format($data['valorregistro'],2,',','');
+				$valorregistro = "<span class=\"label label label-success\">$valor</span>";
+		
+			}
+				
+			if(Erp_Model_Financeiro_FluxoComissoes::saldoAtualComEste($data['id_registro'], $data['id_vendedor'],0) < 0){
+				$valor = Erp_Model_Financeiro_FluxoComissoes::saldoAtualComEste($data['id_registro'], $data['id_vendedor']);
+				$saldoconta = "<span class=\"label label label-important\">$valor</span>";
+			}else{
+				$valor = Erp_Model_Financeiro_FluxoComissoes::saldoAtualComEste($data['id_registro'], $data['id_vendedor']);
+				$saldoconta = "<span class=\"label label label-success\">$valor</span>";
+			}
+				
+				
+				
+		
+				$icons.="<i class=\"splashy-star_boxed_full\" title=\"Lançamento Conciliado\"></i>";
+		
+		
+			$row = array();
+			$row[] = $data['id_registro'];
+			$row[] = $data['razaosocial'];
+			$row[] = Functions_Datas::MyDateTime($data['datapagamento']);
+			$row[] = $data['id_ped_venda'];
+			$row[] = $data['observacoes'];
+			$row[] = $valorregistro;
+			$row[] = $saldoconta;
+			$row[] = $icons;
+		
+		
+		
+			$output['aaData'][] = $row;
+			$row = null;
+			$icons = null;
+		}
+			
+			
+			
+			
+		echo json_encode( $output );
+		
+	}
 						
 	
 }
