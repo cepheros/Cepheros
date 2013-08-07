@@ -161,8 +161,9 @@ class Functions_Verificadores{
 	}
 	
 	public function ValidSystemUsePermission(){
-		$dados = array('StatusSistema'=>'Ativo',
-				'datalimite'=>'2013-12-30'
+		$dados = array('StatusSistema'=>'Active',
+				'datalimite'=>'2013-12-30',
+				'hashcliente'=>base64_encode('SystemActive')
 		);
 		
 		return $dados;
