@@ -39,6 +39,11 @@ class Sistema_CacheController extends Zend_Controller_Action{
 		
 	}
 	
+	/**
+	 * limpaTempAction()
+	 * 
+	 * @todo Rotina que varre a pasta de temporarios do sistema e apaga todos os arquivos
+	 */
 	public function limpaTempAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
@@ -47,9 +52,16 @@ class Sistema_CacheController extends Zend_Controller_Action{
 		
 	}
 	
+	/**
+	 * limpaTempNfeAction()
+	 *
+	 * @todo Rotina que varre a pasta de temporarios de nfe do sistema e apaga todos os arquivos
+	 */
+	
 	public function limpaTempNfeAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
+		
 		
 	}
 	
