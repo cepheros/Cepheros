@@ -26,15 +26,30 @@ class Sistema_CacheController extends Zend_Controller_Action{
 	
 	
 	public function limpaCacheAction(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		try{
+			$this->cache->clean();	
+			echo "Cache Limpo em " . date('d/m/Y H:i');
+		}catch (Exception $e){
+			echo $e->getMessage();
+		}
 		
 		
 	}
 	
 	public function limpaTempAction(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+		
+		
 		
 	}
 	
 	public function limpaTempNfeAction(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
 		
 	}
 	

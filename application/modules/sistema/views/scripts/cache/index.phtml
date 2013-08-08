@@ -5,10 +5,105 @@
 </div>
 </div>
 <?php 
-$message = "<strong>";
-$message.= "O Cache do sistema é o responsável por armazenar informações em arquivos para que o ";
-$message.= "seu acesso fique mais rápido, como o cache é atualizado de tempos em tempos, itens do sistema que são armazenados em cache ";
-$message.= "podem ter uma defasagem sobre o estado atual das informações";
-$message.= "</strong>";
+$messageCache = "<strong>";
+$messageCache.= "O Cache do sistema é o responsável por armazenar informações em arquivos para que o ";
+$messageCache.= "seu acesso fique mais rápido, como o cache é atualizado de tempos em tempos, itens do sistema que são armazenados em cache ";
+$messageCache.= "podem ter uma defasagem sobre o estado atual das informações";
+$messageCache.= "</strong>";
 
-echo Functions_Messages::renderAlert($message) ?>
+$messageTemp = "<strong>";
+$messageTemp.= "Os arquivos temporários do sistema, são arquivos utilizados para o processamento ";
+$messageTemp.= "pontual de relatórios, imagens ou outros itens que requerem a geração de dados";
+$messageTemp.= " que serão utilizados uma única ou poucas vezes pelo sistema.";
+$messageTemp.= "</strong>";
+
+$messageTempNFe = "<strong>";
+$messageTempNFe.= "Os arquivos temporários da NFe são arquivos utilizados pelo emissor de notas fiscais";
+$messageTempNFe.= " para efetuar a transferência temporária de informações entre o sistema e os servidores";
+$messageTempNFe.= " da Secretaria da Fazenda, sendo utilizados e remanejados no sistema quando necessário";
+$messageTempNFe.= "</strong>";
+
+?>
+
+
+
+<div class="row-fluid formSep">
+<div class="span4"><?php echo Functions_Messages::renderAlert($messageCache) ?></div>
+<div class="span4" id="TempCacheDiv"></div>
+<div class="span4"><input type="button" class="btn btn-gebo" id="LimparCache" value="Limpar Cache"></div>
+</div>
+
+<div class="row-fluid formSep">
+<div class="span4"><?php echo Functions_Messages::renderAlert($messageTemp) ?></div>
+<div class="span4" id="TempTempDiv"></div>
+<div class="span4"><input type="button" class="btn btn-gebo" id="LimparTemp" value="Limpar Temporários"></div>
+</div>
+
+<div class="row-fluid formSep">
+<div class="span4"><?php echo Functions_Messages::renderAlert($messageTempNFe) ?></div>
+<div class="span4" id="TempNFeDiv"></div>
+<div class="span4"><input type="button" class="btn btn-gebo" id="LimparTempNFe" value="Limpar NFe"></div>
+</div>
+
+<script>
+
+$("#LimparCache").click(function(){ 
+	$.ajax({ 
+		type: "POST", 
+		url: "/sistema/cache/limpa-cache", 
+		data: "time=<?php echo microtime() ?>",
+		beforeSend: function() {
+			$.sticky("SOLICITANDO LIMPEZA DE CACHE ", { type: 'st-info' });
+			$("#TempCacheDiv").html('<img src="/img/ajax_loader.gif">');				
+ 		}, 
+		success: function(txt) {
+			$.sticky("LIMPEZA DE CACHE REALIZADO", { type: 'st-success' });
+			$("#TempCacheDiv").html(txt);
+		}, 
+		error: function(txt) { 
+			$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+		} 
+	}); 
+	
+});
+
+$("#LimparTemp").click(function(){ 
+	$.ajax({ 
+		type: "POST", 
+		url: "/sistema/cache/limpa-temp", 
+		data: "time=<?php echo microtime() ?>",
+		beforeSend: function() {
+			$.sticky("SOLICITANDO LIMPEZA DE TEMPORÁRIOS ", { type: 'st-info' });
+			$("#TempTempDiv").html('<img src="/img/ajax_loader.gif">');				
+ 		}, 
+		success: function(txt) {
+			$.sticky("LIMPEZA DE TEMPORÁRIOS REALIZADO", { type: 'st-success' });
+			$("#TempTempDiv").html(txt);
+		}, 
+		error: function(txt) { 
+			$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+		} 
+	}); 
+	
+});
+
+$("#LimparTempNFe").click(function(){ 
+	$.ajax({ 
+		type: "POST", 
+		url: "/sistema/cache/limpa-temp-nfe", 
+		data: "time=<?php echo microtime() ?>",
+		beforeSend: function() {
+			$.sticky("SOLICITANDO LIMPEZA DE TEMPORÁRIOS DA NFe ", { type: 'st-info' });
+			$("#TempNFeDiv").html('<img src="/img/ajax_loader.gif">');				
+ 		}, 
+		success: function(txt) {
+			$.sticky("LIMPEZA DE TEMPORÁRIOS DA NFe REALIZADO", { type: 'st-success' });
+			$("#TempNFeDiv").html(txt);
+		}, 
+		error: function(txt) { 
+			$.sticky("UM ERRO DE SISTEMA OCORREU.", { type: 'st-error' });
+		} 
+	}); 
+	
+});
+</script>
