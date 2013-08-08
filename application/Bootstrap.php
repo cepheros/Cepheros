@@ -151,10 +151,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		Zend_Registry::set("Empresa", $data);
 	}
 	
-	
-	public function _initHuman(){
-		require_once(LIBRARY_PATH.DIRECTORY_SEPARATOR.'Vendor'.DIRECTORY_SEPARATOR.'Human'.DIRECTORY_SEPARATOR.'HumanClientMain.php');
-	}
+
 	
 	public function _initUsePermission(){
 		$configs = Zend_Registry::get("configs");
