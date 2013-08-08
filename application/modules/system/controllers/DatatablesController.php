@@ -1,6 +1,11 @@
 <?php
 class System_DatatablesController extends Zend_Controller_Action{
 	
+	
+	public function init(){
+		error_reporting(0);
+	}
+	
 	public function pessoasAction(){
 		$cadtype = $this->_getParam('type');
 		if($cadtype <> '0'){
