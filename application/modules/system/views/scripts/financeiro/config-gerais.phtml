@@ -1,7 +1,7 @@
  <form class="form-horizontal well" method="post">
  <div class="row-fluid formSep">
  <div class="span6">
- <p class="f_legend">Configurações Financeiro</p>
+ <p class="f_legend">Configurações do módulo Financeiro</p>
  	
  	<div class="control-group">
 	<label class="control-label">Valor Máximo de Pagamento:</label>
@@ -112,7 +112,7 @@
 	
  </div>
  <div class="span6">
- <p class="f_legend">Configurações Sistema</p>
+ <p class="f_legend">Configurações do Sistema</p>
  	<div class="control-group">
 	<label class="control-label">Enviar email de resumo?</label>
 	<div class="controls">
@@ -138,8 +138,25 @@
 	} ?>
 	</select>
 	</div>
+	</div>
+	<div class="control-group">
+	<label class="control-label">Qual Mensagem deve ser enviada?</label>
+	<div class="controls">
+	<select name="FinanEmailResumoMessage" id="FinanEmailResumoMessage">
+	<?php
+	$empresas = System_Model_MensagensSistema::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array($key,explode(',',System_Model_SysConfigs::getConfig("FinanEmailResumoMessage")))){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
 	</div>					
-	<p class="f_legend">Configurações Comissões:</p>
+	<p class="f_legend">Configurações das Comissões:</p>
 	<div class="control-group">
 	<label class="control-label">Qual categoria de lancamento de comissoes ?</label>
 	<div class="controls">
@@ -215,6 +232,7 @@
                                 	$("#FinanTypeUserCanLib").chosen();
                                 	$("#CategoriaLancComissoes").chosen();
                                 	$("#TipoDocComissoes").chosen();
+                                	$("#FinanEmailResumoMessage").chosen();
                                 	
 
                                 	$("#FinanEmailResumoUsers").chosen();

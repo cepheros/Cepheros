@@ -518,6 +518,12 @@ class System_FaturamentoController extends Zend_Controller_Action{
 	}
 	
 	
+	public function configGeraisAction(){
+		
+		
+	}
+	
+	
 	
 	
 }
