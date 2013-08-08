@@ -1,0 +1,14 @@
+
+<div class="row-fluid">
+<div class="span12">
+<h3 class="heading">Cache do Sistema</h3>
+</div>
+</div>
+<?php 
+$message = "<strong>";
+$message.= "O Cache do sistema é o responsável por armazenar informações em arquivos para que o ";
+$message.= "seu acesso fique mais rápido, como o cache é atualizado de tempos em tempos, itens do sistema que são armazenados em cache ";
+$message.= "podem ter uma defasagem sobre o estado atual das informações";
+$message.= "</strong>";
+
+echo Functions_Messages::renderAlert($message) ?>
