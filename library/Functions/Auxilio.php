@@ -22,7 +22,7 @@
  * <http://www.fsfla.org/svnwiki/trad/LGPLv3>. 
  *
  * @package   SysAdmin
- * @name      
+ * @name      Auxilio
  * @version   1.0.0
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL v.3
  * @copyright 2009-2012 &copy; SysAdmin
