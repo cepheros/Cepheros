@@ -11,7 +11,7 @@
  Target Server Version : 50525
  File Encoding         : utf-8
 
- Date: 08/08/2013 11:37:48 AM
+ Date: 08/08/2013 11:44:39 AM
 */
 
 SET NAMES utf8;
@@ -169,6 +169,16 @@ CREATE TABLE `tblapoio_statuslancamentos` (
   `nomestatus` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id_registro`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+--  Table structure for `tblapoio_statusnfe`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblapoio_statusnfe`;
+CREATE TABLE `tblapoio_statusnfe` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `descritivo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tblapoio_statusos`
@@ -361,6 +371,27 @@ CREATE TABLE `tblchecklist_etapas` (
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+--  Table structure for `tblcomissoes_fluxo`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblcomissoes_fluxo`;
+CREATE TABLE `tblcomissoes_fluxo` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_vendedor` int(11) DEFAULT NULL,
+  `datapagamento` date DEFAULT NULL,
+  `id_ped_venda` int(11) DEFAULT NULL,
+  `id_ped_venda_prod` int(11) DEFAULT NULL,
+  `id_recebimento` int(11) DEFAULT NULL,
+  `id_pagamento` int(11) DEFAULT NULL,
+  `valorregistro` decimal(10,2) DEFAULT NULL,
+  `dataprocessamento` datetime DEFAULT NULL,
+  `usuarioprocessamento` int(11) NOT NULL,
+  `observacoes` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `pessoa_vemd` (`id_vendedor`),
+  CONSTRAINT `pessoa_vemd` FOREIGN KEY (`id_vendedor`) REFERENCES `tblpessoas_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
 --  Table structure for `tblcontasbancarias`
 -- ----------------------------
 DROP TABLE IF EXISTS `tblcontasbancarias`;
@@ -377,14 +408,15 @@ CREATE TABLE `tblcontasbancarias` (
   `msgboleto_l3` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `msgboleto_l4` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `convenio` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `variacaocarteita` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `variacaocarteira` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `codigocliente` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `localpagamento_l1` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `localpagamento_l2` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `localpagamento_l3` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `is_default` int(11) DEFAULT '0',
   PRIMARY KEY (`id_registro`),
   KEY `id_registro` (`id_registro`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tblestoque_locais`
@@ -415,7 +447,7 @@ CREATE TABLE `tblestoque_movimentos` (
   PRIMARY KEY (`id_registro`),
   KEY `prodestoque` (`id_produto`) USING BTREE,
   CONSTRAINT `tblestoque_movimentos_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `tblprodutos_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblfinanceiro_categorias`
@@ -427,7 +459,21 @@ CREATE TABLE `tblfinanceiro_categorias` (
   `nomecategoria` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `is_default` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblfinanceiro_perfilpagamento`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblfinanceiro_perfilpagamento`;
+CREATE TABLE `tblfinanceiro_perfilpagamento` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `nomeperfil` varchar(500) COLLATE utf8_bin NOT NULL,
+  `tipoperfil` int(11) DEFAULT NULL,
+  `quantidadeparcelas` decimal(10,2) DEFAULT NULL,
+  `intervalorparcelas` decimal(10,2) DEFAULT NULL,
+  `tipointervalo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tblfinanceiro_subcategorias`
@@ -441,7 +487,7 @@ CREATE TABLE `tblfinanceiro_subcategorias` (
   `consideraresultado` int(11) DEFAULT NULL,
   `agruparem` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tblmarketing_campanhas`
@@ -474,10 +520,526 @@ CREATE TABLE `tblmovimentobancario` (
   `observacoes` text COLLATE utf8_bin,
   `nomelancamento` varchar(500) COLLATE utf8_bin DEFAULT NULL,
   `dataregistro` datetime DEFAULT NULL,
+  `id_user` int(11) DEFAULT '1',
   PRIMARY KEY (`id_registro`),
   KEY `contas` (`id_conta`) USING BTREE,
   CONSTRAINT `tblmovimentobancario_ibfk_1` FOREIGN KEY (`id_conta`) REFERENCES `tblcontasbancarias` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_basicos`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_basicos`;
+CREATE TABLE `tblnfe_basicos` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `versao` decimal(10,2) NOT NULL,
+  `Id` varchar(47) COLLATE utf8_bin NOT NULL,
+  `cUF` varchar(2) COLLATE utf8_bin NOT NULL,
+  `cNF` int(8) unsigned zerofill NOT NULL,
+  `natOp` varchar(60) COLLATE utf8_bin NOT NULL,
+  `indPag` int(1) NOT NULL,
+  `mod` int(2) NOT NULL,
+  `serie` int(3) NOT NULL,
+  `nNF` int(9) NOT NULL,
+  `dEmi` date NOT NULL,
+  `dSaiEnt` date NOT NULL,
+  `hSaiEnt` time NOT NULL,
+  `tpNF` int(1) NOT NULL,
+  `CMunFG` decimal(7,0) unsigned zerofill NOT NULL,
+  `AAMM` varchar(4) COLLATE utf8_bin DEFAULT NULL,
+  `CNPJ` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `tpImp` int(1) NOT NULL,
+  `tpEmis` int(1) NOT NULL,
+  `cDV` int(1) NOT NULL,
+  `tpAmb` int(1) NOT NULL,
+  `finNFe` int(1) NOT NULL,
+  `procEmi` int(1) NOT NULL DEFAULT '0',
+  `VerProc` varchar(20) COLLATE utf8_bin NOT NULL,
+  `dhCont` datetime DEFAULT NULL,
+  `xJust` varchar(256) COLLATE utf8_bin DEFAULT NULL,
+  `modFrete` int(1) NOT NULL,
+  `id_empresa` int(11) NOT NULL,
+  `id_pedvenda` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `id_perfil` int(11) NOT NULL,
+  `tipo_nfe` int(11) NOT NULL DEFAULT '1',
+  `status_processo` int(11) DEFAULT NULL,
+  `chaveacesso` varchar(47) COLLATE utf8_bin DEFAULT NULL,
+  `localxml` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `processoNFeAprovada` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_destinatario`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_destinatario`;
+CREATE TABLE `tblnfe_destinatario` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_empresa` int(11) DEFAULT NULL,
+  `id_pessoa` int(11) DEFAULT NULL,
+  `CNPJ` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `CPF` varchar(11) COLLATE utf8_bin DEFAULT NULL,
+  `xNome` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xFant` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `IE` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `ISUF` varchar(9) COLLATE utf8_bin DEFAULT NULL,
+  `Xlgr` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `nro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xCpl` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xBairro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `cMun` decimal(7,0) unsigned zerofill DEFAULT NULL,
+  `xMun` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `UF` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  `CEP` decimal(8,0) unsigned zerofill DEFAULT NULL,
+  `cPais` decimal(4,0) DEFAULT NULL,
+  `xPais` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `fone` decimal(14,0) unsigned zerofill DEFAULT NULL,
+  `email` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe2` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_destinatario_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_destinatario_lentrega`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_destinatario_lentrega`;
+CREATE TABLE `tblnfe_destinatario_lentrega` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_endereco` int(11) DEFAULT NULL,
+  `CNPJ` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `CPF` varchar(11) COLLATE utf8_bin DEFAULT NULL,
+  `Xlgr` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `nro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xCpl` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xBairro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `cMun` decimal(7,0) unsigned zerofill DEFAULT NULL,
+  `xMun` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `UF` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe4` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_destinatario_lentrega_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_emitente`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_emitente`;
+CREATE TABLE `tblnfe_emitente` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_empresa` int(11) DEFAULT NULL,
+  `id_pessoa` int(11) DEFAULT NULL,
+  `CNPJ` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `CPF` varchar(11) COLLATE utf8_bin DEFAULT NULL,
+  `xNome` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xFant` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `IE` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `IEST` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `IM` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `CNAE` varchar(7) COLLATE utf8_bin DEFAULT NULL,
+  `CRT` int(1) DEFAULT NULL,
+  `Xlgr` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `nro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xCpl` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xBairro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `cMun` decimal(7,0) unsigned zerofill DEFAULT NULL,
+  `xMun` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `UF` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  `CEP` decimal(8,0) unsigned zerofill DEFAULT NULL,
+  `cPais` decimal(4,0) DEFAULT NULL,
+  `xPais` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `fone` decimal(14,0) unsigned zerofill DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe1` (`id_nfe`),
+  CONSTRAINT `idnfe1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_emitente_lretirada`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_emitente_lretirada`;
+CREATE TABLE `tblnfe_emitente_lretirada` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_endereco` int(11) DEFAULT NULL,
+  `CNPJ` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `CPF` varchar(11) COLLATE utf8_bin DEFAULT NULL,
+  `Xlgr` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `nro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xCpl` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xBairro` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `cMun` decimal(7,0) unsigned zerofill DEFAULT NULL,
+  `xMun` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `UF` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe3` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_emitente_lretirada_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_fatura`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_fatura`;
+CREATE TABLE `tblnfe_fatura` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `nFat` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `vOrig` decimal(17,2) DEFAULT NULL,
+  `vDesc` decimal(17,2) DEFAULT NULL,
+  `vLiq` decimal(17,2) DEFAULT NULL,
+  `id_lancamento` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe9` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_fatura_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_fatura_duplicatas`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_fatura_duplicatas`;
+CREATE TABLE `tblnfe_fatura_duplicatas` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_fatura` int(11) NOT NULL,
+  `nDup` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `dVenc` date DEFAULT NULL,
+  `vDup` decimal(17,2) DEFAULT NULL,
+  `id_registro_recebimentos` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe9` (`id_nfe`) USING BTREE,
+  KEY `tblnfe_fatura_ibfk_2` (`id_fatura`) USING BTREE,
+  CONSTRAINT `tblnfe_fatura_duplicatas_ibfk_1` FOREIGN KEY (`id_fatura`) REFERENCES `tblnfe_fatura` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tblnfe_fatura_duplicatas_ibfk_2` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=294 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_hashacesso`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_hashacesso`;
+CREATE TABLE `tblnfe_hashacesso` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `hashacesso` varchar(255) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `nfehash` (`id_nfe`),
+  CONSTRAINT `nfehash` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_inutilizadas`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_inutilizadas`;
+CREATE TABLE `tblnfe_inutilizadas` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_empresa` int(11) DEFAULT NULL,
+  `nAno` decimal(2,0) NOT NULL,
+  `nSerie` decimal(3,0) NOT NULL,
+  `nIni` decimal(9,0) DEFAULT NULL,
+  `nFim` decimal(9,0) DEFAULT NULL,
+  `xJust` text COLLATE utf8_bin,
+  `tpAmp` decimal(1,0) DEFAULT NULL,
+  `cStat` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `xMotivo` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `datasolicitacao` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `xmlpath` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `nProt` varchar(80) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_observacoes`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_observacoes`;
+CREATE TABLE `tblnfe_observacoes` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `infAdFisco` varchar(2000) COLLATE utf8_bin DEFAULT NULL,
+  `infCpl` varchar(5000) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `id_nfe` (`id_nfe`),
+  CONSTRAINT `tblnfe_observacoes_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_observacoes_adicionais`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_observacoes_adicionais`;
+CREATE TABLE `tblnfe_observacoes_adicionais` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `xCampo` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `xTexto` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `id_nfe` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_observacoes_adicionais_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_processos`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_processos`;
+CREATE TABLE `tblnfe_processos` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `tipoProcesso` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `statusProcesso` int(11) DEFAULT NULL,
+  `xCode` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `xText` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `protocolo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `dateProcesso` datetime DEFAULT NULL,
+  `userProcesso` int(11) DEFAULT NULL,
+  `xmlpath_processo` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_produtos`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_produtos`;
+CREATE TABLE `tblnfe_produtos` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_produto` int(11) DEFAULT NULL,
+  `id_prod_venda` int(11) DEFAULT NULL,
+  `id_prod_compra` int(11) DEFAULT NULL,
+  `nItem` int(11) DEFAULT NULL,
+  `cProd` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `cEAN` decimal(14,0) unsigned zerofill DEFAULT NULL,
+  `xProd` varchar(120) COLLATE utf8_bin DEFAULT NULL,
+  `NCM` decimal(8,0) DEFAULT NULL,
+  `EXTIPI` decimal(3,0) DEFAULT NULL,
+  `CFOP` decimal(4,0) NOT NULL,
+  `uCom` varchar(6) COLLATE utf8_bin NOT NULL,
+  `qCom` decimal(19,4) DEFAULT NULL,
+  `vUnCom` decimal(31,10) DEFAULT NULL,
+  `vProd` decimal(17,2) DEFAULT NULL,
+  `cEANTrib` decimal(14,0) unsigned zerofill DEFAULT NULL,
+  `uTrib` varchar(6) COLLATE utf8_bin DEFAULT NULL,
+  `qTrib` decimal(17,4) DEFAULT NULL,
+  `vUnTrib` decimal(31,10) DEFAULT NULL,
+  `vFrete` decimal(17,2) DEFAULT NULL,
+  `vSeg` decimal(17,2) DEFAULT NULL,
+  `vDesc` decimal(17,2) DEFAULT NULL,
+  `vOutro` decimal(17,2) DEFAULT NULL,
+  `intTot` int(1) DEFAULT NULL,
+  `infAdProd` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `id_reg_mov_estoque` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe4` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_produtos_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=953 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_produtos_cofins`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_produtos_cofins`;
+CREATE TABLE `tblnfe_produtos_cofins` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_produto_nfe` int(11) NOT NULL,
+  `CST` decimal(2,0) unsigned zerofill DEFAULT NULL,
+  `vBC` decimal(17,2) DEFAULT NULL,
+  `pCOFINS` decimal(7,2) DEFAULT NULL,
+  `vCOFINS` decimal(17,2) DEFAULT NULL,
+  `qBCProd` decimal(20,4) DEFAULT NULL,
+  `vAliqProd` decimal(19,4) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe` (`id_nfe`) USING BTREE,
+  KEY `idnfeprod` (`id_produto_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_produtos_cofins_ibfk_1` FOREIGN KEY (`id_produto_nfe`) REFERENCES `tblnfe_produtos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tblnfe_produtos_cofins_ibfk_2` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=917 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_produtos_icms`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_produtos_icms`;
+CREATE TABLE `tblnfe_produtos_icms` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_produto_nfe` int(11) NOT NULL,
+  `tributacao` decimal(3,0) unsigned zerofill NOT NULL,
+  `orig` int(11) NOT NULL,
+  `CST` decimal(2,0) unsigned zerofill DEFAULT NULL,
+  `modBC` int(1) DEFAULT NULL,
+  `vBC` decimal(17,2) DEFAULT NULL,
+  `pICMS` decimal(7,2) DEFAULT NULL,
+  `vICMS` decimal(17,2) DEFAULT NULL,
+  `modBCST` int(1) DEFAULT NULL,
+  `pMVAST` decimal(7,2) DEFAULT NULL,
+  `pRedBCST` decimal(7,2) DEFAULT NULL,
+  `vBCST` decimal(17,2) DEFAULT NULL,
+  `pICMSST` decimal(7,2) DEFAULT NULL,
+  `vICMSST` decimal(17,2) DEFAULT NULL,
+  `pRedBC` decimal(7,2) DEFAULT NULL,
+  `motDesICMS` int(1) DEFAULT NULL,
+  `vBCSTRet` decimal(17,2) DEFAULT NULL,
+  `vICMSSTRet` decimal(17,2) DEFAULT NULL,
+  `CSOSN` decimal(3,0) DEFAULT NULL,
+  `pCredSN` decimal(7,2) DEFAULT NULL,
+  `vCredICMSSN` decimal(17,2) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe` (`id_nfe`),
+  KEY `idnfeprod` (`id_produto_nfe`),
+  CONSTRAINT `idnfe` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idnfeprod` FOREIGN KEY (`id_produto_nfe`) REFERENCES `tblnfe_produtos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=941 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblnfe_produtos_ipi`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_produtos_ipi`;
+CREATE TABLE `tblnfe_produtos_ipi` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_produto_nfe` int(11) NOT NULL,
+  `cIEnq` varchar(5) COLLATE utf8_bin DEFAULT NULL,
+  `CNPJProd` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `cSelo` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `qSelo` decimal(12,0) DEFAULT NULL,
+  `cEnq` varchar(3) COLLATE utf8_bin DEFAULT '999',
+  `CST` decimal(2,0) unsigned zerofill DEFAULT NULL,
+  `vBC` decimal(17,2) DEFAULT NULL,
+  `pIPI` decimal(7,2) DEFAULT NULL,
+  `qUnid` decimal(20,4) DEFAULT NULL,
+  `vUnid` decimal(17,4) DEFAULT NULL,
+  `vIPI` decimal(17,2) DEFAULT '0.00',
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe` (`id_nfe`) USING BTREE,
+  KEY `idnfeprod` (`id_produto_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_produtos_ipi_ibfk_1` FOREIGN KEY (`id_produto_nfe`) REFERENCES `tblnfe_produtos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tblnfe_produtos_ipi_ibfk_2` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=902 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_produtos_pis`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_produtos_pis`;
+CREATE TABLE `tblnfe_produtos_pis` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_produto_nfe` int(11) NOT NULL,
+  `CST` decimal(2,0) unsigned zerofill DEFAULT NULL,
+  `vBC` decimal(17,2) DEFAULT NULL,
+  `pPIS` decimal(7,2) DEFAULT NULL,
+  `vPIS` decimal(17,2) DEFAULT NULL,
+  `qBCProd` decimal(20,4) DEFAULT NULL,
+  `vAliqProd` decimal(19,4) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe` (`id_nfe`) USING BTREE,
+  KEY `idnfeprod` (`id_produto_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_produtos_pis_ibfk_1` FOREIGN KEY (`id_produto_nfe`) REFERENCES `tblnfe_produtos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tblnfe_produtos_pis_ibfk_2` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=925 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_totais`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_totais`;
+CREATE TABLE `tblnfe_totais` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `vBC` decimal(17,2) NOT NULL,
+  `vICMS` decimal(17,2) NOT NULL,
+  `vBCST` decimal(17,2) NOT NULL,
+  `vST` decimal(17,2) NOT NULL,
+  `vProd` decimal(17,2) NOT NULL,
+  `vFrete` decimal(17,2) NOT NULL,
+  `vSeg` decimal(17,2) NOT NULL,
+  `vDesc` decimal(17,2) NOT NULL,
+  `vII` decimal(17,2) NOT NULL,
+  `vIPI` decimal(17,2) NOT NULL,
+  `vPIS` decimal(17,2) NOT NULL,
+  `vCOFINS` decimal(17,2) NOT NULL,
+  `vOutro` decimal(17,2) NOT NULL,
+  `vNF` decimal(17,2) NOT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_totais_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_transportadora`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_transportadora`;
+CREATE TABLE `tblnfe_transportadora` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_pessoa` int(11) DEFAULT NULL,
+  `CNPJ` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `CPF` varchar(11) COLLATE utf8_bin DEFAULT NULL,
+  `xNome` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `IE` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `xEnder` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `xMun` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `UF` varchar(21) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_transportadora_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_transportadora_veiculo`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_transportadora_veiculo`;
+CREATE TABLE `tblnfe_transportadora_veiculo` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_transportadora` int(11) DEFAULT NULL,
+  `placa` varchar(7) COLLATE utf8_bin NOT NULL,
+  `UF` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  `RNTC` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `vagao` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `balsa` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `id_transportadora` (`id_transportadora`) USING BTREE,
+  KEY `idnfe` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_transportadora_veiculo_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tblnfe_transportadora_veiculo_ibfk_2` FOREIGN KEY (`id_transportadora`) REFERENCES `tblnfe_transportadora` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_transportadorta_icms`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_transportadorta_icms`;
+CREATE TABLE `tblnfe_transportadorta_icms` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `id_transportadora` int(11) DEFAULT NULL,
+  `vServ` decimal(17,2) NOT NULL,
+  `vBCRet` decimal(17,2) DEFAULT NULL,
+  `pICMSRet` decimal(7,2) DEFAULT NULL,
+  `vICMSRet` decimal(17,2) DEFAULT NULL,
+  `CFOP` decimal(4,0) DEFAULT NULL,
+  `cMunFG` decimal(7,0) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `id_transportadora` (`id_transportadora`),
+  KEY `idnfe` (`id_nfe`) USING BTREE,
+  CONSTRAINT `tblnfe_transportadorta_icms_ibfk_1` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tblnfe_transportadorta_icms_ibfk_2` FOREIGN KEY (`id_transportadora`) REFERENCES `tblnfe_transportadora` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblnfe_volumes`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblnfe_volumes`;
+CREATE TABLE `tblnfe_volumes` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nfe` int(11) NOT NULL,
+  `qVol` decimal(15,0) DEFAULT NULL,
+  `esp` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `marca` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `nVol` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `pesoL` decimal(18,3) DEFAULT NULL,
+  `pesoB` decimal(18,3) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `idnfe9` (`id_nfe`),
+  CONSTRAINT `idnfe9` FOREIGN KEY (`id_nfe`) REFERENCES `tblnfe_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tblos_basicos`
@@ -590,7 +1152,7 @@ CREATE TABLE `tblpagamentos_dados` (
   KEY `pessoa_plcan` (`id_pessoa`) USING BTREE,
   CONSTRAINT `tblpagamentos_dados_ibfk_1` FOREIGN KEY (`id_pessoa`) REFERENCES `tblpessoas_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tblpagamentos_dados_ibfk_2` FOREIGN KEY (`id_empresa`) REFERENCES `tblsystem_empresas` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblpagamentos_lancamentos`
@@ -622,9 +1184,115 @@ CREATE TABLE `tblpagamentos_lancamentos` (
   `datalibera` datetime DEFAULT NULL,
   `linhadigitavel` varchar(1000) DEFAULT NULL,
   `imagemdocumento` varchar(1000) DEFAULT NULL,
+  `id_processo_comissao` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`id_registro`),
   KEY `recebimento_id` (`id_lancamento`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `tblperfilfaturamento_basicos`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblperfilfaturamento_basicos`;
+CREATE TABLE `tblperfilfaturamento_basicos` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `nomedoperfil` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `observacoesfisco` varchar(5000) COLLATE utf8_bin DEFAULT NULL,
+  `cfop` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `naturezaoperacao` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `suframa` int(11) DEFAULT '0',
+  `tipoperfil` int(11) DEFAULT NULL,
+  `finalidadeemissao` int(11) DEFAULT NULL,
+  `vlprodcompoetotal` int(11) DEFAULT NULL,
+  `incluirpedcompra` int(11) DEFAULT NULL,
+  `incluirpedvenda` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblperfilfaturamento_cofins`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblperfilfaturamento_cofins`;
+CREATE TABLE `tblperfilfaturamento_cofins` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_perfil` int(11) NOT NULL,
+  `sittrib_cofins` int(11) NOT NULL,
+  `tipocalculo_cofins` int(11) DEFAULT NULL,
+  `aliqcofins_cofins` decimal(10,2) DEFAULT NULL,
+  `tipocalculost_cofins` int(11) DEFAULT NULL,
+  `aliqcofins_st_cofins` decimal(10,2) DEFAULT NULL,
+  `aliqreal__cofins` decimal(10,2) DEFAULT NULL,
+  `aliqrealst__cofins` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `perf4` (`id_perfil`) USING BTREE,
+  CONSTRAINT `tblperfilfaturamento_cofins_ibfk_1` FOREIGN KEY (`id_perfil`) REFERENCES `tblperfilfaturamento_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Table structure for `tblperfilfaturamento_icms`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblperfilfaturamento_icms`;
+CREATE TABLE `tblperfilfaturamento_icms` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_perfil` int(11) NOT NULL,
+  `sittributaria` int(3) unsigned zerofill NOT NULL,
+  `aliqaplicavelcalculocredito` decimal(10,2) DEFAULT NULL,
+  `moddetermbcicms` int(11) DEFAULT NULL,
+  `aliqicms` decimal(10,2) DEFAULT NULL,
+  `moddeterbcicmsst` int(11) DEFAULT NULL,
+  `redutorbcicmsst` decimal(10,2) DEFAULT NULL,
+  `margemvladicicmsst` decimal(10,2) DEFAULT NULL,
+  `aliqicmsst` decimal(10,2) DEFAULT NULL,
+  `uficmsstdevop` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  `redutorbcicms` decimal(10,2) DEFAULT NULL,
+  `bcoperacaopropria` decimal(10,2) DEFAULT NULL,
+  `motivodadesoneracao` int(11) DEFAULT NULL,
+  `bcicmsstretironaufremetente` decimal(10,2) DEFAULT NULL,
+  `bcicmsstufdestino` decimal(10,2) DEFAULT NULL,
+  `aliqicmsretidoant` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `id_perfil` (`id_perfil`),
+  CONSTRAINT `tblperfilfaturamento_icms_ibfk_1` FOREIGN KEY (`id_perfil`) REFERENCES `tblperfilfaturamento_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblperfilfaturamento_ipi`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblperfilfaturamento_ipi`;
+CREATE TABLE `tblperfilfaturamento_ipi` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_perfil` int(11) NOT NULL,
+  `sittributaria_ipi` int(11) DEFAULT NULL,
+  `classedeenquadramento_ipi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `codenquadramento_ipi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `cnpjprodutor_ipi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `codselocontrole_ipi` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `tipocalculo_ipi` int(11) DEFAULT NULL,
+  `alipi` decimal(10,2) DEFAULT NULL,
+  `vlfixo_ipi` decimal(10,2) DEFAULT NULL,
+  `qSelo` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`),
+  KEY `id_perfil` (`id_perfil`),
+  CONSTRAINT `tblperfilfaturamento_ipi_ibfk_1` FOREIGN KEY (`id_perfil`) REFERENCES `tblperfilfaturamento_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Table structure for `tblperfilfaturamento_pis`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblperfilfaturamento_pis`;
+CREATE TABLE `tblperfilfaturamento_pis` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_perfil` int(11) NOT NULL,
+  `sittrib_pis` int(11) DEFAULT '0',
+  `tipocalculo_pis` int(11) DEFAULT '0',
+  `aliqpis_pis` decimal(10,2) DEFAULT '0.00',
+  `tipocalculost_pis` int(11) DEFAULT '0',
+  `aliqpis_st_pis` decimal(10,2) DEFAULT '0.00',
+  `aliqreal__pis` decimal(10,2) DEFAULT '0.00',
+  `aliqrealst__pis` decimal(10,2) DEFAULT '0.00',
+  PRIMARY KEY (`id_registro`),
+  KEY `id_perfil` (`id_perfil`),
+  CONSTRAINT `tblperfilfaturamento_pis_ibfk_1` FOREIGN KEY (`id_perfil`) REFERENCES `tblperfilfaturamento_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tblpessoas_basicos`
@@ -635,7 +1303,7 @@ CREATE TABLE `tblpessoas_basicos` (
   `id_empresa` int(11) NOT NULL,
   `tipopessoa` smallint(2) NOT NULL,
   `tipocadastro` int(11) NOT NULL,
-  `categoria` int(11) NOT NULL,
+  `categoria` int(11) DEFAULT NULL,
   `subcategoria` int(11) DEFAULT NULL,
   `razaosocial` varchar(300) NOT NULL,
   `nomefantasia` varchar(300) NOT NULL,
@@ -653,7 +1321,7 @@ CREATE TABLE `tblpessoas_basicos` (
   `tags` text,
   `observacoes` text,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblpessoas_contatos`
@@ -674,7 +1342,7 @@ CREATE TABLE `tblpessoas_contatos` (
   PRIMARY KEY (`id_registro`),
   KEY `contato_pessoas` (`id_pessoa`) USING BTREE,
   CONSTRAINT `tblpessoas_contatos_ibfk_1` FOREIGN KEY (`id_pessoa`) REFERENCES `tblpessoas_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblpessoas_enderecos`
@@ -697,7 +1365,7 @@ CREATE TABLE `tblpessoas_enderecos` (
   PRIMARY KEY (`id_registro`),
   KEY `pessoa_endereco` (`id_pessoa`) USING BTREE,
   CONSTRAINT `tblpessoas_enderecos_ibfk_1` FOREIGN KEY (`id_pessoa`) REFERENCES `tblpessoas_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblpessoas_outros`
@@ -713,7 +1381,7 @@ CREATE TABLE `tblpessoas_outros` (
   `planodecontas` int(11) DEFAULT '0',
   `tabeladeprecos` int(11) DEFAULT '0',
   `modalidadefrete` int(11) DEFAULT '0',
-  `vendedorpadrao` int(11) DEFAULT '0',
+  `vendedorpadrao` int(11) DEFAULT NULL,
   `comissao` decimal(10,2) DEFAULT NULL,
   `transportadorpadrao` int(11) DEFAULT '0',
   `acessosistemas` int(11) DEFAULT NULL,
@@ -725,7 +1393,7 @@ CREATE TABLE `tblpessoas_outros` (
   PRIMARY KEY (`id_registro`),
   KEY `pessoas_outros` (`id_pessoa`) USING BTREE,
   CONSTRAINT `tblpessoas_outros_ibfk_1` FOREIGN KEY (`id_pessoa`) REFERENCES `tblpessoas_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblpgtos_lancamentos`
@@ -851,7 +1519,7 @@ CREATE TABLE `tblprodutos_basicos` (
   `produtocomposto` int(11) DEFAULT '0',
   `imagempadrao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblprodutos_compostos`
@@ -868,6 +1536,18 @@ CREATE TABLE `tblprodutos_compostos` (
   CONSTRAINT `tblprodutos_compostos_ibfk_1` FOREIGN KEY (`id_composto`) REFERENCES `tblprodutos_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tblprodutos_compostos_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `tblprodutos_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `tblprodutos_vinculos`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblprodutos_vinculos`;
+CREATE TABLE `tblprodutos_vinculos` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_produto` int(11) NOT NULL,
+  `id_pessoa` int(11) NOT NULL,
+  `codvinculado` varchar(255) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tblprospects_basico`
@@ -1019,7 +1699,7 @@ CREATE TABLE `tblrecebimentos_dados` (
   `statuslancamento` int(11) DEFAULT NULL,
   `nomelancamento` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblrecebimentos_lancamentos`
@@ -1051,10 +1731,13 @@ CREATE TABLE `tblrecebimentos_lancamentos` (
   `datalibera` datetime DEFAULT NULL,
   `linhadigitavel` varchar(500) DEFAULT NULL,
   `imagemdocumento` varchar(500) DEFAULT NULL,
+  `id_ped_venda_produto` varchar(255) DEFAULT NULL,
+  `comissaoprocessada` int(1) DEFAULT '0',
+  `id_nfe` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_registro`),
   KEY `recebimento_id` (`id_lancamento`) USING BTREE,
   CONSTRAINT `tblrecebimentos_lancamentos_ibfk_1` FOREIGN KEY (`id_lancamento`) REFERENCES `tblrecebimentos_dados` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblrecibos_pagamento`
@@ -1114,7 +1797,7 @@ CREATE TABLE `tblsystem_configs` (
   `configname` varchar(500) NOT NULL,
   `configvalue` varchar(500) NOT NULL,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblsystem_empresa_nf`
@@ -1126,7 +1809,7 @@ CREATE TABLE `tblsystem_empresa_nf` (
   `certificadodigital` varchar(255) DEFAULT NULL,
   `senhacertificado` varchar(255) DEFAULT NULL,
   `frasecertificado` varchar(255) DEFAULT NULL,
-  `logotipodante` varchar(255) DEFAULT NULL,
+  `logotipodanfe` varchar(255) DEFAULT NULL,
   `modelonfe` int(11) DEFAULT NULL,
   `versaonfe` varchar(255) DEFAULT NULL,
   `lastnfe` decimal(15,0) DEFAULT NULL,
@@ -1151,10 +1834,11 @@ CREATE TABLE `tblsystem_empresa_nf` (
   `emailreceiveport` varchar(255) DEFAULT NULL,
   `processreceivednfe` int(11) DEFAULT NULL,
   `validadecertificado` date DEFAULT NULL,
+  `sendemailtocliente` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_registro`),
   KEY `empresa-Nf` (`id_empresa`) USING BTREE,
   CONSTRAINT `tblsystem_empresa_nf_ibfk_1` FOREIGN KEY (`id_empresa`) REFERENCES `tblsystem_empresas` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblsystem_empresas`
@@ -1187,7 +1871,7 @@ CREATE TABLE `tblsystem_empresas` (
   `logotipo` varchar(255) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblsystem_files`
@@ -1221,7 +1905,7 @@ CREATE TABLE `tblsystem_mensagens` (
   `textmensagem` text,
   `smsmensagem` text,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblsystem_menus`
@@ -1236,7 +1920,7 @@ CREATE TABLE `tblsystem_menus` (
   `nome` varchar(255) NOT NULL,
   `position` int(11) NOT NULL,
   PRIMARY KEY (`id_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tblsystem_sms`
@@ -1317,6 +2001,21 @@ CREATE TABLE `tblsystem_usersfav` (
   `id_menu` int(11) NOT NULL,
   PRIMARY KEY (`id_registro`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `tblsytem_vendedor_users`
+-- ----------------------------
+DROP TABLE IF EXISTS `tblsytem_vendedor_users`;
+CREATE TABLE `tblsytem_vendedor_users` (
+  `id_registro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` int(11) DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `lastlogin` datetime DEFAULT NULL,
+  `lastloginip` datetime DEFAULT NULL,
+  `recoverpass` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id_registro`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 --  Table structure for `tbltickets_acompanhantes`
@@ -1558,6 +2257,15 @@ CREATE TABLE `tblvendas_basicos` (
   `pedidoemproducao` int(11) DEFAULT '0',
   `dataentradaprod` datetime DEFAULT NULL,
   `userrespprod` int(11) DEFAULT NULL,
+  `enviaremail` int(11) DEFAULT NULL,
+  `dataenvio` datetime DEFAULT NULL,
+  `hashenvio` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `faturaparcial` int(11) DEFAULT NULL,
+  `agruparfaturamento` int(11) DEFAULT NULL,
+  `formapagamento` int(11) DEFAULT NULL,
+  `perfilnfe` int(11) DEFAULT NULL,
+  `statusfaturamento` int(11) DEFAULT '0' COMMENT '0',
+  `nfes` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_registro`),
   KEY `pessoa_venda` (`id_pessoa`) USING BTREE,
   CONSTRAINT `tblvendas_basicos_ibfk_1` FOREIGN KEY (`id_pessoa`) REFERENCES `tblpessoas_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -1593,6 +2301,6 @@ CREATE TABLE `tblvendas_produtos` (
   KEY `prod_venda` (`id_produto`) USING BTREE,
   CONSTRAINT `tblvendas_produtos_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `tblprodutos_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tblvendas_produtos_ibfk_2` FOREIGN KEY (`id_venda`) REFERENCES `tblvendas_basicos` (`id_registro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 SET FOREIGN_KEY_CHECKS = 1;
