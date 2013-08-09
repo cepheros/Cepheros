@@ -1,0 +1,186 @@
+<?php
+/**
+ * Este arquivo é parte do projeto Cepheros - SysAdmin - ERP em PHP
+ *
+ * Este programa é um software livre: você pode redistribuir e/ou modificá-lo
+ * sob os termos da Licença Pública Geral GNU (GPL)como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior
+ * e/ou
+ * sob os termos da Licença Pública Geral Menor GNU (LGPL) como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior.
+ *
+ *
+ * Este programa é distribuído na esperança que será útil, mas SEM NENHUMA
+ * GARANTIA; nem mesmo a garantia explícita definida por qualquer VALOR COMERCIAL
+ * ou de ADEQUAÇÃO PARA UM PROPÓSITO EM PARTICULAR,
+ * veja a Licença Pública Geral GNU para mais detalhes.
+ *
+ * Você deve ter recebido uma cópia da Licença Publica GNU e da
+ * Licença Pública Geral Menor GNU (LGPL) junto com este programa.
+ * Caso contrário consulte <http://www.fsfla.org/svnwiki/trad/GPLv3> ou
+ * <http://www.fsfla.org/svnwiki/trad/LGPLv3>.
+ *
+ * @package    	Cepheros
+ * @subpackage 	SysAdmin
+ * @name		configs.phtml 
+ * @version   	1.0.0
+ * @license   	http://www.gnu.org/licenses/gpl.html GNU/GPL v.3
+ * @copyright 	2009-2012 &copy; SysAdmin
+ * @link      	http://www.cepheros.com.br
+ * @author    	Daniel R. Chaves <daniel@danielchaves.com.br>
+ *
+ */
+ 
+?>
+ <form class="form-horizontal well" method="post">
+ <div class="row-fluid formSep">
+ <div class="span6">
+ <p class="f_legend">Configurações do módulo Produção</p>
+ 
+ <div class="control-group">
+	<label class="control-label">Travar produção se não houver estoque suficiente?</label>
+	<div class="controls">
+	<div id="toggle-obrigalib" class="toggletbns">
+    <input type="checkbox" name="TravaProducaoEstoque" value="1" <?php if(System_Model_SysConfigs::getConfig("TravaProducaoEstoque") == 1){ echo "checked=\"checked\""; }; ?> >
+    </div>
+	</div>
+	</div>
+ 
+ 
+ 	<div class="control-group">
+	<label class="control-label">Encurtar links das fichas de produção?</label>
+	<div class="controls">
+	<div id="toggle-MovEstoqueNFeEntrada" class="toggletbns">
+    <input type="checkbox" name="ProducaoTinyUrl" value="1" <?php if(System_Model_SysConfigs::getConfig("ProducaoTinyUrl") == 1){ echo "checked=\"checked\""; }; ?> >
+    </div>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Etapa Final da Produção:</label>
+	<div class="controls">
+	<select name="ProducaoEtapaFinal" id="ProducaoEtapaFinal" >
+	<?php
+	$empresas = Erp_Model_Producao_Etapas::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("ProducaoEtapaFinal"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Etapa em andamento da Produção:</label>
+	<div class="controls">
+	<select name="ProducaoStatusAndamento" id="ProducaoStatusAndamento" >
+	<?php
+	$empresas = Erp_Model_Producao_Etapas::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("ProducaoStatusAndamento"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Etapa em Finalizada da Produção:</label>
+	<div class="controls">
+	<select name="ProducaoStatusFinalizado" id="ProducaoStatusFinalizado" >
+	<?php
+	$empresas = Erp_Model_Producao_Etapas::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("ProducaoStatusFinalizado"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+ 	
+ 	
+ 	
+	
+	
+	
+	<div class="control-group">
+	<label class="control-label">Estoque padrão para Produção:</label>
+	<div class="controls">
+	<select name="ProducaoEstoqueProdutos" id="ProducaoEstoqueProdutos" >
+	<?php
+	$empresas = Erp_Model_Estoque_Locais::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("ProducaoEstoqueProdutos"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+	
+										
+	
+ </div>
+ <div class="span6">
+				
+	
+ </div>
+
+  <div class="row-fluid">
+   <div class="span12">
+ 	<div class="control-group">
+ 	<div class="controls">
+ 	<button class="btn" type="submit">Salvar</button>
+	</div>
+	</div>
+	</div>
+	</div>							
+
+	</form>
+                                <script>
+
+                                $().ready(function(){
+
+                                	$("#toggle-obrigalib").toggleButtons({
+                                  	     label: {
+                                  		 enabled: "Sim",
+                                  		 disabled: "Não"
+                                  		 }
+                                  		 });
+                                      
+
+                                	$("#toggle-MovEstoqueNFeEntrada").toggleButtons({
+                                	    label: {
+                                		 enabled: "Sim",
+                                		 disabled: "Não"
+                                		 }
+                                		 });
+
+                                
+                                	$("#StatusProdEncerrada").chosen();
+                                	$("#ProducaoEtapaFinal").chosen();
+                                	$("#ProducaoEstoqueProdutos").chosen();
+                                	$("#ProducaoStatusAndamento").chosen();
+                                	$("#ProducaoStatusFinalizado").chosen();
+                                	
+                                	
+
+                                });
+
+
+                                </script>
