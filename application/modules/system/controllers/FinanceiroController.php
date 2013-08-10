@@ -172,6 +172,14 @@ class System_FinanceiroController extends Zend_Controller_Action{
 				System_Model_SysConfigs::updateConfig("FinanValorMaxSemLib", $value);
 			}
 			
+			//FinanEmailResumoMessage
+			
+			if($_POST['FinanEmailResumoMessage'] <> ''){
+				System_Model_SysConfigs::updateConfig("FinanEmailResumoMessage", $_POST['FinanEmailResumoMessage']);
+			}else{
+				System_Model_SysConfigs::updateConfig("FinanEmailResumoMessage", '0');
+			}
+			
 			if($_POST['FinanMustValidade'] <> ''){
 				System_Model_SysConfigs::updateConfig("FinanMustValidade", $_POST['FinanMustValidade']);
 			}else{

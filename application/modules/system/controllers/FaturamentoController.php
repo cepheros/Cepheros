@@ -518,6 +518,44 @@ class System_FaturamentoController extends Zend_Controller_Action{
 	}
 	
 	
+	public function configGeraisAction(){
+		if ($this->_request->isPost()) {
+			
+				
+			if($_POST['TipoDocNFeLancamento'] <> ''){
+				System_Model_SysConfigs::updateConfig("TipoDocNFeLancamento", $_POST['TipoDocNFeLancamento']);
+			}else{
+				System_Model_SysConfigs::updateConfig("TipoDocNFeLancamento", '0');
+			}
+			
+			if($_POST['MovEstoqueVendaNFe'] <> ''){
+				System_Model_SysConfigs::updateConfig("MovEstoqueVendaNFe", $_POST['MovEstoqueVendaNFe']);
+			}else{
+				System_Model_SysConfigs::updateConfig("MovEstoqueVendaNFe", '0');
+			}
+			
+			if($_POST['EstoquePadraoSaidaNFe'] <> ''){
+				System_Model_SysConfigs::updateConfig("EstoquePadraoSaidaNFe", $_POST['EstoquePadraoSaidaNFe']);
+			}else{
+				System_Model_SysConfigs::updateConfig("EstoquePadraoSaidaNFe", '0');
+			}
+			
+			if($_POST['EstoquePadraoEntradaNFe'] <> ''){
+				System_Model_SysConfigs::updateConfig("EstoquePadraoEntradaNFe", $_POST['EstoquePadraoEntradaNFe']);
+			}else{
+				System_Model_SysConfigs::updateConfig("EstoquePadraoEntradaNFe", '0');
+			}
+			
+			if($_POST['MovEstoqueNFeEntrada'] <> ''){
+				System_Model_SysConfigs::updateConfig("MovEstoqueNFeEntrada", $_POST['MovEstoqueNFeEntrada']);
+			}else{
+				System_Model_SysConfigs::updateConfig("MovEstoqueNFeEntrada", '0');
+			}
+		
+		}
+	}
+	
+	
 	
 	
 }

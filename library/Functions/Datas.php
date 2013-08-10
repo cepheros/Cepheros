@@ -1,5 +1,7 @@
 <?php
 class Functions_Datas{
+	
+	
 	public static function inverteData($data){
 		$reverteHora = explode(' ',$data);
 		$novadata = implode("-", array_reverse(explode("/", $reverteHora[0])));
@@ -31,7 +33,8 @@ class Functions_Datas{
 	}
 	
 	/**
-	 *  Fun��o para somar uma quantidade x de meses a uma determinada data
+	 * SomaMes($data,$meses)
+	 * Função para somar uma quantidade x de meses a uma determinada data
 	 * @param string $data Recebe a data a ser somada
 	 * @param int $meses recebe a quantidade de meses a ser somada
 	 * @return Nova data com a quantidade de meses informada

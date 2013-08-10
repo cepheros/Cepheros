@@ -1,7 +1,42 @@
 <?php
+/**
+ * Este arquivo é parte do projeto SysAdmin - ERP em PHP
+ *
+ * Este programa é um software livre: você pode redistribuir e/ou modificá-lo
+ * sob os termos da Licença Pública Geral GNU (GPL)como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior
+ * e/ou
+ * sob os termos da Licença Pública Geral Menor GNU (LGPL) como é publicada pela Fundação
+ * para o Software Livre, na versão 3 da licença, ou qualquer versão posterior.
+ *
+ *
+ * Este programa é distribuído na esperança que será útil, mas SEM NENHUMA
+ * GARANTIA; nem mesmo a garantia explícita definida por qualquer VALOR COMERCIAL
+ * ou de ADEQUAÇÃO PARA UM PROPÓSITO EM PARTICULAR,
+ * veja a Licença Pública Geral GNU para mais detalhes.
+ *
+ * Você deve ter recebido uma cópia da Licença Publica GNU e da
+ * Licença Pública Geral Menor GNU (LGPL) junto com este programa.
+ * Caso contrário consulte <http://www.fsfla.org/svnwiki/trad/GPLv3> ou
+ * <http://www.fsfla.org/svnwiki/trad/LGPLv3>.
+ *
+ * @package   SysAdmin
+ * @name      Cron
+ * @version   1.0.0
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL v.3
+ * @copyright 2009-2012 &copy; SysAdmin
+ * @link      http://www.cepheros.com.br
+ * @author    Daniel R. Chaves <dchaves at 32dll dot com dot br>
+ *
+ */
+
 class Functions_Cron{
 	
 	
+	/**
+	 * __contruct()
+	 * função contrutora da classe Cron, não existem parametros
+	 */
 	public function __construct(){
 		$this->log = Zend_Registry::get('log');
 		$this->configs = Zend_Registry::get('configs');
@@ -9,7 +44,11 @@ class Functions_Cron{
 	}
 
 /**
- * Funcao para se gerar os protocolos
+ * emailTicketCron()
+ * Função que varre os parsers de email para tickets do sistema, para
+ * verificar a existencia de novos emails nas caixas postais indicadas
+ * e processar os emails em novos tickets para o sistema
+ * 
  */
 	public function emailTicketCron(){
 		$db = new System_Model_Tickets_Parser();
@@ -199,6 +238,16 @@ class Functions_Cron{
 	}
 	
 	
+	/**
+	 * _saveFile()
+	 * protected function do sistema para salvar um determinado anexo de email no sistema
+	 * de arquivos geral.
+	 * 
+	 * @param int $id Identificador do Ticket
+	 * @param file $file Documento
+	 * @param nome $filename Nome que o sistema salvará esse documento
+	 * @return boolean
+	 */
 	protected function _saveFile($id,$file,$filename){
 		$dbfile = new System_Model_Files();
 		$data2['accesshash'] = sha1(md5(microtime()));
@@ -236,6 +285,14 @@ class Functions_Cron{
 		return true;
 	
 	}
+	
+	/**
+	 * osMailCron()
+	 * Função que varre os parsers de email para OS do sistema, para
+	 * verificar a existencia de novos emails nas caixas postais indicadas
+	 * e processar os emails em respostas as ordens de serviços criadas
+	 *
+	 */
 	
 	
 	public function osMailCron(){
@@ -394,8 +451,5 @@ class Functions_Cron{
 		
 	}
 	
-	public function limpaSistemaCron(){
-		
-	}
-	
+
 }

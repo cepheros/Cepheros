@@ -1,0 +1,126 @@
+ <form class="form-horizontal well" method="post">
+ <div class="row-fluid formSep">
+ <div class="span6">
+ <p class="f_legend">Configurações do módulo Faturamento</p>
+ 
+	<div class="control-group">
+	<label class="control-label">Tipo de documento para Financeiro:</label>
+	<div class="controls">
+	<select name="TipoDocNFeLancamento" id="TipoDocNFeLancamento" >
+	<?php
+	$empresas = Erp_Model_Financeiro_TiposDocumentos::renderCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("TipoDocNFeLancamento"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+ 	
+ 	
+	
+	<div class="control-group">
+	<label class="control-label">Baixar estoque na emissao de NFe?</label>
+	<div class="controls">
+	<div id="toggle-obrigalib" class="toggletbns">
+    <input type="checkbox" name="MovEstoqueVendaNFe" value="1" <?php if(System_Model_SysConfigs::getConfig("MovEstoqueVendaNFe") == 1){ echo "checked=\"checked\""; }; ?> >
+    </div>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Estoque padrão para NFe de saída:</label>
+	<div class="controls">
+	<select name="EstoquePadraoSaidaNFe" id="EstoquePadraoSaidaNFe" >
+	<?php
+	$empresas = Erp_Model_Estoque_Locais::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("EstoquePadraoSaidaNFe"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Movimentar estoque na entrada de NFe?</label>
+	<div class="controls">
+	<div id="toggle-MovEstoqueNFeEntrada" class="toggletbns">
+    <input type="checkbox" name="MovEstoqueNFeEntrada" value="1" <?php if(System_Model_SysConfigs::getConfig("MovEstoqueNFeEntrada") == 1){ echo "checked=\"checked\""; }; ?> >
+    </div>
+	</div>
+	</div>
+	
+	<div class="control-group">
+	<label class="control-label">Estoque padrão para NFe de entrada:</label>
+	<div class="controls">
+	<select name="EstoquePadraoEntradaNFe" id="EstoquePadraoEntradaNFe" >
+	<?php
+	$empresas = Erp_Model_Estoque_Locais::getCombo();
+	foreach($empresas as $key=>$value){
+		if(in_array ($key,explode(',',System_Model_SysConfigs::getConfig("EstoquePadraoEntradaNFe"))) ){
+			$selected = 'selected="selected"';
+		}else{
+			$selected = '';
+		}
+		echo "<option value=\"$key\" $selected> $value </otion>";
+	} ?>
+	</select>
+	</div>
+	</div>
+										
+	
+ </div>
+ <div class="span6">
+				
+	
+ </div>
+
+  <div class="row-fluid">
+   <div class="span12">
+ 	<div class="control-group">
+ 	<div class="controls">
+ 	<button class="btn" type="submit">Salvar</button>
+	</div>
+	</div>
+	</div>
+	</div>							
+
+	</form>
+                                <script>
+
+                                $().ready(function(){
+
+                                	$("#toggle-obrigalib").toggleButtons({
+                                  	     label: {
+                                  		 enabled: "Sim",
+                                  		 disabled: "Não"
+                                  		 }
+                                  		 });
+                                      
+
+                                	$("#toggle-MovEstoqueNFeEntrada").toggleButtons({
+                                	    label: {
+                                		 enabled: "Sim",
+                                		 disabled: "Não"
+                                		 }
+                                		 });
+
+                                
+                                	$("#TipoDocNFeLancamento").chosen();
+                                	$("#EstoquePadraoSaidaNFe").chosen();
+                                	$("#EstoquePadraoEntradaNFe").chosen();
+                                	
+
+                                });
+
+
+                                </script>

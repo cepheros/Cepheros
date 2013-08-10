@@ -67,7 +67,7 @@ class NFe_DacceNFePHP extends CommonNFePHP {
     protected $destino = 'I'; //destivo do arquivo pdf I-borwser, S-retorna o arquivo, D-força download, F-salva em arquivo local
     protected $pdfDir=''; //diretorio para salvar o pdf com a opção de destino = F
     protected $fontePadrao='Times'; //Nome da Fonte para gerar o DANFE
-    protected $version = '0.1.1';
+    protected $version = '0.1.2';
     protected $wPrint; //largura imprimivel
     protected $hPrint; //comprimento imprimivel
     protected $wCanhoto; //largura do canhoto para a formatação paisagem
@@ -429,7 +429,7 @@ class NFe_DacceNFePHP extends CommonNFePHP {
 
         $y += 5;
         $this->__textBox($x,$y,$maxW,190);
-        $texto = $this->xCorrecao;
+        $texto = str_replace( ";" , PHP_EOL , $this->xCorrecao);
         $aFont = array('font'=>$this->fontePadrao,'size'=>12,'style'=>'B');
         $this->__textBox($x+2,$y+2,$maxW-2,150,$texto,$aFont,'T','L',0,'',false);
         

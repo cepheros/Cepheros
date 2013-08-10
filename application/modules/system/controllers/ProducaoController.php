@@ -23,6 +23,46 @@ class System_ProducaoController extends Zend_Controller_Action{
 	
 	public function configsAction(){
 		
+		if ($this->_request->isPost()) {
+				
+		
+			if($_POST['StatusProdEncerrada'] <> ''){
+				System_Model_SysConfigs::updateConfig("StatusProdEncerrada", $_POST['StatusProdEncerrada']);
+			}else{
+				System_Model_SysConfigs::updateConfig("StatusProdEncerrada", '0');
+			}
+			
+			if($_POST['TravaProducaoEstoque'] <> ''){
+				System_Model_SysConfigs::updateConfig("TravaProducaoEstoque", $_POST['TravaProducaoEstoque']);
+			}else{
+				System_Model_SysConfigs::updateConfig("TravaProducaoEstoque", '0');
+			}
+			
+			if($_POST['ProducaoTinyUrl'] <> ''){
+				System_Model_SysConfigs::updateConfig("ProducaoTinyUrl", $_POST['ProducaoTinyUrl']);
+			}else{
+				System_Model_SysConfigs::updateConfig("ProducaoTinyUrl", '0');
+			}
+			
+			if($_POST['ProducaoEtapaFinal'] <> ''){
+				System_Model_SysConfigs::updateConfig("ProducaoEtapaFinal", $_POST['ProducaoEtapaFinal']);
+			}else{
+				System_Model_SysConfigs::updateConfig("ProducaoEtapaFinal", '0');
+			}
+			
+			if($_POST['ProducaoEstoqueProdutos'] <> ''){
+				System_Model_SysConfigs::updateConfig("ProducaoEstoqueProdutos", $_POST['ProducaoEstoqueProdutos']);
+			}else{
+				System_Model_SysConfigs::updateConfig("ProducaoEstoqueProdutos", '0');
+			}
+			
+			if($_POST['ProducaoStatusAndamento'] <> ''){
+				System_Model_SysConfigs::updateConfig("ProducaoStatusAndamento", $_POST['ProducaoStatusAndamento']);
+			}else{
+				System_Model_SysConfigs::updateConfig("ProducaoStatusAndamento", '0');
+			}
+		}
+		
 	}
 	
 	/**
@@ -87,6 +127,8 @@ class System_ProducaoController extends Zend_Controller_Action{
 		$this->view->dados= $dados;
 		
 	}
+	
+	
 	
 	
 }
