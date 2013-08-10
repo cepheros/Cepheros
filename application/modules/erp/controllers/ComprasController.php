@@ -29,48 +29,15 @@ class Erp_ComprasController extends Zend_Controller_Action{
 	}
 	
 	public function novoAction(){
-		
+	$form = new Erp_Form_Compras();
+	$form->basicos();
+	$this->view->form = $form;
+			
 	}
 	public function listarAction(){
 		
 	}
-	public function entradaNfeAction(){
-		
-		error_reporting(0);
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();
-		$nfe = new NFe_ToolsNFePHP(System_Model_EmpresasNF::getConfigNFe('3'),'1',false);
-		$modSOAP = '2'; //usando cURL
-		$tpAmb = '1';//usando produção
-		$indNFe = '0';
-		$indEmi = '0';
-		$ultNSU = '0';
-		$AN = true;
-		$retorno = array();
-		
-		if (!$xml = $nfe->getListNFe($AN, $indNFe, $indEmi, $ultNSU, $tpAmb, $modSOAP, $retorno)){
-			header('Content-type: text/html; charset=UTF-8');
-			echo "Houve erro !! $nfe->errMsg";
-			echo '<br><br><PRE>';
-					echo htmlspecialchars($nfe->soapDebug);
-					echo '</PRE><BR>';
-		} else {
-					
-					$Lxml = new DOMDocument();
-					$Lxml->load($xml);
-					
-					//$dom = new DOMDocument();
-					//$dom->
-					//echo $dom->getElementById("xMotivo");
-						print_r($retorno);
-					//echo hmlspecialchars($nfe->soapDebug);
-					////header('Content-type: text/xml; charset=UTF-8');
-					//echo($xml);
-					}
-		
-		
-		
-	}
+	
 	public function entradaManualAction(){
 		
 	}
