@@ -37,4 +37,5 @@ Mantenedor:
 ---------------------
 * 'Daniel Chaves' - daniel@danielchaves.com.br
 
-Faça parte deste projeto me envie um  email.
+Faça parte deste projeto me envie um  email ou entre no grupo: cepheros@googlegroups.com
+
