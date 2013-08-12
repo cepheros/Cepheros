@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d3479357fed3ecdd1e584c37cd32eb10",
+    "hash": "2099d2df97b2a6db65f3876253b6e003",
     "packages": [
         {
             "name": "kriansa/openboleto",
@@ -171,9 +171,9 @@
     "stability-flags": [
 
     ],
-    "platform": [
-
-    ],
+    "platform": {
+        "php": ">=5.3.0"
+    },
     "platform-dev": [
 
     ]
