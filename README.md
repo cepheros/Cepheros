@@ -1,4 +1,4 @@
-Cepheros
+Cepheros [![Stories in Ready](https://badge.waffle.io/drchav/Cepheros.png)](http://waffle.io/drchav/Cepheros) 
 ========
 
 Cepheros - SysAdmin
