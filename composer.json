@@ -1,0 +1,24 @@
+{
+	"name" : "cepheros/sysadmin",
+	"description" : "Erp/Crm em PHP",
+	"authors" : [{
+			"name" : "Daniel Chaves",
+			"email" : "daniel@danielchaves.com.br"
+		}
+	],
+	"homepage" : "http://github.com/drchav/Cepheros",
+	"license" : [
+		"GPL-3.0+"
+	],
+	"require" : {
+		"kriansa/openboleto" : "1.0",
+		"willdurand/geocoder" : "*",
+		"zendframework/zendframework1" : ">=1.12.3"
+	},
+	"support" : {
+		"forum" : "cepheros@googlegroups.com",
+		"email" : "daniel@danielchaves.com.br",
+		"issues" : "cepheros@googlegroups.com",
+		"wiki" : "http://github.com/drchav/Cepheros"
+	}
+}

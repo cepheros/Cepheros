@@ -4,3 +4,4 @@ application/data/files/*
 application/data/logs/*
 application/data/temp/*
 docs/InternalDocs/*
+/vendor/
