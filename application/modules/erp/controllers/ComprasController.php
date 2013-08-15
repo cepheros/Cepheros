@@ -31,9 +31,10 @@ class Erp_ComprasController extends Zend_Controller_Action{
 	* Action para o novo pedido de compras 
 	*/
 	public function novoAction(){
-	$form = new Erp_Form_Compras();
-	$form->basicos();
-	$this->view->form = $form;
+	
+		$form = new Erp_Form_Compras();
+		$form->basicos();
+		$this->view->form = $form;
 			
 	}
 	public function listarAction(){
