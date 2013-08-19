@@ -4,7 +4,9 @@
 	"type" : "CRM ERP",
 	"authors" : [{
 			"name" : "Daniel Chaves",
-			"email" : "daniel@danielchaves.com.br"
+			"email" : "daniel@danielchaves.com.br",
+			"homepage" : "http://www.danielchaves.com.br",
+			"role" : "Developer"
 		}
 	],
 	"keywords" : [
@@ -20,8 +22,10 @@
 		"php" : ">=5.3",
 		"zendframework/zendframework1" : ">=1.12.3"
 	},
+	"minimum-stability" : "RC",
 	"support" : {
 		"forum" : "cepheros@googlegroups.com",
+		"source" : "http://github.com/drchav/Cepheros",
 		"email" : "daniel@danielchaves.com.br",
 		"issues" : "cepheros@googlegroups.com",
 		"wiki" : "http://github.com/drchav/Cepheros"
