@@ -26,8 +26,7 @@
 	},
 	"minimum-stability" : "dev",
 	"support" : {
-		"forum" : "https://github.com/drchav/Cepheros/wiki",
-		"source" : "http://github.com/drchav/Cepheroscepheros@googlegroups.com",
+		"source" : "http://github.com/drchav/Cepheros.git",
 		"email" : "cepheros@googlegroups.com",
 		"issues" : "https://github.com/drchav/Cepheros/issues",
 		"wiki" : "https://github.com/drchav/Cepheros/wiki"
