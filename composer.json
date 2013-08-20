@@ -1,0 +1,44 @@
+{
+	"name" : "cepheros/sysadmin",
+	"description" : "ERP/CRM em PHP",
+	"authors" : [{
+			"name" : "Daniel Chaves",
+			"email" : "daniel@danielchaves.com.br",
+			"homepage" : "http://www.danielchaves.com.br",
+			"role" : "Developer"
+		}
+	],
+	"keywords" : [
+		"ERP",
+		"CRM",
+		"PHP",
+		"NFe"
+	],
+	"homepage" : "http://www.cepheros.com.br",
+	"license" : [
+		"GPL-3.0+"
+	],
+	"require" : {
+		"kriansa/openboleto" : "1.0",
+		"willdurand/geocoder" : "*",
+		"php" : ">=5.3",
+		"zendframework/zendframework1" : ">=1.12.3"
+	},
+	"minimum-stability" : "dev",
+	"support" : {
+		"forum" : "https://github.com/drchav/Cepheros/wiki",
+		"source" : "http://github.com/drchav/Cepheroscepheros@googlegroups.com",
+		"email" : "cepheros@googlegroups.com",
+		"issues" : "https://github.com/drchav/Cepheros/issues",
+		"wiki" : "https://github.com/drchav/Cepheros/wiki"
+	},
+	"repositories" : [{
+			"name" : "Cepheros",
+			"type" : "git",
+			"url" : "http://github.com/drchav/Cepheros"
+		}
+	],
+	"config" : {
+		"vendor-dir" : "vendor"
+	}
+}
