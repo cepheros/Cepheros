@@ -7,7 +7,7 @@ O Cepheros é um projeto escrito em PHP com Zend Framework, que engloba, CRM e E
 
 Utiliza as bibliotecas da NFePHP <https://github.com/nfephp-org/nfephp> para emissão de NFe e seus adicionais 
 
-Dependências
+Dependências do Sistema e da NFePHP
 -------
 * Apache: <http://httpd.apache.org/>
 * PHP 5.3+: <http://php.net>
